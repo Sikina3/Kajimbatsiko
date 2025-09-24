@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Kajimbatsiko" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+         <item name="colorPrimary">@color/caribeean_green</item>
+        <item name="colorButtonNormal">@color/caribeean_green</item>
+        <item name="colorAccent">@color/light_green</item>
+        <item name="colorOnPrimary">@color/caribeean_green</item>
+        <item name="colorPrimaryFixed">@color/caribeean_green</item>
+        <item name="colorSurface">@color/caribeean_green</item>
+        <item name="colorPrimarySurface">@color/caribeean_green</item>
+
+<!--        Font Family ici -->
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+    </style>
+
+    <style name="Theme.Kajimbatsiko" parent="Base.Theme.Kajimbatsiko" />
+</resources>

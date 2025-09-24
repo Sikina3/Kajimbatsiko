@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.AnalyseFragment"
+    android:background="@color/caribeean_green">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/contenue_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="40dp"
+                android:paddingTop="15dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/but_retour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/retour" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ajouter un Revenue"
+                        android:textSize="20dp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/but_notif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_notify" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="40dp">
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/contenue_principale"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/base_shape"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="30dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="16dp"/>
+
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/menu_menu_border"
+                android:ems="10"
+                android:hint="April 30, 2024"
+                android:imeOptions="actionNext"
+                android:inputType="date"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Titre"
+                android:textSize="16dp"
+                android:layout_marginTop="20dp"/>
+
+            <Spinner
+                android:id="@+id/titre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/menu_menu_border"
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Types"
+                android:textSize="16dp"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:id="@+id/types"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/menu_menu_border"
+                android:ems="10"
+                android:hint="ex: Payement societe B"
+                android:inputType="text"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Montants"
+                android:textSize="16dp"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:id="@+id/montant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/menu_menu_border"
+                android:ems="10"
+                android:hint="ex: 1000000"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/menu_menu_border"
+                android:ems="10"
+                android:hint="Entrer un note"
+                android:inputType="text"
+                android:padding="5dp" />
+
+            <Button
+                android:id="@+id/but_send"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Enregistrer"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:paddingVertical="10dp"
+                android:layout_marginTop="30dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
