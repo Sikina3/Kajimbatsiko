@@ -3,12 +3,16 @@ package com.teste.kajimbatsiko.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.teste.kajimbatsiko.R;
+import com.teste.kajimbatsiko.data.dao.IncomeDao;
+import com.teste.kajimbatsiko.data.database;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -61,6 +65,9 @@ public class HomeFragment extends Fragment {
     }
 
     private PieChart piechart;
+    database db;
+    IncomeDao incomeDao ;
+    TextView total_income, total_expense;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +75,8 @@ public class HomeFragment extends Fragment {
         View rootview = inflater.inflate(R.layout.home, container, false);
 
         piechart = rootview.findViewById(R.id.piechart);
+        total_income = rootview.findViewById(R.id.total_income);
+        total_expense = rootview.findViewById(R.id.total_expense);
 
         int objectif = 1000;
         int progress = 300;
@@ -77,7 +86,16 @@ public class HomeFragment extends Fragment {
         piechart.addPieSlice(new PieModel("Reste", reste, 0xFFE0E0E0));
 
         piechart.startAnimation();
-        
+
+        db = Room.databaseBuilder(requireContext(), database.class, "finance.db")
+                .allowMainThreadQueries()
+                .build();
+
+        incomeDao = db.incomeDao();
+        double totalIncome = incomeDao.getTotalIncome();
+
+        total_income.setText(String.valueOf(totalIncome));
+
         return rootview;
     }
 }

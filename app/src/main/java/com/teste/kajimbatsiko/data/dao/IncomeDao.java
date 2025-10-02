@@ -16,5 +16,7 @@ public interface IncomeDao {
     @Query("SELECT * FROM revenue ORDER BY date DESC")
     List<DataIncome> getAllIncome();
 
+    @Query("SELECT IFNULL(SUM(montant), 0) FROM revenue")
+    Double getTotalIncome();
 
 }

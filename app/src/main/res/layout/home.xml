@@ -79,7 +79,7 @@
                         android:text="Totale Balance" />
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/total_income"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ar 2 500 000"
@@ -108,7 +108,7 @@
                         android:text="Dépense totale" />
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/total_expense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Ar 500 000"
