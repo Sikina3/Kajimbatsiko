@@ -15,8 +15,14 @@ public interface CategoryDao {
     List<DataCategory> getAllCategory();
 
     @Insert
-    void insertAllCategory(DataCategory... categories);
+    void insertCategory(DataCategory categories);
 
     @Delete
     void deleteCategory(DataCategory categorie);
+
+    @Query("SELECT icon FROM categorie where uid = :category")
+    int getIconCategory(int category);
+
+    @Query("SELECT name FROM categorie where uid = :category")
+    String getCategoryName(int category);
 }

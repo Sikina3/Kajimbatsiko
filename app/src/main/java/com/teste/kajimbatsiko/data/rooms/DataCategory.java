@@ -11,4 +11,7 @@ public class DataCategory {
 
     @ColumnInfo(name = "name")
     public String nom;
+
+    @ColumnInfo(name = "icon")
+    public int icon;
 }

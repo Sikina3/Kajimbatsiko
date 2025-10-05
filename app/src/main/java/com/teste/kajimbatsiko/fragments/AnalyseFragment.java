@@ -1,18 +1,27 @@
 package com.teste.kajimbatsiko.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.teste.kajimbatsiko.AnalyseAdapter;
+import com.teste.kajimbatsiko.adapter.AnalyseAdapter;
 import com.teste.kajimbatsiko.R;
+import com.teste.kajimbatsiko.data.dao.ExpenseDao;
+import com.teste.kajimbatsiko.data.dao.IncomeDao;
+import com.teste.kajimbatsiko.data.database;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +32,7 @@ public class AnalyseFragment extends Fragment {
 
     private ViewPager2 viewPage;
     private TabLayout tabLayout;
+    private TextView total_balance, total_expense;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,6 +74,11 @@ public class AnalyseFragment extends Fragment {
         }
     }
 
+    database db;
+    IncomeDao incomeDao;
+    ExpenseDao expenseDao;
+
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,6 +87,26 @@ public class AnalyseFragment extends Fragment {
 
         viewPage = view.findViewById(R.id.viewPage);
         tabLayout = view.findViewById(R.id.tabLayout);
+        total_balance = view.findViewById(R.id.textView6);
+        total_expense = view.findViewById(R.id.textView8);
+
+        db = Room.databaseBuilder(requireContext(), database.class, "finance.db")
+                .allowMainThreadQueries()
+                .build();
+
+        DecimalFormatSymbols symbole = new DecimalFormatSymbols();
+        symbole.setGroupingSeparator(' ');
+        DecimalFormat format = new DecimalFormat("#,###", symbole);
+
+        incomeDao = db.incomeDao();
+        expenseDao = db.expenseDao();
+
+        double totalIncome = incomeDao.getTotalIncome();
+        double totalExpense = expenseDao.getTotalExpense();
+
+        total_balance.setText("Ar " + format.format(totalIncome));
+        total_expense.setText("- Ar " + format.format(totalExpense));
+
         setupViewPager();
         return view;
     }

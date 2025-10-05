@@ -1,4 +1,4 @@
-package com.teste.kajimbatsiko;
+package com.teste.kajimbatsiko.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/menu_menu_border"
                 android:ems="10"
-                android:hint="April 30, 2024"
+                android:hint="30/03/2025"
                 android:imeOptions="actionNext"
                 android:inputType="date"
                 android:padding="5dp" />
@@ -155,8 +155,8 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/menu_menu_border"
                 android:ems="10"
-                android:hint="Entrer un note"
-                android:inputType="text"
+                android:hint="Entrer une note"
+                android:inputType="textMultiLine"
                 android:padding="5dp" />
 
             <Button

@@ -1,5 +1,6 @@
 package com.teste.kajimbatsiko.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,9 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
-import com.teste.kajimbatsiko.GridAdapter;
+import com.teste.kajimbatsiko.adapter.GridAdapter;
 import com.teste.kajimbatsiko.R;
+import com.teste.kajimbatsiko.data.dao.ExpenseDao;
+import com.teste.kajimbatsiko.data.dao.IncomeDao;
+import com.teste.kajimbatsiko.data.database;
+import com.teste.kajimbatsiko.data.rooms.DataCategory;
+import com.teste.kajimbatsiko.dialog.NewCategoryDialog;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,18 +72,70 @@ public class CategoryFragment extends Fragment {
     }
 
     GridView grid;
+    GridAdapter adapter;
+    TextView total_balance, total_expense;
+    Double totalIncome, totalExpense;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.category, container, false);
         grid = view.findViewById(R.id.grid);
-        String[] title = { "Repas", "Plus"};
-        int[] image = {R.drawable.food, R.drawable.plus};
+        total_balance = view.findViewById(R.id.total_balance);
+        total_expense = view.findViewById(R.id.total_expense);
+        String[] titles = {"Plus"};
+        int[] images = {R.drawable.plus};
 
-        GridAdapter adapter = new GridAdapter(getContext(), title, image);
+        adapter = new GridAdapter(getContext(), titles, images);
         grid.setAdapter(adapter);
+
+        DecimalFormatSymbols symbole = new DecimalFormatSymbols();
+        symbole.setGroupingSeparator(' ');
+        DecimalFormat format = new DecimalFormat("#,###", symbole);
+
+        List<DataCategory> categoriesList = new ArrayList<>();
+
+        new Thread(() -> {
+            database db = database.getDatabase(requireContext());
+            List<DataCategory> categories = db.categoryDao().getAllCategory();
+            IncomeDao incomeDao = db.incomeDao();
+            ExpenseDao expenseDao = db.expenseDao();
+
+            totalIncome = incomeDao.getTotalIncome();
+            totalExpense = expenseDao.getTotalExpense();
+
+            total_balance.setText("Ar " + format.format(totalIncome));
+            total_expense.setText("- Ar " + format.format(totalExpense));
+
+            requireActivity().runOnUiThread(() -> {
+                categoriesList.clear();
+                categoriesList.addAll(categories);
+                for (DataCategory c : categories){
+                    adapter.addItem(c.nom, c.icon);
+                }
+            });
+        }).start();
+
+        grid.setOnItemClickListener((parent, view1, position, id) -> {
+            String item = (String) parent.getItemAtPosition(position);
+            if ("Plus".equals(item)){
+                NewCategoryDialog dialog = new NewCategoryDialog();
+                dialog.show(getParentFragmentManager(), "NewCategoryDialog");
+            } else {
+                DataCategory selectedCategory = categoriesList.get(position - 1);
+                int catId = selectedCategory.uid;
+                categorie_lists categorieLists = categorie_lists.newInstance(catId);
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_cate, categorieLists)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+
         return view;
     }
 }

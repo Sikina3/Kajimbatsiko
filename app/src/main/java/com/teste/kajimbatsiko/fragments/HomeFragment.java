@@ -1,5 +1,6 @@
 package com.teste.kajimbatsiko.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,11 +12,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.teste.kajimbatsiko.R;
+import com.teste.kajimbatsiko.data.dao.ExpenseDao;
 import com.teste.kajimbatsiko.data.dao.IncomeDao;
 import com.teste.kajimbatsiko.data.database;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,8 +72,10 @@ public class HomeFragment extends Fragment {
     private PieChart piechart;
     database db;
     IncomeDao incomeDao ;
+    ExpenseDao expenseDao;
     TextView total_income, total_expense;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,10 +98,17 @@ public class HomeFragment extends Fragment {
                 .allowMainThreadQueries()
                 .build();
 
-        incomeDao = db.incomeDao();
-        double totalIncome = incomeDao.getTotalIncome();
+        DecimalFormatSymbols symbole = new DecimalFormatSymbols();
+        symbole.setGroupingSeparator(' ');
+        DecimalFormat format = new DecimalFormat("#,###", symbole);
 
-        total_income.setText(String.valueOf(totalIncome));
+        incomeDao = db.incomeDao();
+        expenseDao = db.expenseDao();
+        double totalIncome = incomeDao.getTotalIncome();
+        double totalExpense = expenseDao.getTotalExpense();
+
+        total_income.setText("Ar " + format.format(totalIncome));
+        total_expense.setText("- Ar " + format.format(totalExpense));
 
         return rootview;
     }

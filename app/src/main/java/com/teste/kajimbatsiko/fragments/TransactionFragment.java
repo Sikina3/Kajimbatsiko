@@ -16,9 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.teste.kajimbatsiko.R;
-import com.teste.kajimbatsiko.TransactionAdapter;
+import com.teste.kajimbatsiko.adapter.TransactionAdapter;
+import com.teste.kajimbatsiko.data.dao.ExpenseDao;
 import com.teste.kajimbatsiko.data.dao.IncomeDao;
 import com.teste.kajimbatsiko.data.database;
+import com.teste.kajimbatsiko.data.rooms.DataExpenses;
 import com.teste.kajimbatsiko.data.rooms.DataIncome;
 
 import java.text.DecimalFormat;
@@ -184,20 +186,16 @@ public class TransactionFragment extends Fragment {
             transactionList.addAll(incomes);
 
             double totalIncome = incomeDao.getTotalIncome();
-            total_balance.setText(String.valueOf(format.format(totalIncome)));
+            total_balance.setText("Ar " + String.valueOf(format.format(totalIncome)));
 
         } else {
-            // Ajouter ici les dépenses statiques ou depuis la DB
-            transactionList.add(
-                    new TransactionAdapter.Transaction(R.drawable.money, "Achat", "02 Mai 2025", "Jour", "Ar 10 000")
-            );
-            transactionList.add(
-                    new TransactionAdapter.Transaction(R.drawable.money, "Transport", "03 Mai 2025", "Jour", "Ar 3 500")
-            );
+            ExpenseDao expenseDao = db.expenseDao();
+            List<DataExpenses> expenses = expenseDao.getAllExpense();
+            transactionList.addAll(expenses);
         }
 
         // Mettre à jour l'adapter
-        TransactionAdapter adapter = new TransactionAdapter(transactionList);
+        TransactionAdapter adapter = new TransactionAdapter(requireContext(), transactionList);
         affiche_revenue.setAdapter(adapter);
         affiche_revenue.setLayoutManager(new LinearLayoutManager(getContext()));
     }

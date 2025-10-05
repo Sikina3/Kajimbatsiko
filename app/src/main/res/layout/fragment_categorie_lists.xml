@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_cate"
     tools:context=".fragments.AnalyseFragment"
+    android:id="@+id/fragment"
     android:background="@color/caribeean_green">
 
     <!-- TODO: Update blank fragment layout -->
@@ -28,24 +28,30 @@
                 android:paddingTop="15dp"
                 android:gravity="center">
 
+                <ImageView
+                    android:id="@+id/but_retour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/retour" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center">
 
                     <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="match_parent"
+                        android:id="@+id/cat_name"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Categories"
+                        android:text="Ajouter un Revenue"
                         android:textSize="20dp"
                         android:textStyle="bold"/>
                 </LinearLayout>
 
-
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/but_notif"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_notify" />
@@ -100,7 +106,7 @@
                         android:text="Dépense totale" />
 
                     <TextView
-                        android:id="@+id/total_expense"
+                        android:id="@+id/total_depense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Ar 500 000"
@@ -121,11 +127,22 @@
             android:gravity="center_horizontal"
             android:padding="20dp">
 
-            <GridView
-                android:id="@+id/grid"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/affiche_revenue"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:numColumns="3"/>
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nouvelle dépense"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:layout_marginBottom="40dp"/>
         </LinearLayout>
     </LinearLayout>
 
