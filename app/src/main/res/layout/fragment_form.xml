@@ -91,9 +91,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/menu_menu_border"
                 android:ems="10"
-                android:hint="30/03/2025"
-                android:imeOptions="actionNext"
-                android:inputType="date"
+                android:hint="Selectionne une date"
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="none"
                 android:padding="5dp" />
 
             <TextView

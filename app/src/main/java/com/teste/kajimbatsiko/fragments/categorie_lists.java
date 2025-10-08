@@ -1,5 +1,6 @@
 package com.teste.kajimbatsiko.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import com.teste.kajimbatsiko.R;
 import com.teste.kajimbatsiko.adapter.CategoryAdapter;
 import com.teste.kajimbatsiko.data.dao.CategoryDao;
 import com.teste.kajimbatsiko.data.dao.ExpenseDao;
+import com.teste.kajimbatsiko.data.dao.IncomeDao;
 import com.teste.kajimbatsiko.data.database;
 import com.teste.kajimbatsiko.data.rooms.DataExpenses;
 
@@ -80,6 +82,7 @@ public class categorie_lists extends Fragment {
     private Button but_new_depense;
     database db;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -120,6 +123,14 @@ public class categorie_lists extends Fragment {
         DecimalFormat format = new DecimalFormat("#,###", symbole);
 
         ExpenseDao expenseDao = db.expenseDao();
+        IncomeDao incomeDao = db.incomeDao();
+
+        double totalExpense = expenseDao.getTotalExpense();
+        double totalIncome = incomeDao.getTotalIncome() - totalExpense;
+
+        total_balance.setText("Ar " + format.format(totalIncome));
+        totale_depense.setText("- Ar " + format.format(totalExpense));
+
         List<DataExpenses> expense = expenseDao.getExpenseByCategoryId(categoryId);
 //        listdepense.addAll(expense);
 

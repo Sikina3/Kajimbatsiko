@@ -1,5 +1,6 @@
 package com.teste.kajimbatsiko.fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,9 @@ import android.widget.Spinner;
 import com.teste.kajimbatsiko.R;
 import com.teste.kajimbatsiko.data.database;
 import com.teste.kajimbatsiko.data.rooms.DataIncome;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,6 +84,30 @@ public class Form extends Fragment {
         types = view.findViewById(R.id.types);
         date = view.findViewById(R.id.date);
         titre = view.findViewById(R.id.titre);
+
+        date.setOnClickListener(v -> {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePicker = new DatePickerDialog(
+                    requireContext(),
+                    android.R.style.Theme_Holo_Dialog_MinWidth,
+                    (view1, year1, month1, dayOfMonth) -> {
+                        calendar.set(year1, month1, dayOfMonth);
+
+                        // Formater en "12 Mars 2025"
+                        java.text.SimpleDateFormat format =
+                                new java.text.SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH);
+                        String formattedDate = format.format(calendar.getTime());
+
+                        date.setText(formattedDate);
+                    },
+                    year, month, day
+            );
+            datePicker.show();
+        });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 requireContext(),

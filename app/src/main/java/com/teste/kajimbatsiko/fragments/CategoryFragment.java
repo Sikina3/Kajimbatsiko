@@ -85,8 +85,8 @@ public class CategoryFragment extends Fragment {
         grid = view.findViewById(R.id.grid);
         total_balance = view.findViewById(R.id.total_balance);
         total_expense = view.findViewById(R.id.total_expense);
-        String[] titles = {"Plus"};
-        int[] images = {R.drawable.plus};
+        String[] titles = {"Plus", "Economie"};
+        int[] images = {R.drawable.plus, R.drawable.economie};
 
         adapter = new GridAdapter(getContext(), titles, images);
         grid.setAdapter(adapter);
@@ -103,8 +103,8 @@ public class CategoryFragment extends Fragment {
             IncomeDao incomeDao = db.incomeDao();
             ExpenseDao expenseDao = db.expenseDao();
 
-            totalIncome = incomeDao.getTotalIncome();
             totalExpense = expenseDao.getTotalExpense();
+            totalIncome = incomeDao.getTotalIncome() - totalExpense;
 
             total_balance.setText("Ar " + format.format(totalIncome));
             total_expense.setText("- Ar " + format.format(totalExpense));
