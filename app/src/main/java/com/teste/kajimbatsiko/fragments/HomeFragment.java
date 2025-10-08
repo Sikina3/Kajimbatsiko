@@ -104,8 +104,8 @@ public class HomeFragment extends Fragment {
 
         incomeDao = db.incomeDao();
         expenseDao = db.expenseDao();
-        double totalIncome = incomeDao.getTotalIncome();
         double totalExpense = expenseDao.getTotalExpense();
+        double totalIncome = incomeDao.getTotalIncome() - totalExpense;
 
         total_income.setText("Ar " + format.format(totalIncome));
         total_expense.setText("- Ar " + format.format(totalExpense));

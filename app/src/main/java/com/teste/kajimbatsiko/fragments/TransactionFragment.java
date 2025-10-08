@@ -182,10 +182,11 @@ public class TransactionFragment extends Fragment {
 
         if (currentMode == Mode.INCOME) {
             IncomeDao incomeDao = db.incomeDao();
+            ExpenseDao expense = db.expenseDao();
             List<DataIncome> incomes = incomeDao.getAllIncome();
             transactionList.addAll(incomes);
 
-            double totalIncome = incomeDao.getTotalIncome();
+            double totalIncome = incomeDao.getTotalIncome() - expense.getTotalExpense();
             total_balance.setText("Ar " + String.valueOf(format.format(totalIncome)));
 
         } else {
