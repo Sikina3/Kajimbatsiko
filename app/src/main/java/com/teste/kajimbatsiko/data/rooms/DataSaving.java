@@ -1,12 +1,24 @@
 package com.teste.kajimbatsiko.data.rooms;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "economie")
+@Entity(tableName = "economie",
+        foreignKeys = @ForeignKey(
+                entity = DataCategorySaving.class,
+                parentColumns = "id",
+                childColumns = "category_id",
+                onDelete = ForeignKey.CASCADE
+        ),
+            indices = {@Index(value = "category_id")})
+
 public class DataSaving {
     @PrimaryKey(autoGenerate = false)
+    @NonNull
     public String name;
 
     @ColumnInfo(name = "date")
@@ -14,4 +26,13 @@ public class DataSaving {
 
     @ColumnInfo(name = "category_id")
     public int categoryId;
+
+    @ColumnInfo(name = "montant")
+    public double montant;
+
+    @ColumnInfo(name = "titre")
+    public String titre;
+
+    @ColumnInfo(name = "message")
+    public String message;
 }

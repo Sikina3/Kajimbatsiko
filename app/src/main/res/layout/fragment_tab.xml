@@ -21,20 +21,36 @@
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:orientation="horizontal">
+               android:orientation="vertical">
 
-               <TextView
-                   android:id="@+id/textView"
-                   android:layout_width="wrap_content"
+               <LinearLayout
+                   android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:text="TextView" />
+                   android:orientation="horizontal">
 
-               <ImageView
-                   android:id="@+id/imageView5"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_weight="1"
-                   android:src="?android:attr/actionModeWebSearchDrawable" />
+                   <TextView
+                       android:id="@+id/textView"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="TextView" />
+
+                   <ImageView
+                       android:id="@+id/imageView5"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                       android:src="?android:attr/actionModeWebSearchDrawable" />
+               </LinearLayout>
+
+               <org.eazegraph.lib.charts.BarChart
+                   android:id="@+id/barchart"
+                   android:layout_width="match_parent"
+                   android:layout_height="150dp"
+                   android:padding="10dp"
+                   app:egFixedBarWidth="true"
+                   app:egBarWidth="8dp"
+                   app:egLegendHeight="30dp"/>
+
            </LinearLayout>
 
        </FrameLayout>

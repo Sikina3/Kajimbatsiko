@@ -1,8 +1,11 @@
 package com.teste.kajimbatsiko.fragments;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.teste.kajimbatsiko.R;
+
+import org.eazegraph.lib.charts.BarChart;
+import org.eazegraph.lib.models.BarModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +55,8 @@ public class TabFragment extends Fragment {
         return fragment;
     }
 
+    private BarChart barChart;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +66,7 @@ public class TabFragment extends Fragment {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +74,27 @@ public class TabFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab, container, false);
 
         TextView textView = view.findViewById(R.id.textView);
+        barChart = view.findViewById(R.id.barchart);
+
+        float[] income = {5.2f, 0.5f, 6.3f, 0.3f, 10.2f, 1.0f, 2.5f};
+        float[] expenses = {2.1f, 3.2f, 4.5f, 5.0f, 8.5f, 0.5f, 5.0f};
+        int colorIncome = getResources().getColor(R.color.caribeean_green);
+        int colorExpense = getResources().getColor(R.color.ocean_blue);
+
+        for (int i = 0; i< income.length; i++){
+            barChart.addBar(new BarModel(income[i], colorIncome));
+            barChart.addBar(new BarModel(expenses[i], colorExpense));
+        }
+
+        barChart.setShowValues(false);
+        barChart.setShowDecimal(false);
+        barChart.startAnimation();
+        barChart.setOnTouchListener((v, event) -> {
+            ViewPager2 pager = requireActivity().findViewById(R.id.viewPage);
+            pager.requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
+
         textView.setText(mParam1);
 
         return view;

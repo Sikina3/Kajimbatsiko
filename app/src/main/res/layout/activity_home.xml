@@ -10,22 +10,23 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1" >
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/menu_shape"
-        app:itemIconSize="24dp"
-        app:itemIconTint="@color/bottom_icon_color"
-        app:itemPaddingBottom="0dp"
-        app:itemPaddingTop="0dp"
-        app:itemTextColor="@color/white"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/bottombar"
-        app:itemRippleColor="@color/caribeean_green"
-        app:itemActiveIndicatorStyle="@style/BottomNavActiveIndicator"/>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/menu_shape"
+            app:itemActiveIndicatorStyle="@style/BottomNavActiveIndicator"
+            app:itemIconSize="24dp"
+            app:itemIconTint="@color/bottom_icon_color"
+            app:itemPaddingBottom="0dp"
+            app:itemPaddingTop="0dp"
+            app:itemRippleColor="@color/caribeean_green"
+            app:itemTextColor="@color/white"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/bottombar" />
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

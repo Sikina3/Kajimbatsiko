@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Category"
+        android:text="Nouveau Catégorie"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_gravity="center"/>
@@ -18,7 +18,16 @@
         android:id="@+id/inputCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Write..."
+        android:hint="Nom..."
+        android:layout_marginTop="15dp"
+        android:background="@drawable/menu_menu_border"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/inputDevise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Devis..."
         android:layout_marginTop="15dp"
         android:background="@drawable/menu_menu_border"
         android:padding="10dp"/>

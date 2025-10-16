@@ -16,14 +16,13 @@ import androidx.fragment.app.DialogFragment;
 
 import com.teste.kajimbatsiko.R;
 import com.teste.kajimbatsiko.data.database;
-import com.teste.kajimbatsiko.data.rooms.DataCategory;
 import com.teste.kajimbatsiko.data.rooms.DataCategorySaving;
 
-public class NewCategoryDialog extends DialogFragment {
+public class SavingDialog extends DialogFragment {
     private int selectedIcon = R.drawable.food;
 
-    public interface OnCategoryAdded{
-        void onCategoryAdded(DataCategory category);
+    public interface  OnCategoryAdded{
+        void onCategoryAdded(DataCategorySaving saving);
     }
 
     private OnCategoryAdded listener;
@@ -35,8 +34,8 @@ public class NewCategoryDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+                                 @Nullable ViewGroup container,
+                                 @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.new_category, container, false);
         EditText input_name = view.findViewById(R.id.inputCategory);
         EditText input_devise = view.findViewById(R.id.inputDevise);
@@ -44,7 +43,8 @@ public class NewCategoryDialog extends DialogFragment {
         Button btnCancel = view.findViewById(R.id.btnCancel);
         LinearLayout iconContainer = view.findViewById(R.id.iconContainer);
 
-        input_devise.setVisibility(View.GONE);
+        input_devise.setVisibility(View.VISIBLE);
+
         int[] icons = {
                 R.drawable.food,
                 R.drawable.money,
@@ -76,25 +76,29 @@ public class NewCategoryDialog extends DialogFragment {
         }
 
         btnSave.setOnClickListener(v -> {
-            String category = input_name.getText().toString().trim();
-            if (!category.isEmpty()){
-                DataCategory datacategory = new DataCategory();
-                datacategory.nom = category;
-                datacategory.icon = selectedIcon;
+            String category_nom = input_name.getText().toString().trim();
+            String category_devis = input_devise.getText().toString().trim();
+
+            if(!category_nom.isEmpty() || !category_devis.isEmpty()){
+                DataCategorySaving data = new DataCategorySaving();
+                data.nom = category_nom;
+                data.devis = Double.parseDouble(category_devis);
+                data.icon = selectedIcon;
 
                 new Thread(() -> {
                     database db = database.getDatabase(requireContext());
-                    db.categoryDao().insertCategory(datacategory);
+                    db.category_savingDao().insertCategorySaving(data);
 
-                    if(listener != null){
-                        requireActivity().runOnUiThread(() -> listener.onCategoryAdded(datacategory));
+                    if (listener != null){
+                        requireActivity().runOnUiThread(() -> listener.onCategoryAdded(data));
                     }
                 }).start();
 
-                Toast.makeText(getContext(), "Enregistrer: " + category, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Enregistrer: " + category_nom, Toast.LENGTH_SHORT).show();
                 dismiss();
             } else {
-                input_name.setError("Il faut remplir le champ!");
+                input_name.setError("Il faut remplir le champ");
+                input_devise.setError("Il faut remplir le champ");
             }
         });
 
@@ -107,11 +111,12 @@ public class NewCategoryDialog extends DialogFragment {
     public void onStart(){
         super.onStart();
 
-        if(getDialog() != null && getDialog().getWindow() != null){
+        if (getDialog() != null && getDialog().getWindow() != null){
             getDialog().getWindow().setLayout(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
         }
     }
+
 }

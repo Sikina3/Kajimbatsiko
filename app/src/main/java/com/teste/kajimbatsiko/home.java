@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.teste.kajimbatsiko.fragments.AnalyseFragment;
 import com.teste.kajimbatsiko.fragments.CategoryFragment;
 import com.teste.kajimbatsiko.fragments.HomeFragment;
-import com.teste.kajimbatsiko.fragments.ProfilFragment;
+import com.teste.kajimbatsiko.fragments.SavingFragment;
 import com.teste.kajimbatsiko.fragments.TransactionFragment;
 
 public class home extends AppCompatActivity {
@@ -64,7 +64,7 @@ public class home extends AppCompatActivity {
                 return true;
             } else if (id == R.id.app_bar_profile) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new ProfilFragment())
+                        .replace(R.id.fragment_container, new SavingFragment())
                         .commit();
                 return true;
             }

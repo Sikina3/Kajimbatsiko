@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AnalyseFragment"
-    android:id="@+id/fragment"
     android:background="@color/caribeean_green">
 
     <!-- TODO: Update blank fragment layout -->
@@ -28,30 +27,24 @@
                 android:paddingTop="15dp"
                 android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/but_retour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/retour" />
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/cat_name"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Ajouter un Revenue"
+                        android:text="Economie"
                         android:textSize="20dp"
                         android:textStyle="bold"/>
                 </LinearLayout>
 
+
                 <ImageView
-                    android:id="@+id/but_notif"
+                    android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_notify" />
@@ -106,7 +99,7 @@
                         android:text="Dépense totale" />
 
                     <TextView
-                        android:id="@+id/total_depense"
+                        android:id="@+id/total_expense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Ar 500 000"
@@ -127,22 +120,33 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/affiche_revenue"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="match_parent"
+                android:background="@drawable/base_shape"
+                android:padding="20dp">
 
-            </androidx.recyclerview.widget.RecyclerView>
+                <GridView
+                    android:id="@+id/grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:numColumns="3"
+                    android:layout_above="@+id/button"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="40dp" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:text="Nouvelle dépense"
-                android:textColor="@color/black"
-                android:textSize="16dp" />
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Ajouter un nouvel"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="40dp" />
+            </RelativeLayout>
+
         </LinearLayout>
     </LinearLayout>
 

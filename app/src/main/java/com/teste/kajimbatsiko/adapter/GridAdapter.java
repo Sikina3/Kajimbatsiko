@@ -25,14 +25,20 @@ public class GridAdapter extends BaseAdapter {
         for(int i : images) this.images.add(i);
     }
 
+    public GridAdapter(Context context) {
+        this.context = context;
+        this.titles = new ArrayList<>();  // <-- important
+        this.images = new ArrayList<>();
+    }
+
     @Override
     public int getCount(){
-        return titles.size();
+        return titles != null ? titles.size() : 0;
     }
 
     @Override
     public Object getItem(int position){
-        return titles.get(position);
+        return titles != null ? titles.get(position) : null;
     }
 
     @Override
@@ -41,9 +47,12 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public void addItem(String title, int image){
+        if (titles == null) titles = new ArrayList<>();
+        if (images == null) images = new ArrayList<>();
+
         titles.add(title);
         images.add(image);
-        notifyDataSetInvalidated();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -56,8 +65,12 @@ public class GridAdapter extends BaseAdapter {
         ImageView image = convert.findViewById(R.id.item_image);
         TextView text = convert.findViewById(R.id.item_text);
 
-        image.setImageResource(images.get(position));
-        text.setText(titles.get(position));
+        if (position < images.size()) {
+            image.setImageResource(images.get(position));
+        }
+        if (position < titles.size()) {
+            text.setText(titles.get(position));
+        }
 
         return convert;
     }

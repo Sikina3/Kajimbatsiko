@@ -158,11 +158,14 @@ public class form_depense extends Fragment {
             DataCategory selectedCategory = categories.get(pos);
 
             DataExpenses depense = new DataExpenses();
+            DataIncome income = new DataIncome();
             depense.date = dateTxt;
             depense.montant = Double.parseDouble(montantTxt);
             depense.categoryId = selectedCategory.uid;
             depense.titre_depense = typeTxt;
             depense.message = noteTxt;
+
+            double resteRevenue = income.montant - Double.parseDouble(montantTxt);
 
             new Thread(() -> {
                 database db = database.getDatabase(requireContext());
