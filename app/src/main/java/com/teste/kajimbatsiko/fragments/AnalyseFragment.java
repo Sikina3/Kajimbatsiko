@@ -18,6 +18,7 @@ import com.teste.kajimbatsiko.adapter.AnalyseAdapter;
 import com.teste.kajimbatsiko.R;
 import com.teste.kajimbatsiko.data.dao.ExpenseDao;
 import com.teste.kajimbatsiko.data.dao.IncomeDao;
+import com.teste.kajimbatsiko.data.dao.SavingDao;
 import com.teste.kajimbatsiko.data.database;
 
 import java.text.DecimalFormat;
@@ -77,6 +78,7 @@ public class AnalyseFragment extends Fragment {
     database db;
     IncomeDao incomeDao;
     ExpenseDao expenseDao;
+    SavingDao savingDao;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -100,9 +102,11 @@ public class AnalyseFragment extends Fragment {
 
         incomeDao = db.incomeDao();
         expenseDao = db.expenseDao();
+        savingDao = db.savingDao();
 
         double totalExpense = expenseDao.getTotalExpense();
-        double totalIncome = incomeDao.getTotalIncome() - totalExpense;
+        double totalEconomie = savingDao.getTotalAllSaving();
+        double totalIncome = incomeDao.getTotalIncome() - totalExpense - totalEconomie;
 
         total_balance.setText("Ar " + format.format(totalIncome));
         total_expense.setText("- Ar " + format.format(totalExpense));

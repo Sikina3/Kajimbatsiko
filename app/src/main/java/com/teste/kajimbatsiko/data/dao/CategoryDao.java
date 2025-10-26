@@ -25,4 +25,5 @@ public interface CategoryDao {
 
     @Query("SELECT name FROM categorie where uid = :category")
     String getCategoryName(int category);
+
 }

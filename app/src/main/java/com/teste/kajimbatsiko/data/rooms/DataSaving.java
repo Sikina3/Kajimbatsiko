@@ -17,9 +17,8 @@ import androidx.room.PrimaryKey;
             indices = {@Index(value = "category_id")})
 
 public class DataSaving {
-    @PrimaryKey(autoGenerate = false)
-    @NonNull
-    public String name;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
 
     @ColumnInfo(name = "date")
     public String date;

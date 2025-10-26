@@ -46,9 +46,9 @@
                    android:id="@+id/barchart"
                    android:layout_width="match_parent"
                    android:layout_height="150dp"
-                   android:padding="10dp"
+                   android:padding="5dp"
                    app:egFixedBarWidth="true"
-                   app:egBarWidth="8dp"
+                   app:egBarWidth="4dp"
                    app:egLegendHeight="30dp"/>
 
            </LinearLayout>

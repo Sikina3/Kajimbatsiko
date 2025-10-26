@@ -20,4 +20,9 @@ public interface Category_SavingDao {
     int getIconCategorySaving(int category);
 
     @Query("SELECT nom FROM categorie_economie WHERE id = :category")
-    String getCategorySavingName(int category);}
+    String getCategorySavingName(int category);
+
+    @Query("SELECT devise FROM categorie_economie WHERE id = :category")
+    Double getDevis(int category);
+}
+

@@ -15,25 +15,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teste.kajimbatsiko.R;
-import com.teste.kajimbatsiko.adapter.CategoryAdapter;
-import com.teste.kajimbatsiko.data.dao.CategoryDao;
+import com.teste.kajimbatsiko.adapter.SavingAdapter;
+import com.teste.kajimbatsiko.data.dao.Category_SavingDao;
 import com.teste.kajimbatsiko.data.dao.ExpenseDao;
 import com.teste.kajimbatsiko.data.dao.IncomeDao;
 import com.teste.kajimbatsiko.data.dao.SavingDao;
 import com.teste.kajimbatsiko.data.database;
-import com.teste.kajimbatsiko.data.rooms.DataExpenses;
+import com.teste.kajimbatsiko.data.rooms.DataSaving;
+
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link categorie_lists#newInstance} factory method to
+ * Use the {@link Saving_List#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class categorie_lists extends Fragment {
+public class Saving_List extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,7 +46,7 @@ public class categorie_lists extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public categorie_lists() {
+    public Saving_List() {
         // Required empty public constructor
     }
 
@@ -52,15 +54,13 @@ public class categorie_lists extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment categorie_lists.
+     * @return A new instance of fragment Saving_List.
      */
     // TODO: Rename and change types and number of parameters
-    public static categorie_lists newInstance(int categoryId) {
-        categorie_lists fragment = new categorie_lists();
+    public static Saving_List newInstance(int categoryId) {
+        Saving_List fragment = new Saving_List();
         Bundle args = new Bundle();
-        args.putInt("category_id", categoryId);
+        args.putInt("categorySaving_id", categoryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,14 +73,16 @@ public class categorie_lists extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            categoryId = getArguments().getInt("category_id", -1);
+            categoryId = getArguments().getInt("categorySaving_id", -1);
         }
     }
 
-    private TextView total_balance, totale_depense, cat_name;
-    private ImageView but_retour, notif;
-    private RecyclerView affiche_revenue;
-    private Button but_new_depense;
+    private TextView text_objectif, text_atteint, text_nomCat;
+    private Button btn_new;
+    private ImageView btn_retour;
+    private RecyclerView affiche_economie;
+    private PieChart pieChart;
+    private double reste;
     database db;
 
     @SuppressLint("SetTextI18n")
@@ -88,18 +90,19 @@ public class categorie_lists extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_categorie_lists, container, false);
+        View view = inflater.inflate(R.layout.fragment_saving__list, container, false);
+        text_objectif = view.findViewById(R.id.text_objectif);
+        text_atteint = view.findViewById(R.id.text_atteint);
+        text_nomCat = view.findViewById(R.id.cat_name);
+        btn_new = view.findViewById(R.id.button);
+        btn_retour = view.findViewById(R.id.but_retour);
+        affiche_economie = view.findViewById(R.id.affiche_economie);
+        pieChart = view.findViewById(R.id.pieChart);
 
-        total_balance = view.findViewById(R.id.total_balance);
-        totale_depense = view.findViewById(R.id.total_depense);
-        cat_name = view.findViewById(R.id.cat_name);
-        but_retour = view.findViewById(R.id.but_retour);
-        notif = view.findViewById(R.id.but_notif);
-        but_new_depense = view.findViewById(R.id.button);
-        affiche_revenue = view.findViewById(R.id.affiche_revenue);
+        btn_retour.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
 
-        but_new_depense.setOnClickListener(v -> {
-            form_depense formulaire = form_depense.newInstance();
+        btn_new.setOnClickListener(v -> {
+            saving_form formulaire = saving_form.newInstance();
 
             getParentFragmentManager()
                     .beginTransaction()
@@ -108,38 +111,34 @@ public class categorie_lists extends Fragment {
                     .commit();
         });
 
-        but_retour.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
-
-        List<Object> listdepense = new ArrayList<>();
         db = Room.databaseBuilder(requireContext(), database.class, "finance.db")
                 .allowMainThreadQueries()
                 .build();
 
-        CategoryDao nameCate = db.categoryDao();
-        String category_name = nameCate.getCategoryName(categoryId);
-        cat_name.setText(category_name);
+        Category_SavingDao cate = db.category_savingDao();
+        SavingDao saving = db.savingDao();
+        String category_name =cate.getCategorySavingName(categoryId);
+        text_nomCat.setText(category_name);
 
         DecimalFormatSymbols symbole = new DecimalFormatSymbols();
         symbole.setGroupingSeparator(' ');
         DecimalFormat format = new DecimalFormat("#,###", symbole);
 
-        ExpenseDao expenseDao = db.expenseDao();
-        IncomeDao incomeDao = db.incomeDao();
-        SavingDao savingDao = db.savingDao();
+        Double devise = cate.getDevis(categoryId);
+        text_objectif.setText("Ar " + format.format(devise));
+        Double atteint = saving.getTotalSaving(categoryId);
+        text_atteint.setText("Ar " + format.format(atteint));
 
-        double totalExpense = expenseDao.getTotalExpense();
-        double totalEconomie = savingDao.getTotalAllSaving();
-        double totalIncome = incomeDao.getTotalIncome() - totalExpense - totalEconomie;
+        reste = devise - atteint;
 
-        total_balance.setText("Ar " + format.format(totalIncome));
-        totale_depense.setText("- Ar " + format.format(totalExpense));
+        pieChart.addPieSlice(new PieModel("Progress", atteint.floatValue(),0xFF0068FF ));
+        pieChart.addPieSlice(new PieModel("Reste", (float) reste, 0xFFE0E0E0));
 
-        List<DataExpenses> expense = expenseDao.getExpenseByCategoryId(categoryId);
-//        listdepense.addAll(expense);
+        List<DataSaving> dataSavingList = saving.getSavingByCategoryId(categoryId);
 
-        CategoryAdapter adapter = new CategoryAdapter(requireContext(), expense);
-        affiche_revenue.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(requireContext()));
-        affiche_revenue.setAdapter(adapter);
+        SavingAdapter adapter = new SavingAdapter(requireContext(), dataSavingList);
+        affiche_economie.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(requireContext()));
+        affiche_economie.setAdapter(adapter);
 
         return view;
     }

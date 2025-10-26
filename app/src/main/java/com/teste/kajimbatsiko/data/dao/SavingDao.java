@@ -16,8 +16,11 @@ public interface SavingDao {
     @Query("SELECT * FROM economie ORDER BY date DESC")
     List<DataSaving> getAllSaving();
 
+    @Query("SELECT IFNULL(SUM(montant), 0) FROM economie WHERE category_id = :category")
+    Double getTotalSaving(int category);
+
     @Query("SELECT IFNULL(SUM(montant), 0) FROM economie")
-    Double getTotalSaving();
+    Double getTotalAllSaving();
 
     @Query("SELECT * FROM economie WHERE category_id = :categoryId ORDER BY date DESC")
     List<DataSaving>getSavingByCategoryId(int categoryId);

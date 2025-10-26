@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.teste.kajimbatsiko.R;
 import com.teste.kajimbatsiko.data.dao.ExpenseDao;
 import com.teste.kajimbatsiko.data.dao.IncomeDao;
+import com.teste.kajimbatsiko.data.dao.SavingDao;
 import com.teste.kajimbatsiko.data.database;
 
 import org.eazegraph.lib.charts.PieChart;
@@ -73,6 +74,7 @@ public class HomeFragment extends Fragment {
     database db;
     IncomeDao incomeDao ;
     ExpenseDao expenseDao;
+    SavingDao savingDao;
     TextView total_income, total_expense;
 
     @SuppressLint("SetTextI18n")
@@ -104,8 +106,10 @@ public class HomeFragment extends Fragment {
 
         incomeDao = db.incomeDao();
         expenseDao = db.expenseDao();
+        savingDao = db.savingDao();
         double totalExpense = expenseDao.getTotalExpense();
-        double totalIncome = incomeDao.getTotalIncome() - totalExpense;
+        double totalEconomie = savingDao.getTotalAllSaving();
+        double totalIncome = incomeDao.getTotalIncome() - totalExpense - totalEconomie;
 
         total_income.setText("Ar " + format.format(totalIncome));
         total_expense.setText("- Ar " + format.format(totalExpense));

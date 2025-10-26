@@ -16,6 +16,7 @@ import com.teste.kajimbatsiko.R;
 import com.teste.kajimbatsiko.adapter.GridAdapter;
 import com.teste.kajimbatsiko.data.dao.ExpenseDao;
 import com.teste.kajimbatsiko.data.dao.IncomeDao;
+import com.teste.kajimbatsiko.data.dao.SavingDao;
 import com.teste.kajimbatsiko.data.database;
 import com.teste.kajimbatsiko.data.rooms.DataCategorySaving;
 import com.teste.kajimbatsiko.dialog.SavingDialog;
@@ -75,7 +76,7 @@ public class SavingFragment extends Fragment {
     GridView grid;
     GridAdapter adapter;
     TextView total_balance, total_expense;
-    Double totalIncome, totalExpense;
+    Double totalIncome, totalExpense, totalEconomie;
     Button add_new;
 
     @SuppressLint("SetTextI18n")
@@ -105,9 +106,11 @@ public class SavingFragment extends Fragment {
             List<DataCategorySaving> categories = db.category_savingDao().getAllCategorySaving();
             IncomeDao incomeDao = db.incomeDao();
             ExpenseDao expenseDao = db.expenseDao();
+            SavingDao savingDao = db.savingDao();
 
             totalExpense = expenseDao.getTotalExpense();
-            totalIncome = incomeDao.getTotalIncome() - totalExpense;
+            totalEconomie = savingDao.getTotalAllSaving();
+            totalIncome = incomeDao.getTotalIncome() - totalExpense - totalEconomie;
 
             total_balance.setText("Ar " + format.format(totalIncome));
             total_expense.setText("- Ar " + format.format(totalExpense));
@@ -123,6 +126,18 @@ public class SavingFragment extends Fragment {
                 }
             });
         }).start();
+
+        grid.setOnItemClickListener((parent, view1, position, id) -> {
+            DataCategorySaving selectedCategory = categoriesLists.get(position);
+            int cat_id = selectedCategory.id;
+            Saving_List saving_list = Saving_List.newInstance(cat_id);
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_saving, saving_list)
+                    .addToBackStack(null)
+                    .commit();
+
+        });
 
         return view;
     }

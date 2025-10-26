@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AnalyseFragment"
+    android:id="@+id/fragment_saving"
     android:background="@color/caribeean_green">
 
     <!-- TODO: Update blank fragment layout -->

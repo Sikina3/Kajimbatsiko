@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.teste.kajimbatsiko.R;
 import com.teste.kajimbatsiko.data.database;
 import com.teste.kajimbatsiko.data.rooms.DataCategory;
-import com.teste.kajimbatsiko.data.rooms.DataExpenses;
-import com.teste.kajimbatsiko.data.rooms.DataIncome;
+import com.teste.kajimbatsiko.data.rooms.DataCategorySaving;
+import com.teste.kajimbatsiko.data.rooms.DataSaving;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,10 +28,10 @@ import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Form#newInstance} factory method to
+ * Use the {@link saving_form#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class form_depense extends Fragment {
+public class saving_form extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,7 +42,7 @@ public class form_depense extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public form_depense() {
+    public saving_form() {
         // Required empty public constructor
     }
 
@@ -50,11 +50,11 @@ public class form_depense extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment form_depense.
+     * @return A new instance of fragment saving_form.
      */
     // TODO: Rename and change types and number of parameters
-    public static form_depense newInstance() {
-        form_depense fragment = new form_depense();
+    public static saving_form newInstance() {
+        saving_form fragment = new saving_form();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -74,14 +74,13 @@ public class form_depense extends Fragment {
     private EditText note, montant, types, date;
     private Spinner titre;
     private TextView textView_cate, textView_titre, textView_ajout;
-    private List<DataCategory> categories = new ArrayList<>();
+    private List<DataCategorySaving> categories = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_form, container, false);
-
         but_retour = view.findViewById(R.id.but_retour);
         but_notif = view.findViewById(R.id.but_notif);
         but_send = view.findViewById(R.id.but_send);
@@ -95,16 +94,17 @@ public class form_depense extends Fragment {
         textView_ajout = view.findViewById(R.id.textView3);
 
         textView_cate.setText("Categorie");
-        types.setHint("titre de la depense");
-        textView_titre.setText("Titre");
-        textView_ajout.setText("Ajouter une dépense");
+        textView_titre.setText("Titre de depot");
+        types.setHint("Titre du depot");
+
+        textView_ajout.setText("Ajouter un depot économie");
 
         new Thread(() -> {
             database db = database.getDatabase(requireContext());
-            categories = db.categoryDao().getAllCategory();
+            categories = db.category_savingDao().getAllCategorySaving();
 
             List<String> categoryNames = new ArrayList<>();
-            for (DataCategory c : categories){
+            for (DataCategorySaving c : categories){
                 categoryNames.add(c.nom);
             }
             requireActivity().runOnUiThread(() -> {
@@ -142,36 +142,30 @@ public class form_depense extends Fragment {
             datePicker.show();
         });
 
-        but_retour.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
-        });
+        but_retour.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
 
         but_send.setOnClickListener(v -> {
             String noteTxt = note.getText().toString();
             String montantTxt = montant.getText().toString();
             String typeTxt = types.getText().toString();
             String dateTxt = date.getText().toString();
-            String titreTxt = titre.getSelectedItem().toString();
+            String titreText = titre.getSelectedItem().toString();
 
             int pos = titre.getSelectedItemPosition();
-            DataCategory selectedCategory = categories.get(pos);
+            DataCategorySaving selectedCategory = categories.get(pos);
 
-            DataExpenses depense = new DataExpenses();
-            DataIncome income = new DataIncome();
-            depense.date = dateTxt;
-            depense.montant = Double.parseDouble(montantTxt);
-            depense.categoryId = selectedCategory.uid;
-            depense.titre_depense = typeTxt;
-            depense.message = noteTxt;
-
-            double resteRevenue = income.montant - Double.parseDouble(montantTxt);
+            DataSaving saving = new DataSaving();
+            saving.date = dateTxt;
+            saving.montant = Double.parseDouble(montantTxt);
+            saving.titre = typeTxt;
+            saving.message = noteTxt;
+            saving.categoryId = selectedCategory.id;
 
             new Thread(() -> {
                 database db = database.getDatabase(requireContext());
-                db.expenseDao().insertExpense(depense);
+                db.savingDao().insertSaving(saving);
             }).start();
 
-            //Retour au transactionFragment
             requireActivity().getSupportFragmentManager().popBackStack();
         });
 

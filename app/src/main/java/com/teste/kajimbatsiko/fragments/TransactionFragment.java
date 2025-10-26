@@ -19,6 +19,7 @@ import com.teste.kajimbatsiko.R;
 import com.teste.kajimbatsiko.adapter.TransactionAdapter;
 import com.teste.kajimbatsiko.data.dao.ExpenseDao;
 import com.teste.kajimbatsiko.data.dao.IncomeDao;
+import com.teste.kajimbatsiko.data.dao.SavingDao;
 import com.teste.kajimbatsiko.data.database;
 import com.teste.kajimbatsiko.data.rooms.DataExpenses;
 import com.teste.kajimbatsiko.data.rooms.DataIncome;
@@ -183,10 +184,11 @@ public class TransactionFragment extends Fragment {
         if (currentMode == Mode.INCOME) {
             IncomeDao incomeDao = db.incomeDao();
             ExpenseDao expense = db.expenseDao();
+            SavingDao saving = db.savingDao();
             List<DataIncome> incomes = incomeDao.getAllIncome();
             transactionList.addAll(incomes);
 
-            double totalIncome = incomeDao.getTotalIncome() - expense.getTotalExpense();
+            double totalIncome = incomeDao.getTotalIncome() - expense.getTotalExpense() - saving.getTotalAllSaving();
             total_balance.setText("Ar " + String.valueOf(format.format(totalIncome)));
 
         } else {

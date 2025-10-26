@@ -13,21 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.teste.kajimbatsiko.R;
-import com.teste.kajimbatsiko.data.dao.CategoryDao;
+import com.teste.kajimbatsiko.data.dao.Category_SavingDao;
 import com.teste.kajimbatsiko.data.database;
 import com.teste.kajimbatsiko.data.rooms.DataCategory;
 import com.teste.kajimbatsiko.data.rooms.DataExpenses;
+import com.teste.kajimbatsiko.data.rooms.DataSaving;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
-    private List<DataExpenses> listes;
+public class SavingAdapter extends RecyclerView.Adapter<SavingAdapter.ViewHolder> {
+    private List<DataSaving> listes;
     database db;
     private Context context;
 
-    public CategoryAdapter(Context context, List<DataExpenses> listes) {
+    public SavingAdapter(Context context, List<DataSaving> listes) {
         this.context = context;
         this.listes = listes;
 
@@ -60,7 +61,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @NonNull
     @Override
-    public CategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SavingAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_transaction, parent, false);
@@ -70,19 +71,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SavingAdapter.ViewHolder holder, int position) {
         DecimalFormatSymbols symbole = new DecimalFormatSymbols();
         symbole.setGroupingSeparator(' ');
         DecimalFormat format = new DecimalFormat("#,###", symbole);
-        CategoryDao dao_cate = db.categoryDao();
+        Category_SavingDao dao_cate = db.category_savingDao();
 
-        DataExpenses expenses = (DataExpenses) listes.get(position);
-        int iconRes = dao_cate.getIconCategory(expenses.categoryId);
+        DataSaving saving = (DataSaving) listes.get(position);
+        int iconRes = dao_cate.getIconCategorySaving(saving.categoryId);
 
         holder.image.setImageResource(iconRes);
-        holder.titre.setText(expenses.titre_depense);
-        holder.date.setText(expenses.date);
-        holder.montant.setText("- Ar " + format.format(expenses.montant));
+        holder.titre.setText(saving.titre);
+        holder.date.setText(saving.date);
+        holder.montant.setText("Ar " + format.format(saving.montant));
 
     }
 
