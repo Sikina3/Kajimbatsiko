@@ -14,76 +14,43 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.teste.kajimbatsiko.R;
 import com.teste.kajimbatsiko.data.database;
 import com.teste.kajimbatsiko.data.rooms.DataCategory;
 import com.teste.kajimbatsiko.data.rooms.DataExpenses;
-import com.teste.kajimbatsiko.data.rooms.DataIncome;
+import com.teste.kajimbatsiko.data.rooms.NotificationItem;
+import com.teste.kajimbatsiko.utils.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Form#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class form_depense extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public form_depense() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment form_depense.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static form_depense newInstance() {
-        form_depense fragment = new form_depense();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     private ImageView but_retour, but_notif;
     private Button but_send;
     private EditText note, montant, types, date;
     private Spinner titre;
     private TextView textView_cate, textView_titre, textView_ajout;
+
     private List<DataCategory> categories = new ArrayList<>();
+
+    public form_depense() {}
+
+    public static form_depense newInstance() {
+        return new form_depense();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_form, container, false);
 
+        // Bind UI
         but_retour = view.findViewById(R.id.but_retour);
-        but_notif = view.findViewById(R.id.but_notif);
         but_send = view.findViewById(R.id.but_send);
         note = view.findViewById(R.id.note);
         montant = view.findViewById(R.id.montant);
@@ -94,87 +61,141 @@ public class form_depense extends Fragment {
         textView_titre = view.findViewById(R.id.textView9);
         textView_ajout = view.findViewById(R.id.textView3);
 
+        // Text adjustments
         textView_cate.setText("Categorie");
-        types.setHint("titre de la depense");
+        types.setHint("Titre de la dépense");
         textView_titre.setText("Titre");
         textView_ajout.setText("Ajouter une dépense");
 
+        // Charger les catégories
+        loadCategories();
+
+        // Date picker
+        date.setOnClickListener(v -> showDatePicker());
+
+        // Bouton retour
+        but_retour.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+
+        // Bouton envoyer
+        but_send.setOnClickListener(v -> saveExpense());
+
+        return view;
+    }
+
+    private void loadCategories() {
         new Thread(() -> {
             database db = database.getDatabase(requireContext());
             categories = db.categoryDao().getAllCategory();
 
-            List<String> categoryNames = new ArrayList<>();
-            for (DataCategory c : categories){
-                categoryNames.add(c.nom);
-            }
+            List<String> names = new ArrayList<>();
+            for (DataCategory c : categories) names.add(c.nom);
+
             requireActivity().runOnUiThread(() -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(
                         requireContext(),
                         android.R.layout.simple_spinner_item,
-                        categoryNames
+                        names
                 );
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 titre.setAdapter(adapter);
             });
         }).start();
+    }
 
-        date.setOnClickListener(v -> {
-            final Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
+    private void showDatePicker() {
+        Calendar c = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(
+                requireContext(),
+                android.R.style.Theme_Holo_Dialog_MinWidth,
+                (view, y, m, d) -> {
+                    c.set(y, m, d);
+                    java.text.SimpleDateFormat sdf =
+                            new java.text.SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH);
+                    date.setText(sdf.format(c.getTime()));
+                },
+                c.get(Calendar.YEAR),
+                c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH)
+        );
+        dialog.show();
+    }
 
-            DatePickerDialog datePicker = new DatePickerDialog(
-                    requireContext(),
-                    android.R.style.Theme_Holo_Dialog_MinWidth,
-                    (view1, year1, month1, dayOfMonth) -> {
-                        calendar.set(year1, month1, dayOfMonth);
+    private void saveExpense() {
+        String noteTxt = note.getText().toString();
+        String montantTxt = montant.getText().toString();
+        String typeTxt = types.getText().toString();
+        String dateTxt = date.getText().toString();
 
-                        // Formater en "12 Mars 2025"
-                        java.text.SimpleDateFormat format =
-                                new java.text.SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH);
-                        String formattedDate = format.format(calendar.getTime());
+        if (montantTxt.isEmpty() || typeTxt.isEmpty() || dateTxt.isEmpty()) {
+            Toast.makeText(requireContext(), "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                        date.setText(formattedDate);
-                    },
-                    year, month, day
-            );
-            datePicker.show();
-        });
+        int pos = titre.getSelectedItemPosition();
+        if (pos < 0 || pos >= categories.size()) {
+            Toast.makeText(requireContext(), "Aucune catégorie sélectionnée", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        but_retour.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
-        });
+        DataCategory selectedCategory = categories.get(pos);
 
-        but_send.setOnClickListener(v -> {
-            String noteTxt = note.getText().toString();
-            String montantTxt = montant.getText().toString();
-            String typeTxt = types.getText().toString();
-            String dateTxt = date.getText().toString();
-            String titreTxt = titre.getSelectedItem().toString();
+        DataExpenses depense = new DataExpenses();
+        depense.date = dateTxt;
+        depense.montant = Double.parseDouble(montantTxt);
+        depense.categoryId = selectedCategory.uid;
+        depense.titre_depense = typeTxt;
+        depense.message = noteTxt;
 
-            int pos = titre.getSelectedItemPosition();
-            DataCategory selectedCategory = categories.get(pos);
+        new Thread(() -> {
+            database db = database.getDatabase(requireContext());
+            db.expenseDao().insertExpense(depense);
 
-            DataExpenses depense = new DataExpenses();
-            DataIncome income = new DataIncome();
-            depense.date = dateTxt;
-            depense.montant = Double.parseDouble(montantTxt);
-            depense.categoryId = selectedCategory.uid;
-            depense.titre_depense = typeTxt;
-            depense.message = noteTxt;
+            // Notification en BD
+            NotificationItem item = new NotificationItem();
+            item.title = "Nouvelle dépense enregistrée";
+            item.message = typeTxt + " - Ar " +
+                    String.format("%,.0f", depense.montant).replace(",", " ") +
+                    " (" + selectedCategory.nom + ")";
+            item.timestamp = System.currentTimeMillis();
+            item.type = "expense";
+            item.isRead = false;
+            item.iconRes = selectedCategory.icon;
 
-            double resteRevenue = income.montant - Double.parseDouble(montantTxt);
+            db.notificationDao().insertNotification(item);
 
-            new Thread(() -> {
-                database db = database.getDatabase(requireContext());
-                db.expenseDao().insertExpense(depense);
-            }).start();
+            // Notification système
+            NotificationHelper helper = new NotificationHelper(requireContext());
+            helper.sendExpenseNotification(typeTxt, depense.montant, selectedCategory.nom);
 
-            //Retour au transactionFragment
-            requireActivity().getSupportFragmentManager().popBackStack();
-        });
+            // Vérifier dépassement (dépenses + épargne > revenus)
+            double totalExpense = db.expenseDao().getTotalExpense();
+            double totalIncome = db.incomeDao().getTotalIncome();
+            double totalSaving = db.savingDao().getTotalAllSaving();
 
-        return view;
+            if (totalExpense + totalSaving > totalIncome) {
+                double diff = totalExpense + totalSaving - totalIncome;
+
+                NotificationItem alert = new NotificationItem();
+                alert.title = "⚠️ ALERTE BUDGET";
+                alert.message = "Vos dépenses dépassent vos revenus de Ar " +
+                        String.format("%,.0f", diff).replace(",", " ");
+                alert.timestamp = System.currentTimeMillis();
+                alert.type = "alert";
+                alert.isRead = false;
+                alert.iconRes = R.drawable.money;
+
+                db.notificationDao().insertNotification(alert);
+
+                helper.sendBudgetAlertNotification(totalExpense + totalSaving, totalIncome);
+            }
+
+            requireActivity().runOnUiThread(() -> {
+                Toast.makeText(requireContext(), "Dépense enregistrée", Toast.LENGTH_SHORT).show();
+                requireActivity().getSupportFragmentManager().popBackStack();
+            });
+
+        }).start();
     }
 }
