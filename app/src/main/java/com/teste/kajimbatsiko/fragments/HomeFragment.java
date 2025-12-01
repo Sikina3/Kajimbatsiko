@@ -1,6 +1,11 @@
 package com.teste.kajimbatsiko.fragments;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -113,6 +118,14 @@ public class HomeFragment extends Fragment {
 
         total_income.setText("Ar " + format.format(totalIncome));
         total_expense.setText("- Ar " + format.format(totalExpense));
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            NotificationChannel channel = new NotificationChannel(
+                    "Kajimbatsy",
+                    "VOtre depense d'aujourd'hui",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+        }
 
         return rootview;
     }

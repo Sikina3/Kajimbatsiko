@@ -4,7 +4,8 @@ plugins {
 
 android {
     namespace = "com.teste.kajimbatsiko"
-    compileSdk = 34
+    compileSdk =
+        35
 
     defaultConfig {
         applicationId = "com.teste.kajimbatsiko"
@@ -36,11 +37,15 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(
+        libs.recyclerview
+    )
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("com.github.blackfizz:eazegraph:1.2.2@aar")
     implementation("com.nineoldandroids:library:2.4.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     implementation("androidx.room:room-runtime:2.8.0")
     annotationProcessor("androidx.room:room-compiler:2.8.0")

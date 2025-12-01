@@ -13,20 +13,23 @@
        android:gravity="center_horizontal">
 
        <FrameLayout
-           android:layout_width="300dp"
-           android:layout_height="200dp"
+           android:layout_width="350dp"
+           android:layout_height="300dp"
            android:background="@drawable/menu_menu_border"
            android:layout_marginTop="20dp">
 
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:orientation="vertical">
+               android:orientation="vertical"
+               android:gravity="center">
 
                <LinearLayout
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:orientation="horizontal">
+                   android:orientation="horizontal"
+                   android:layout_marginBottom="20dp"
+                   android:paddingHorizontal="20dp">
 
                    <TextView
                        android:id="@+id/textView"
@@ -34,22 +37,15 @@
                        android:layout_height="wrap_content"
                        android:text="TextView" />
 
-                   <ImageView
-                       android:id="@+id/imageView5"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_weight="1"
-                       android:src="?android:attr/actionModeWebSearchDrawable" />
                </LinearLayout>
 
-               <org.eazegraph.lib.charts.BarChart
-                   android:id="@+id/barchart"
+               <com.github.mikephil.charting.charts.BarChart
+                   android:id="@+id/barChart"
                    android:layout_width="match_parent"
-                   android:layout_height="150dp"
-                   android:padding="5dp"
-                   app:egFixedBarWidth="true"
-                   app:egBarWidth="4dp"
-                   app:egLegendHeight="30dp"/>
+                   android:layout_height="200dp"
+                   android:layout_margin="8dp"
+                   android:background="@color/white"
+                   android:padding="5dp"/>
 
            </LinearLayout>
 

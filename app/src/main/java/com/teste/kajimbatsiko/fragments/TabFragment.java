@@ -5,17 +5,28 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.room.Room;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.teste.kajimbatsiko.R;
+import com.teste.kajimbatsiko.data.FinanceData;
+import com.teste.kajimbatsiko.data.dao.ExpenseDao;
+import com.teste.kajimbatsiko.data.dao.IncomeDao;
+import com.teste.kajimbatsiko.data.database;
+import com.teste.kajimbatsiko.data.rooms.ExpenseSum;
 
-import org.eazegraph.lib.charts.BarChart;
-import org.eazegraph.lib.models.BarModel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +43,8 @@ public class TabFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ExpenseDao expenseDao;
+    private IncomeDao incomeDao;
 
     public TabFragment() {
         // Required empty public constructor
@@ -74,29 +87,109 @@ public class TabFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab, container, false);
 
         TextView textView = view.findViewById(R.id.textView);
-        barChart = view.findViewById(R.id.barchart);
+        barChart = view.findViewById(R.id.barChart);
 
-        float[] income = {5.2f, 0.5f, 6.3f, 0.3f, 10.2f, 1.0f, 2.5f};
-        float[] expenses = {2.1f, 3.2f, 4.5f, 5.0f, 8.5f, 0.5f, 5.0f};
+        database db = Room.databaseBuilder(requireContext(), database.class, "finance.db")
+                .allowMainThreadQueries()
+                .build();
+        expenseDao = db.expenseDao();
+        incomeDao = db.incomeDao();
+
+        FinanceData data = getData();
+        List<ExpenseSum> expenseList = data.expenses;
+        List<ExpenseSum> incomeList = data.incomes;
+
         int colorIncome = getResources().getColor(R.color.caribeean_green);
         int colorExpense = getResources().getColor(R.color.ocean_blue);
 
-        for (int i = 0; i< income.length; i++){
-            barChart.addBar(new BarModel(income[i], colorIncome));
-            barChart.addBar(new BarModel(expenses[i], colorExpense));
+        List<BarEntry> incomeEntries = new ArrayList<>();
+        List<BarEntry> expenseEntries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        int count = Math.min(expenseList.size(), incomeList.size());
+        for(int i = 0; i < count; i++){
+            float expenseValue = i < expenseList.size() ? expenseList.get(i).total : 0f;
+            float incomeValue = i < incomeList.size() ? incomeList.get(i).total : 0f;
+
+            incomeEntries.add(new BarEntry(i, incomeValue));
+            expenseEntries.add(new BarEntry(i, expenseValue));
+
+            String label = i < expenseList.size() ? expenseList.get(i).date : incomeList.get(i).date;
+            labels.add(label);
         }
 
-        barChart.setShowValues(false);
-        barChart.setShowDecimal(false);
-        barChart.startAnimation();
-        barChart.setOnTouchListener((v, event) -> {
-            ViewPager2 pager = requireActivity().findViewById(R.id.viewPage);
-            pager.requestDisallowInterceptTouchEvent(true);
-            return false;
-        });
+        BarDataSet incomeDataset = new BarDataSet(incomeEntries, "Revenus");
+        incomeDataset.setColor(colorIncome);
+        incomeDataset.setValueTextColor(Color.BLACK);
+        incomeDataset.setValueTextSize(10f);
+
+        BarDataSet expenseDataset = new BarDataSet(expenseEntries, "Depenses");
+        expenseDataset.setColor(colorExpense);
+        expenseDataset.setValueTextColor(Color.BLACK);
+        expenseDataset.setValueTextSize(10f);
+
+        //Regroupement des deux datasets
+        BarData datas = new BarData(incomeDataset, expenseDataset);
+
+        //Espacement entre les barres
+        float space = 0.4f;
+        float barSpace = 0.05f;
+        float barWidth = 0.2f;
+
+        datas.setBarWidth(barWidth);
+        barChart.setData(datas);
+
+        barChart.getDescription().setEnabled(false);
+        barChart.getAxisRight().setEnabled(false);
+
+        XAxis xaxis = barChart.getXAxis();
+        xaxis.setGranularity(1f);
+        xaxis.setCenterAxisLabels(true);
+        xaxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis yaxis = barChart.getAxisLeft();
+        yaxis.setAxisMinimum(0f);
+        barChart.getAxisRight().setEnabled(false);
+
+        barChart.getXAxis().setAxisMinimum(0f);
+        barChart.getXAxis().setAxisMaximum(0f + barChart.getBarData().getGroupWidth(space, barSpace) * count);
+        barChart.groupBars(0f, space, barSpace);
+        barChart.setBackgroundColor(Color.TRANSPARENT);
+
+        barChart.invalidate();
 
         textView.setText(mParam1);
 
         return view;
     }
+
+    private FinanceData getData() {
+        List<ExpenseSum> expenses;
+        List<ExpenseSum> incomes;
+
+        switch (mParam1){
+            case "Journalier":
+                expenses = expenseDao.getExpensesDaily();
+                incomes = incomeDao.getIncomeDaily();
+                break;
+            case "Semaine":
+                expenses = expenseDao.getExpensesWeekly();
+                incomes = incomeDao.getIncomeWeekly();
+                break;
+            case "Mensuel":
+                expenses = expenseDao.getExpensesMonthly();
+                incomes = incomeDao.getIncomeMonthly();
+                break;
+            case "Annuel":
+                expenses = expenseDao.getExpensesYearly();
+                incomes = incomeDao.getIncomeYearly();
+                break;
+            default:
+                expenses = new ArrayList<>();
+                incomes = new ArrayList<>();
+        }
+
+        return new FinanceData(expenses, incomes);
+    }
+
 }
