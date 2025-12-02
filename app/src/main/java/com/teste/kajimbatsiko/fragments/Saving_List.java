@@ -79,7 +79,7 @@ public class Saving_List extends Fragment {
 
     private TextView text_objectif, text_atteint, text_nomCat;
     private Button btn_new;
-    private ImageView btn_retour;
+    private ImageView btn_retour, but_notif;
     private RecyclerView affiche_economie;
     private PieChart pieChart;
     private double reste;

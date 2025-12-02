@@ -7,255 +7,362 @@
     tools:context=".fragments.HomeFragment"
     android:background="@color/caribeean_green">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/contenue_header"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="80dp">
 
-
+            <!-- Header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="40dp"
-                android:paddingTop="15dp"
-                android:gravity="center">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Hey, Bon retour"
-                        android:textSize="20dp"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:id="@+id/salutation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Bonjour"
-                        android:textSize="14dp"
-                        android:layout_marginTop="-10dp"/>
-                </LinearLayout>
-
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_notify" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:paddingHorizontal="40dp">
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hey, Bon retour"
+                            android:textSize="22sp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/salutation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bonjour"
+                            android:textSize="16sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.9"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/icon_notify"
+                        android:padding="8dp"
+                        android:background="@drawable/menu_menu_border"
+                        android:backgroundTint="@color/white"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                </LinearLayout>
+
+                <!-- Balance Cards -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:background="@drawable/menu_menu_border"
+                        android:backgroundTint="@color/white"
+                        android:padding="15dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Balance totale"
+                            android:textSize="12sp"
+                            android:textColor="@android:color/darker_gray"/>
+
+                        <TextView
+                            android:id="@+id/total_income"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ar 0"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/caribeean_green"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:background="@drawable/menu_menu_border"
+                        android:backgroundTint="@color/white"
+                        android:padding="15dp"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dépense totale"
+                            android:textSize="12sp"
+                            android:textColor="@android:color/darker_gray"/>
+
+                        <TextView
+                            android:id="@+id/total_expense"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ar 0"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/ocean_blue"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Main Content Area -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/base_shape"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Saving Goal Card -->
+                <LinearLayout
+                    android:id="@+id/savingCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/caribain_border"
+                    android:padding="20dp"
+                    android:visibility="visible">
 
                     <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Totale Balance" />
-
-                    <TextView
-                        android:id="@+id/total_income"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Ar 2 500 000"
+                        android:text="Objectif d'épargne"
+                        android:textSize="14sp"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:textSize="20dp"/>
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="1dp"
-                    android:layout_height="50dp"
-                    android:background="@color/white" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="15dp">
-
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Dépense totale" />
-
-                    <TextView
-                        android:id="@+id/total_expense"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="- Ar 500 000"
-                        android:textSize="20dp"
-                        android:textColor="#0068FF"
-                        android:textStyle="bold"/>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/contenue_principale"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/base_shape"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-
-            <LinearLayout
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/caribain_border"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingVertical="10dp">
-
-                <LinearLayout
-                    android:id="@+id/chart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="20dp">
-
-                    <org.eazegraph.lib.charts.PieChart
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/piechart"
-                        android:layout_width="100dp"
-                        android:layout_height="150dp"/>
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/divider2"
-                    android:layout_width="2dp"
-                    android:layout_height="120dp"
-                    android:background="@color/white" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:gravity="clip_horizontal"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="20dp">
+                        android:layout_marginBottom="10dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/salary" />
+                        <org.eazegraph.lib.charts.PieChart
+                            android:id="@+id/piechart"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"/>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:orientation="vertical">
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="20dp">
 
                             <TextView
-                                android:id="@+id/textView10"
-                                android:layout_width="match_parent"
+                                android:id="@+id/savingTitle"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Revenue mensuelle" />
+                                android:text="Vacances"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/cyprus"/>
+
+                            <TextView
+                                android:id="@+id/savingProgress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ar 500 000"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/caribeean_green"
+                                android:layout_marginTop="5dp"/>
+
+                            <TextView
+                                android:id="@+id/savingGoal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Objectif: Ar 1 000 000"
+                                android:textSize="12sp"
+                                android:textColor="#404040"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Quick Stats -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Statistiques rapides"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/menu_menu_border"
+                    android:padding="15dp">
+
+                    <!-- Monthly Income -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="10dp">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/salary"
+                            android:background="@drawable/menu_menu_border"
+                            android:backgroundTint="@color/light_blue"
+                            android:padding="8dp"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Revenus de ce mois"
+                                android:textSize="14sp"
+                                android:textColor="@android:color/darker_gray"/>
 
                             <TextView
                                 android:id="@+id/textView11"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ar 1 000 000"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
+                                android:text="Ar 0"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/caribeean_green"
+                                android:layout_marginTop="2dp"/>
                         </LinearLayout>
                     </LinearLayout>
 
                     <View
-                        android:id="@+id/divider3"
-                        android:layout_width="200dp"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:background="@color/white" />
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:alpha="0.2"
+                        android:layout_marginVertical="10dp"/>
 
+                    <!-- Weekly Food Expense -->
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:paddingVertical="10dp">
 
                         <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/food" />
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/food"
+                            android:background="@drawable/menu_menu_border"
+                            android:backgroundTint="@color/light_blue"
+                            android:padding="8dp"/>
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:orientation="vertical">
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="15dp">
 
                             <TextView
-                                android:id="@+id/textView12"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Repas de la semaine derniere" />
+                                android:text="Repas (7 derniers jours)"
+                                android:textSize="14sp"
+                                android:textColor="@android:color/darker_gray"/>
 
                             <TextView
                                 android:id="@+id/textView13"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="- Ar 10 000"
-                                android:textColor="#0068FF"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
+                                android:text="- Ar 0"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/ocean_blue"
+                                android:layout_marginTop="2dp"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
+                <!-- Tips Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/menu_menu_border"
+                    android:backgroundTint="@color/light_blue"
+                    android:padding="15dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="💡"
+                        android:textSize="30sp"
+                        android:layout_marginEnd="15dp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Conseil du jour"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Suivez vos dépenses quotidiennes pour mieux contrôler votre budget!"
+                            android:textSize="12sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.9"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:paddingHorizontal="20dp"
-                android:paddingTop="20dp"/>
-
-
         </LinearLayout>
-
-    </LinearLayout>
-
+    </ScrollView>
 </FrameLayout>

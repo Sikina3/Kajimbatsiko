@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teste.kajimbatsiko.R;
@@ -78,6 +79,7 @@ public class SavingFragment extends Fragment {
     TextView total_balance, total_expense;
     Double totalIncome, totalExpense, totalEconomie;
     Button add_new;
+    ImageView notifIcon;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -89,6 +91,9 @@ public class SavingFragment extends Fragment {
         total_balance = view.findViewById(R.id.total_balance);
         total_expense = view.findViewById(R.id.total_expense);
         add_new = view.findViewById(R.id.button);
+        notifIcon = view.findViewById(R.id.imageView2);
+
+        notifIcon.setOnClickListener(v -> openNotifications());
 
         add_new.setOnClickListener(v -> {
             SavingDialog dialog = new SavingDialog();
@@ -140,5 +145,14 @@ public class SavingFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void openNotifications() {
+        NotificationFragment notificationFragment = new NotificationFragment();
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -34,6 +35,7 @@ public class AnalyseFragment extends Fragment {
     private ViewPager2 viewPage;
     private TabLayout tabLayout;
     private TextView total_balance, total_expense;
+    private ImageView but_notif;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,6 +93,9 @@ public class AnalyseFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout);
         total_balance = view.findViewById(R.id.textView6);
         total_expense = view.findViewById(R.id.textView8);
+        but_notif = view.findViewById(R.id.imageView2);
+
+        but_notif.setOnClickListener(v -> openNotifications());
 
         db = Room.databaseBuilder(requireContext(), database.class, "finance.db")
                 .allowMainThreadQueries()
@@ -127,5 +132,14 @@ public class AnalyseFragment extends Fragment {
                 case 3: tab.setText("Annuel"); break;
             }
         }).attach();
+    }
+
+    private void openNotifications() {
+        NotificationFragment notificationFragment = new NotificationFragment();
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

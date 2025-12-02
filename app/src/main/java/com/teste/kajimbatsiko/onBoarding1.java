@@ -21,8 +21,8 @@ public class onBoarding1 extends AppCompatActivity {
 
     private int[] images = { R.drawable.receive, R.drawable.send};
     private String[] texts = {
-            "Tongasoa eto amin'ny Kajimbatsiko",
-            "Ampiasao ny ranjambaiko mba hitantanana ny volanao"
+            "Bienvenue chez Kajimbatsiko",
+            "Utiliser l'application pour mieux gérer vos revenues et dépenses"
     };
     private int currentPage = 0;
 

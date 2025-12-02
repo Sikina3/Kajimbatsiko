@@ -79,7 +79,7 @@ public class TransactionFragment extends Fragment {
     private LinearLayout but_income, but_expense;
     private ImageView but_ajout;
     private RecyclerView affiche_revenue;
-    private ImageView image_revenue, image_expense;
+    private ImageView image_revenue, image_expense, notifIcon;
     private TextView text_revenue, text_depense, total_balance;
 
     private enum Mode { INCOME, EXPENSE }
@@ -102,8 +102,11 @@ public class TransactionFragment extends Fragment {
         image_expense = view.findViewById(R.id.image_expense);
         image_revenue = view.findViewById(R.id.image_income);
         total_balance = view.findViewById(R.id.total_balance);
+        notifIcon = view.findViewById(R.id.imageView2);
         updateIU();
         updateTransactionList();
+
+        notifIcon.setOnClickListener(v -> openNotifications());
 
         but_ajout.setOnClickListener(v -> {
             Form form_fragment = Form.newInstance();
@@ -129,6 +132,15 @@ public class TransactionFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void openNotifications() {
+        NotificationFragment notificationFragment = new NotificationFragment();
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void updateIU(){

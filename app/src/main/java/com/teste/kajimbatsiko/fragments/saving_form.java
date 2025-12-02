@@ -93,6 +93,8 @@ public class saving_form extends Fragment {
         textView_titre = view.findViewById(R.id.textView9);
         textView_ajout = view.findViewById(R.id.textView3);
 
+        but_notif.setOnClickListener(v -> openNotifications());
+
         textView_cate.setText("Categorie");
         textView_titre.setText("Titre de depot");
         types.setHint("Titre du depot");
@@ -170,5 +172,14 @@ public class saving_form extends Fragment {
         });
 
         return view;
+    }
+
+    private void openNotifications() {
+        NotificationFragment notificationFragment = new NotificationFragment();
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

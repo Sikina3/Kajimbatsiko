@@ -60,12 +60,15 @@ public class form_depense extends Fragment {
         textView_cate = view.findViewById(R.id.textView4);
         textView_titre = view.findViewById(R.id.textView9);
         textView_ajout = view.findViewById(R.id.textView3);
+        but_notif = view.findViewById(R.id.but_notif);
 
         // Text adjustments
         textView_cate.setText("Categorie");
         types.setHint("Titre de la dépense");
         textView_titre.setText("Titre");
         textView_ajout.setText("Ajouter une dépense");
+
+        but_notif.setOnClickListener(v -> openNotifications());
 
         // Charger les catégories
         loadCategories();
@@ -197,5 +200,14 @@ public class form_depense extends Fragment {
             });
 
         }).start();
+    }
+
+    private void openNotifications() {
+        NotificationFragment notificationFragment = new NotificationFragment();
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

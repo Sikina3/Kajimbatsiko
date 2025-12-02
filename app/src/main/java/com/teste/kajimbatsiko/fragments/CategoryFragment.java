@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teste.kajimbatsiko.adapter.GridAdapter;
@@ -76,6 +77,7 @@ public class CategoryFragment extends Fragment {
     GridAdapter adapter;
     TextView total_balance, total_expense;
     Double totalIncome, totalExpense, totalEconomie;
+    ImageView but_notif;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -86,6 +88,9 @@ public class CategoryFragment extends Fragment {
         grid = view.findViewById(R.id.grid);
         total_balance = view.findViewById(R.id.total_balance);
         total_expense = view.findViewById(R.id.total_expense);
+        but_notif = view.findViewById(R.id.imageView2);
+
+        but_notif.setOnClickListener(v -> openNotifications());
         String[] titles = {"Plus"};
         int[] images = {R.drawable.plus};
 
@@ -140,5 +145,14 @@ public class CategoryFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void openNotifications() {
+        NotificationFragment notificationFragment = new NotificationFragment();
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

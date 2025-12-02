@@ -82,7 +82,7 @@ public class NotificationHelper {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.money)
-                .setContentTitle("⚠️ ALERTE BUDGET")
+                .setContentTitle("ALERTE BUDGET")
                 .setContentText("Vos dépenses dépassent vos revenus de Ar " + formatMontant(deficit))
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText("Vos dépenses (Ar " + formatMontant(totalExpense) +

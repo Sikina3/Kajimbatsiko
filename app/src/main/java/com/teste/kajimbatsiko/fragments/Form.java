@@ -85,6 +85,8 @@ public class Form extends Fragment {
         date = view.findViewById(R.id.date);
         titre = view.findViewById(R.id.titre);
 
+        but_notif.setOnClickListener(v -> openNotifications());
+
         date.setOnClickListener(v -> {
             final Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -145,5 +147,14 @@ public class Form extends Fragment {
         });
 
         return view;
+    }
+
+    private void openNotifications() {
+        NotificationFragment notificationFragment = new NotificationFragment();
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

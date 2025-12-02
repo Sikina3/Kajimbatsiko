@@ -52,8 +52,6 @@ public class categorie_lists extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment categorie_lists.
      */
     // TODO: Rename and change types and number of parameters
@@ -97,6 +95,8 @@ public class categorie_lists extends Fragment {
         notif = view.findViewById(R.id.but_notif);
         but_new_depense = view.findViewById(R.id.button);
         affiche_revenue = view.findViewById(R.id.affiche_revenue);
+
+        notif.setOnClickListener(v -> openNotifications());
 
         but_new_depense.setOnClickListener(v -> {
             form_depense formulaire = form_depense.newInstance();
@@ -142,5 +142,14 @@ public class categorie_lists extends Fragment {
         affiche_revenue.setAdapter(adapter);
 
         return view;
+    }
+
+    private void openNotifications() {
+        NotificationFragment notificationFragment = new NotificationFragment();
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
