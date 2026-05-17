@@ -15,17 +15,15 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@drawable/menu_shape"
             app:itemActiveIndicatorStyle="@style/BottomNavActiveIndicator"
-            app:itemIconSize="24dp"
+            app:itemIconSize="22sp"
             app:itemIconTint="@color/bottom_icon_color"
-            app:itemPaddingBottom="0dp"
-            app:itemPaddingTop="0dp"
-            app:itemRippleColor="@color/caribeean_green"
-            app:itemTextColor="@color/white"
-            app:labelVisibilityMode="unlabeled"
+            app:itemPaddingBottom="4sp"
+            app:itemPaddingTop="20sp"
+            app:itemTextColor="@color/caribeean_green"
             app:menu="@menu/bottombar" />
     </FrameLayout>
 

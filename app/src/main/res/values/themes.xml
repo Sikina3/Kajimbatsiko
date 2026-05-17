@@ -9,6 +9,8 @@
         <item name="colorPrimaryFixed">@color/caribeean_green</item>
         <item name="colorSurface">@color/caribeean_green</item>
         <item name="colorPrimarySurface">@color/caribeean_green</item>
+        <item name="colorSecondary">@color/caribeean_green</item>
+        <item name="colorTertiary">@color/caribeean_green</item>
 
 <!--        Font Family ici -->
         <item name="android:fontFamily">@font/poppins</item>

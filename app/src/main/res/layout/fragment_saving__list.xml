@@ -46,7 +46,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ajouter un Revenue"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@color/fence_green"
                         android:textStyle="bold"/>
                 </LinearLayout>
 
@@ -90,14 +91,17 @@
                             android:id="@+id/textView14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             android:text="Objectif" />
 
                         <TextView
                             android:id="@+id/text_objectif"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Ar 2 000 000"
-                            android:textSize="18dp"
+                            android:text="Ar 0"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
                             android:textStyle="bold"/>
 
                         <TextView
@@ -105,14 +109,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Atteint"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             android:layout_marginTop="10dp"/>
 
                         <TextView
                             android:id="@+id/text_atteint"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Ar 10 000"
-                            android:textSize="18dp"
+                            android:text="Ar 0"
+                            android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="@color/caribeean_green"/>
                     </LinearLayout>
@@ -143,10 +149,11 @@
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="60sp"
                 android:text="Ajouter un nouvelle budget"
                 android:textColor="@color/black"
-                android:textSize="16dp" />
+                android:textSize="16sp"
+                android:backgroundTint="@color/caribeean_green"/>
         </LinearLayout>
     </LinearLayout>
 

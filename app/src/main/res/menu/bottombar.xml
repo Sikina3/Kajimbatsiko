@@ -3,25 +3,30 @@
     <item
         android:id="@+id/app_bar_home"
         android:icon="@drawable/home"
+        android:title="Accueil"
         android:contentDescription="Home"/>
 
     <item
         android:id="@+id/app_bar_analyste"
         android:icon="@drawable/analysis"
+        android:title="Analyse"
         android:contentDescription="Analyste"/>
 
     <item
         android:id="@+id/app_bar_trans"
         android:icon="@drawable/transactions"
+        android:title="Transactions"
         android:contentDescription="Transaction"/>
 
     <item
         android:id="@+id/app_bar_cat"
         android:icon="@drawable/category"
+        android:title="Catégories"
         android:contentDescription="Categorie"/>
 
     <item
         android:id="@+id/app_bar_profile"
         android:icon="@drawable/economie"
+        android:title="Épargne"
         android:contentDescription="Profile"/>
 </menu>

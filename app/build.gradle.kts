@@ -3,16 +3,15 @@ plugins {
 }
 
 android {
-    namespace = "com.teste.kajimbatsiko"
-    compileSdk =
-        35
+    namespace = "com.ansimue.kajimbatsiko"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.teste.kajimbatsiko"
+        applicationId = "com.ansimue.kajimbatsiko"
         minSdk = 23
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 35
+        versionCode = 5
+        versionName = "1.2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

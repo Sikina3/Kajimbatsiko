@@ -7,315 +7,318 @@
     tools:context=".fragments.HomeFragment"
     android:background="@color/caribeean_green">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <!-- Header fixe en haut -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="80dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="15dp">
 
-            <!-- Header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingHorizontal="20dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:text="Hey, Bon retour"
+                        android:textColor="@color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hey, Bon retour"
-                            android:textSize="22sp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/salutation"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bonjour"
-                            android:textSize="16sp"
-                            android:textColor="@color/white"
-                            android:alpha="0.9"/>
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/icon_notify"
-                        android:padding="8dp"
-                        android:background="@drawable/menu_menu_border"
-                        android:backgroundTint="@color/white"
-                        android:clickable="true"
-                        android:focusable="true"/>
+                    <TextView
+                        android:id="@+id/salutation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.9"
+                        android:text="Bonjour"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
-                <!-- Balance Cards -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
-                    android:weightSum="2">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:background="@drawable/menu_menu_border"
-                        android:backgroundTint="@color/white"
-                        android:padding="15dp"
-                        android:layout_marginEnd="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Balance totale"
-                            android:textSize="12sp"
-                            android:textColor="@android:color/darker_gray"/>
-
-                        <TextView
-                            android:id="@+id/total_income"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ar 0"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/caribeean_green"
-                            android:layout_marginTop="4dp"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:background="@drawable/menu_menu_border"
-                        android:backgroundTint="@color/white"
-                        android:padding="15dp"
-                        android:layout_marginStart="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Dépense totale"
-                            android:textSize="12sp"
-                            android:textColor="@android:color/darker_gray"/>
-
-                        <TextView
-                            android:id="@+id/total_expense"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ar 0"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/ocean_blue"
-                            android:layout_marginTop="4dp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/menu_menu_border"
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:src="@drawable/icon_notify" />
             </LinearLayout>
 
-            <!-- Main Content Area -->
+            <!-- Balance Cards -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/menu_menu_border"
+                    android:backgroundTint="@color/white"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Balance totale"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/total_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ar 0"
+                        android:textColor="@color/caribeean_green"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/menu_menu_border"
+                    android:backgroundTint="@color/white"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dépense totale"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/total_expense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ar 0"
+                        android:textColor="@color/ocean_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Main Content Area Scrollable -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/base_shape"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:paddingHorizontal="20dp"
+                android:paddingTop="30dp"
+                android:paddingBottom="40dp">
 
                 <!-- Saving Goal Card -->
                 <LinearLayout
                     android:id="@+id/savingCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="@drawable/caribain_border"
-                    android:padding="20dp"
+                    android:orientation="vertical"
+                    android:padding="15dp"
                     android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:text="Objectif d'épargne"
-                        android:textSize="14sp"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="10dp"/>
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <org.eazegraph.lib.charts.PieChart
                             android:id="@+id/piechart"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"/>
+                            android:layout_width="100dp"
+                            android:layout_height="100dp" />
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="20dp">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/savingTitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Vacances"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/cyprus"/>
+                                android:text="Objectifs"
+                                android:textColor="@color/cyprus"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/savingProgress"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ar 500 000"
-                                android:textSize="24sp"
-                                android:textStyle="bold"
+                                android:layout_marginTop="2dp"
+                                android:text="Ar 0"
                                 android:textColor="@color/caribeean_green"
-                                android:layout_marginTop="5dp"/>
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/savingGoal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Objectif: Ar 1 000 000"
-                                android:textSize="12sp"
+                                android:layout_marginTop="2dp"
+                                android:text="Objectif: Ar 0"
                                 android:textColor="#404040"
-                                android:layout_marginTop="2dp"/>
+                                android:textSize="11sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Quick Stats -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Statistiques rapides"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
                     android:layout_marginTop="25dp"
-                    android:layout_marginBottom="15dp"/>
+                    android:layout_marginBottom="15dp"
+                    android:text="Statistiques rapides"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="@drawable/menu_menu_border"
+                    android:orientation="vertical"
                     android:padding="15dp">
 
                     <!-- Monthly Income -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:paddingVertical="10dp">
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/salary"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:background="@drawable/menu_menu_border"
                             android:backgroundTint="@color/light_blue"
-                            android:padding="8dp"/>
+                            android:padding="6dp"
+                            android:src="@drawable/salary" />
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="15dp">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Revenus de ce mois"
-                                android:textSize="14sp"
-                                android:textColor="@android:color/darker_gray"/>
+                                android:textColor="@android:color/darker_gray"
+                                android:textSize="13sp" />
 
                             <TextView
                                 android:id="@+id/textView11"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
                                 android:text="Ar 0"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
                                 android:textColor="@color/caribeean_green"
-                                android:layout_marginTop="2dp"/>
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:alpha="0.2"
-                        android:layout_marginVertical="10dp"/>
+                        android:layout_marginVertical="8dp"
+                        android:alpha="0.1"
+                        android:background="@android:color/darker_gray" />
 
                     <!-- Weekly Food Expense -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:paddingVertical="10dp">
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/food"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:background="@drawable/menu_menu_border"
                             android:backgroundTint="@color/light_blue"
-                            android:padding="8dp"/>
+                            android:padding="6dp"
+                            android:src="@drawable/food" />
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="15dp">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Repas (7 derniers jours)"
-                                android:textSize="14sp"
-                                android:textColor="@android:color/darker_gray"/>
+                                android:textColor="@android:color/darker_gray"
+                                android:textSize="13sp" />
 
                             <TextView
                                 android:id="@+id/textView13"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
                                 android:text="- Ar 0"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
                                 android:textColor="@color/ocean_blue"
-                                android:layout_marginTop="2dp"/>
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -324,19 +327,20 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/menu_menu_border"
                     android:backgroundTint="@color/light_blue"
-                    android:padding="15dp"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="40dp"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
                         android:text="💡"
-                        android:textSize="30sp"
-                        android:layout_marginEnd="15dp"/>
+                        android:textSize="24sp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -348,21 +352,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Conseil du jour"
+                            android:textColor="@color/white"
                             android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/white"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Suivez vos dépenses quotidiennes pour mieux contrôler votre budget!"
-                            android:textSize="12sp"
-                            android:textColor="@color/white"
+                            android:layout_marginTop="4dp"
                             android:alpha="0.9"
-                            android:layout_marginTop="4dp"/>
+                            android:text="Suivez vos dépenses quotidiennes pour mieux contrôler votre budget!"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
+
 </FrameLayout>
