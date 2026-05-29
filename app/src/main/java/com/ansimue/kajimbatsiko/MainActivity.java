@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.room.Room;
 
 import com.ansimue.kajimbatsiko.data.database;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final int time_out = 3000;
@@ -30,23 +32,26 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialiser la base de données
-        database db = database.getDatabase(this);
-        db = Room.databaseBuilder(getApplicationContext(), database.class, "finance.db")
-                .allowMainThreadQueries()
-                .build();
+        // Initialiser la base de données Room en arrière-plan
+        new Thread(() -> database.getDatabase(this)).start();
 
         // Vérifier si c'est le premier lancement
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean isFirstLaunch = prefs.getBoolean(KEY_FIRST_LAUNCH, true);
 
+        // Vérifier l'état de connexion Firebase
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         new Handler().postDelayed(() -> {
             Intent intent;
             if (isFirstLaunch) {
-                // Premier lancement : afficher l'onboarding
+                // 1. Premier lancement : Onboarding
                 intent = new Intent(MainActivity.this, onBoarding1.class);
+            } else if (currentUser == null || !currentUser.isEmailVerified()) {
+                // 2. Pas connecté ou Email non vérifié : Login
+                intent = new Intent(MainActivity.this, LoginActivity.class);
             } else {
-                // Pas le premier lancement : aller directement à l'écran d'accueil
+                // 3. Tout est OK : Accueil
                 intent = new Intent(MainActivity.this, home.class);
             }
             startActivity(intent);

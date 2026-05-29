@@ -3,6 +3,7 @@ package com.ansimue.kajimbatsiko.data.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -13,8 +14,8 @@ import java.util.List;
 
 @Dao
 public interface IncomeDao {
-    @Insert
-    void insertIncome(DataIncome revenue);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insertIncome(DataIncome revenue);
 
     @Update
     void updateIncome(DataIncome revenue);
@@ -22,7 +23,10 @@ public interface IncomeDao {
     @Delete
     void deleteIncome(DataIncome revenue);
 
-    @Query("SELECT * FROM revenue ORDER BY " +
+    @Query("UPDATE revenue SET user_id = :userId WHERE user_id IS NULL")
+    void linkOrphanIncomeToUser(String userId);
+
+    @Query("SELECT * FROM revenue WHERE user_id = :userId ORDER BY " +
             "substr(date, 7, 4) || '-' || " +
             "CASE substr(date, 4, 2) " +
             "  WHEN 'janvier' THEN '01' WHEN 'février' THEN '02' " +
@@ -33,20 +37,20 @@ public interface IncomeDao {
             "  WHEN 'novembre' THEN '11' WHEN 'décembre' THEN '12' " +
             "  ELSE '00' END || '-' || " +
             "substr('00' || substr(date, 1, 2), -2, 2) DESC")
-    List<DataIncome> getAllIncome();
+    List<DataIncome> getAllIncome(String userId);
 
-    @Query("SELECT IFNULL(SUM(montant), 0) FROM revenue")
-    Double getTotalIncome();
+    @Query("SELECT IFNULL(SUM(montant), 0) FROM revenue WHERE user_id = :userId")
+    Double getTotalIncome(String userId);
 
-    @Query("SELECT date AS date, SUM(montant) AS total FROM revenue GROUP BY date ORDER BY date ASC")
-    List<ExpenseSum> getIncomeDaily();
+    @Query("SELECT date AS date, SUM(montant) AS total FROM revenue WHERE user_id = :userId GROUP BY date ORDER BY date ASC")
+    List<ExpenseSum> getIncomeDaily(String userId);
 
-    @Query("SELECT strftime('%Y-%W', date) AS date, SUM(montant) AS total FROM revenue GROUP BY strftime('%Y-%W', date) ORDER BY date ASC")
-    List<ExpenseSum> getIncomeWeekly();
+    @Query("SELECT strftime('%Y-%W', date) AS date, SUM(montant) AS total FROM revenue WHERE user_id = :userId GROUP BY strftime('%Y-%W', date) ORDER BY date ASC")
+    List<ExpenseSum> getIncomeWeekly(String userId);
 
-    @Query("SELECT strftime('%Y-%m', date) AS date, SUM(montant) AS total FROM revenue GROUP BY strftime('%Y-%m', date) ORDER BY date ASC")
-    List<ExpenseSum> getIncomeMonthly();
+    @Query("SELECT strftime('%Y-%m', date) AS date, SUM(montant) AS total FROM revenue WHERE user_id = :userId GROUP BY strftime('%Y-%m', date) ORDER BY date ASC")
+    List<ExpenseSum> getIncomeMonthly(String userId);
 
-    @Query("SELECT strftime('%Y', date) AS date, SUM(montant) AS total FROM revenue GROUP BY strftime('%Y', date) ORDER BY date ASC")
-    List<ExpenseSum> getIncomeYearly();
+    @Query("SELECT strftime('%Y', date) AS date, SUM(montant) AS total FROM revenue WHERE user_id = :userId GROUP BY strftime('%Y', date) ORDER BY date ASC")
+    List<ExpenseSum> getIncomeYearly(String userId);
 }

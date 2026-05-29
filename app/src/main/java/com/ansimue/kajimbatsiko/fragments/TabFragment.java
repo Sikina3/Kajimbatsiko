@@ -26,6 +26,7 @@ import com.ansimue.kajimbatsiko.data.dao.ExpenseDao;
 import com.ansimue.kajimbatsiko.data.dao.IncomeDao;
 import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.ExpenseSum;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class TabFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+    private String currentUserId;
 
     public TabFragment() {
     }
@@ -60,6 +62,9 @@ public class TabFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
     }
 
@@ -112,20 +117,20 @@ public class TabFragment extends Fragment {
 
         switch (mParam1){
             case "Journalier":
-                expenses = expenseDao.getExpensesDaily();
-                incomes = incomeDao.getIncomeDaily();
+                expenses = expenseDao.getExpensesDaily(currentUserId);
+                incomes = incomeDao.getIncomeDaily(currentUserId);
                 break;
             case "Semaine":
-                expenses = expenseDao.getExpensesWeekly();
-                incomes = incomeDao.getIncomeWeekly();
+                expenses = expenseDao.getExpensesWeekly(currentUserId);
+                incomes = incomeDao.getIncomeWeekly(currentUserId);
                 break;
             case "Mensuel":
-                expenses = expenseDao.getExpensesMonthly();
-                incomes = incomeDao.getIncomeMonthly();
+                expenses = expenseDao.getExpensesMonthly(currentUserId);
+                incomes = incomeDao.getIncomeMonthly(currentUserId);
                 break;
             case "Annuel":
-                expenses = expenseDao.getExpensesYearly();
-                incomes = incomeDao.getIncomeYearly();
+                expenses = expenseDao.getExpensesYearly(currentUserId);
+                incomes = incomeDao.getIncomeYearly(currentUserId);
                 break;
             default:
                 expenses = new ArrayList<>();

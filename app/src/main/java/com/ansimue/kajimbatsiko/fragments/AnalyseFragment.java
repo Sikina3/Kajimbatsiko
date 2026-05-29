@@ -20,6 +20,7 @@ import com.ansimue.kajimbatsiko.data.dao.ExpenseDao;
 import com.ansimue.kajimbatsiko.data.dao.IncomeDao;
 import com.ansimue.kajimbatsiko.data.dao.SavingDao;
 import com.ansimue.kajimbatsiko.data.database;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -29,13 +30,22 @@ public class AnalyseFragment extends Fragment {
     private ViewPager2 viewPage;
     private TabLayout tabLayout;
     private TextView total_balance, total_expense;
-    private ImageView but_notif;
+    private ImageView but_notif, profileIcon;
+    private String currentUserId;
 
     public AnalyseFragment() {
     }
 
     public static AnalyseFragment newInstance() {
         return new AnalyseFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -49,8 +59,10 @@ public class AnalyseFragment extends Fragment {
         total_balance = view.findViewById(R.id.textView6);
         total_expense = view.findViewById(R.id.textView8);
         but_notif = view.findViewById(R.id.imageView2);
+        profileIcon = view.findViewById(R.id.imageView3);
 
         but_notif.setOnClickListener(v -> openNotifications());
+        profileIcon.setOnClickListener(v -> openProfile());
 
         setupViewPager();
         return view;
@@ -71,9 +83,10 @@ public class AnalyseFragment extends Fragment {
             ExpenseDao expenseDao = db.expenseDao();
             SavingDao savingDao = db.savingDao();
 
-            double totalExpense = expenseDao.getTotalExpense();
-            double totalEconomie = savingDao.getTotalAllSaving();
-            double totalIncome = incomeDao.getTotalIncome() - totalExpense - totalEconomie;
+            // Filtrage par utilisateur pour les totaux
+            double totalExpense = expenseDao.getTotalExpense(currentUserId);
+            double totalEconomie = savingDao.getTotalAllSaving(currentUserId);
+            double totalIncome = incomeDao.getTotalIncome(currentUserId) - totalExpense - totalEconomie;
 
             if (isAdded() && getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
@@ -110,6 +123,15 @@ public class AnalyseFragment extends Fragment {
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void openProfile() {
+        if (!isAdded()) return;
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new ProfileFragment())
                 .addToBackStack(null)
                 .commit();
     }

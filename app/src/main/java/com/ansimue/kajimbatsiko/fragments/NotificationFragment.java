@@ -36,18 +36,10 @@ public class NotificationFragment extends Fragment {
         recyclerView = view.findViewById(R.id.notificationRecycler);
         emptyText = view.findViewById(R.id.emptyText);
         btnBack = view.findViewById(R.id.btnBack);
-        btnClear = view.findViewById(R.id.btnClear);
 
         db = database.getDatabase(requireContext());
 
         btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
-
-        btnClear.setOnClickListener(v -> {
-            new Thread(() -> {
-                db.notificationDao().markAllAsRead();
-                requireActivity().runOnUiThread(this::loadNotifications);
-            }).start();
-        });
 
         return view;
     }

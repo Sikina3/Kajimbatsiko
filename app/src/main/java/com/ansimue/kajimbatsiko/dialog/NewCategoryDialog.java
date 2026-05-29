@@ -1,6 +1,7 @@
 package com.ansimue.kajimbatsiko.dialog;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,11 @@ import androidx.fragment.app.DialogFragment;
 import com.ansimue.kajimbatsiko.R;
 import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataCategory;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewCategoryDialog extends DialogFragment {
     private int selectedIcon = R.drawable.food;
@@ -81,7 +87,7 @@ public class NewCategoryDialog extends DialogFragment {
 
                 image.setBackgroundResource(R.drawable.icon_selected);
                 selectedImageView = image;
-                Toast.makeText(getContext(), "Icon Selectionné", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Icon Sélectionné", Toast.LENGTH_SHORT).show();
             });
             iconContainer.addView(image);
         }
@@ -95,14 +101,17 @@ public class NewCategoryDialog extends DialogFragment {
 
                 new Thread(() -> {
                     database db = database.getDatabase(requireContext());
-                    db.categoryDao().insertCategory(datacategory);
+                    long id = db.categoryDao().insertCategory(datacategory);
+                    datacategory.uid = (int) id;
+
+                    syncCategoryToFirestore(datacategory);
 
                     if(listener != null){
                         requireActivity().runOnUiThread(() -> listener.onCategoryAdded(datacategory));
                     }
                 }).start();
 
-                Toast.makeText(getContext(), "Enregistrer: " + category, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Catégorie enregistrée et synchronisée", Toast.LENGTH_SHORT).show();
                 dismiss();
             } else {
                 input_name.setError("Il faut remplir le champ!");
@@ -112,6 +121,24 @@ public class NewCategoryDialog extends DialogFragment {
         btnCancel.setOnClickListener(v -> dismiss());
 
         return view;
+    }
+
+    private void syncCategoryToFirestore(DataCategory category) {
+        String userId = FirebaseAuth.getInstance().getUid();
+        if (userId == null) return;
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", category.uid);
+        data.put("nom", category.nom);
+        data.put("icon", category.icon);
+        data.put("userId", userId);
+
+        FirebaseFirestore.getInstance().collection("users")
+                .document(userId)
+                .collection("categories")
+                .document("cat_" + category.uid)
+                .set(data)
+                .addOnFailureListener(e -> Log.e("FirestoreDebug", "Erreur synchro catégorie : " + e.getMessage()));
     }
 
     private int dpToPx(int dp){

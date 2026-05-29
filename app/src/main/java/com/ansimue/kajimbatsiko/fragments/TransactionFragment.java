@@ -25,6 +25,7 @@ import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataCategory;
 import com.ansimue.kajimbatsiko.data.rooms.DataExpenses;
 import com.ansimue.kajimbatsiko.data.rooms.DataIncome;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -36,10 +37,11 @@ import java.util.Map;
 public class TransactionFragment extends Fragment {
 
     private LinearLayout but_income, but_expense;
-    private ImageView but_ajout, notifIcon;
+    private ImageView but_ajout, notifIcon, profileIcon;
     private RecyclerView affiche_revenue;
     private ImageView image_revenue, image_expense;
     private TextView text_revenue, text_depense, total_balance;
+    private String currentUserId;
 
     private enum Mode {
         INCOME, EXPENSE
@@ -53,6 +55,14 @@ public class TransactionFragment extends Fragment {
 
     public static TransactionFragment newInstance() {
         return new TransactionFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
     }
 
     @Override
@@ -70,10 +80,12 @@ public class TransactionFragment extends Fragment {
         image_revenue = view.findViewById(R.id.image_income);
         total_balance = view.findViewById(R.id.total_balance);
         notifIcon = view.findViewById(R.id.imageView2);
+        profileIcon = view.findViewById(R.id.imageView3);
 
         db = database.getDatabase(requireContext());
 
         notifIcon.setOnClickListener(v -> openNotifications());
+        profileIcon.setOnClickListener(v -> openProfile());
 
         but_ajout.setOnClickListener(v -> {
             getParentFragmentManager()
@@ -114,6 +126,15 @@ public class TransactionFragment extends Fragment {
                 .commit();
     }
 
+    private void openProfile() {
+        if (!isAdded()) return;
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new ProfileFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void updateUI() {
         if (!isAdded()) return;
         if (currentMode == Mode.INCOME) {
@@ -144,9 +165,9 @@ public class TransactionFragment extends Fragment {
             ExpenseDao expenseDao = dbLocal.expenseDao();
             SavingDao savingDao = dbLocal.savingDao();
 
-            double totalExp = expenseDao.getTotalExpense();
-            double totalInc = incomeDao.getTotalIncome();
-            double totalSav = savingDao.getTotalAllSaving();
+            double totalExp = expenseDao.getTotalExpense(currentUserId);
+            double totalInc = incomeDao.getTotalIncome(currentUserId);
+            double totalSav = savingDao.getTotalAllSaving(currentUserId);
             double balance = totalInc - totalExp - totalSav;
 
             Map<Integer, DataCategory> categoryMap = new HashMap<>();
@@ -158,9 +179,9 @@ public class TransactionFragment extends Fragment {
             }
 
             if (currentMode == Mode.INCOME) {
-                transactionList.addAll(incomeDao.getAllIncome());
+                transactionList.addAll(incomeDao.getAllIncome(currentUserId));
             } else {
-                transactionList.addAll(expenseDao.getAllExpense());
+                transactionList.addAll(expenseDao.getAllExpense(currentUserId));
             }
 
             if (isAdded() && getActivity() != null) {

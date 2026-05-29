@@ -20,6 +20,7 @@ import com.ansimue.kajimbatsiko.data.dao.SavingDao;
 import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataCategory;
 import com.ansimue.kajimbatsiko.dialog.NewCategoryDialog;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -38,7 +39,7 @@ public class CategoryFragment extends Fragment {
     GridAdapter adapter;
     TextView total_balance, total_expense;
     Double totalIncome, totalExpense, totalEconomie;
-    ImageView but_notif;
+    ImageView but_notif, profileIcon;
     List<DataCategory> categoriesList = new ArrayList<>();
 
     @SuppressLint("SetTextI18n")
@@ -50,8 +51,10 @@ public class CategoryFragment extends Fragment {
         total_balance = view.findViewById(R.id.total_balance);
         total_expense = view.findViewById(R.id.total_expense);
         but_notif = view.findViewById(R.id.imageView2);
+        profileIcon = view.findViewById(R.id.imageView3);
 
         but_notif.setOnClickListener(v -> openNotifications());
+        profileIcon.setOnClickListener(v -> openProfile());
         
         grid.setOnItemClickListener((parent, view1, position, id) -> {
             String item = (String) parent.getItemAtPosition(position);
@@ -63,12 +66,11 @@ public class CategoryFragment extends Fragment {
                 if (position - 1 >= 0 && position - 1 < categoriesList.size()) {
                     DataCategory selectedCategory = categoriesList.get(position - 1);
                     int catId = selectedCategory.uid;
-                    categorie_lists categorieLists = categorie_lists.newInstance(catId);
+                    categorie_lists fragment = categorie_lists.newInstance(catId);
                     
-                    // FIX: Utiliser le container principal pour que le retour fonctionne
                     getParentFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.fragment_container, categorieLists)
+                            .replace(R.id.fragment_container, fragment)
                             .addToBackStack(null)
                             .commit();
                 }
@@ -97,9 +99,14 @@ public class CategoryFragment extends Fragment {
             ExpenseDao expenseDao = db.expenseDao();
             SavingDao savingDao = db.savingDao();
 
-            totalExpense = expenseDao.getTotalExpense();
-            totalEconomie = savingDao.getTotalAllSaving();
-            totalIncome = incomeDao.getTotalIncome() - totalExpense - totalEconomie;
+            String userId = "";
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            }
+
+            totalExpense = expenseDao.getTotalExpense(userId);
+            totalEconomie = savingDao.getTotalAllSaving(userId);
+            totalIncome = incomeDao.getTotalIncome(userId) - totalExpense - totalEconomie;
 
             if (isAdded()) {
                 requireActivity().runOnUiThread(() -> {
@@ -128,6 +135,15 @@ public class CategoryFragment extends Fragment {
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void openProfile() {
+        if (!isAdded()) return;
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new ProfileFragment())
                 .addToBackStack(null)
                 .commit();
     }

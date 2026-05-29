@@ -1,6 +1,7 @@
 package com.ansimue.kajimbatsiko.dialog;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,11 @@ import androidx.fragment.app.DialogFragment;
 import com.ansimue.kajimbatsiko.R;
 import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataCategorySaving;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SavingDialog extends DialogFragment {
     private int selectedIcon = R.drawable.food;
@@ -82,7 +88,6 @@ public class SavingDialog extends DialogFragment {
                 }
                 image.setBackgroundResource(R.drawable.icon_selected);
                 selectedImageView = image;
-                Toast.makeText(getContext(), "Icon Sélectionné", Toast.LENGTH_SHORT).show();
             });
             iconContainer.addView(image);
         }
@@ -100,27 +105,45 @@ public class SavingDialog extends DialogFragment {
 
                     new Thread(() -> {
                         database db = database.getDatabase(requireContext());
-                        db.category_savingDao().insertCategorySaving(data);
+                        long id = db.category_savingDao().insertCategorySaving(data);
+                        data.id = (int) id;
+
+                        syncSavingCategoryToFirestore(data);
 
                         if (listener != null) {
                             requireActivity().runOnUiThread(() -> listener.onCategoryAdded(data));
                         }
                     }).start();
 
-                    Toast.makeText(getContext(), "Enregistré: " + category_nom, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Objectif enregistré et synchronisé", Toast.LENGTH_SHORT).show();
                     dismiss();
                 } catch (NumberFormatException e) {
                     input_devise.setError("Montant invalide");
                 }
-            } else {
-                if (category_nom.isEmpty()) input_name.setError("Il faut remplir le champ");
-                if (category_devis.isEmpty()) input_devise.setError("Il faut remplir le champ");
             }
         });
 
         btnCancel.setOnClickListener(v -> dismiss());
-
         return view;
+    }
+
+    private void syncSavingCategoryToFirestore(DataCategorySaving category) {
+        String userId = FirebaseAuth.getInstance().getUid();
+        if (userId == null) return;
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", category.id);
+        data.put("nom", category.nom);
+        data.put("devis", category.devis);
+        data.put("icon", category.icon);
+        data.put("userId", userId);
+
+        FirebaseFirestore.getInstance().collection("users")
+                .document(userId)
+                .collection("saving_categories")
+                .document("scat_" + category.id)
+                .set(data)
+                .addOnFailureListener(e -> Log.e("FirestoreDebug", "Erreur synchro scat : " + e.getMessage()));
     }
 
     private int dpToPx(int dp) {
@@ -131,10 +154,7 @@ public class SavingDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
         if (getDialog() != null && getDialog().getWindow() != null) {
-            getDialog().getWindow().setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
+            getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
     }
 }

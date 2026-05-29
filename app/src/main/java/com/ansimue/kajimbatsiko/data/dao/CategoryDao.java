@@ -3,6 +3,7 @@ package com.ansimue.kajimbatsiko.data.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -15,8 +16,8 @@ public interface CategoryDao {
     @Query("SELECT * FROM categorie")
     List<DataCategory> getAllCategory();
 
-    @Insert
-    void insertCategory(DataCategory categories);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insertCategory(DataCategory categories);
 
     @Update
     void updateCategory(DataCategory categories);

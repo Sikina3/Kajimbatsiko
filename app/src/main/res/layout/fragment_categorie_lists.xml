@@ -16,7 +16,9 @@
         <LinearLayout
             android:id="@+id/contenue_header"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="wrap_content"
+            android:minHeight="140dp"
+            android:paddingBottom="15dp"
             android:orientation="vertical">
 
 
@@ -24,38 +26,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingHorizontal="40dp"
+                android:paddingHorizontal="20dp"
                 android:paddingTop="15dp"
-                android:gravity="center">
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:id="@+id/but_retour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/retour" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/retour"
+                    android:padding="5dp" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/cat_name"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/cat_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ajouter un Revenue"
-                        android:textSize="20sp"
-                        android:textColor="@color/cyprus"
-                        android:textStyle="bold"/>
-                </LinearLayout>
+                    android:text="Nom Catégorie"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="10dp"/>
 
                 <ImageView
                     android:id="@+id/but_notif"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/icon_notify" />
+
+                <ImageView
+                    android:id="@+id/but_profile"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/bg_icon"
+                    android:padding="8dp"
+                    android:src="@drawable/profile_g" />
             </LinearLayout>
 
             <LinearLayout
@@ -63,21 +70,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
-                android:paddingHorizontal="40dp">
+                android:paddingHorizontal="20dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textColor="@color/white"
-                        android:text="Totale Balance" />
+                        android:alpha="0.8"
+                        android:text="Balance totale" />
 
                     <TextView
                         android:id="@+id/total_balance"
@@ -86,28 +94,31 @@
                         android:text="Ar 0"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
                 </LinearLayout>
 
                 <View
                     android:id="@+id/divider"
                     android:layout_width="1dp"
-                    android:layout_height="50dp"
-                    android:background="@color/white" />
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/white"
+                    android:alpha="0.5" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:layout_marginLeft="15dp">
 
                     <TextView
                         android:id="@+id/textView7"
                         android:layout_width="match_parent"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
+                        android:alpha="0.8"
                         android:text="Dépense totale" />
 
                     <TextView
@@ -115,7 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="- Ar 0"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textColor="#0068FF"
                         android:textStyle="bold"/>
                 </LinearLayout>

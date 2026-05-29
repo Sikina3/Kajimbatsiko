@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,14 @@ import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataCategory;
 import com.ansimue.kajimbatsiko.data.rooms.DataExpenses;
 import com.ansimue.kajimbatsiko.data.rooms.NotificationItem;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Locale;
 
 public class form_depense extends Fragment {
@@ -40,6 +45,8 @@ public class form_depense extends Fragment {
     private int preselectedCategoryId = -1;
     private int expenseUid = -1;
     private DataExpenses existingExpense;
+    private String currentUserId;
+    private FirebaseFirestore firestore;
 
     public form_depense() {}
 
@@ -67,9 +74,13 @@ public class form_depense extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firestore = FirebaseFirestore.getInstance();
         if (getArguments() != null) {
             preselectedCategoryId = getArguments().getInt("category_id", -1);
             expenseUid = getArguments().getInt("expense_uid", -1);
+        }
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
     }
 
@@ -121,7 +132,7 @@ public class form_depense extends Fragment {
             categories = db.categoryDao().getAllCategory();
 
             if (expenseUid != -1) {
-                List<DataExpenses> all = db.expenseDao().getAllExpense();
+                List<DataExpenses> all = db.expenseDao().getAllExpense(currentUserId);
                 for (DataExpenses e : all) {
                     if (e.uid == expenseUid) {
                         existingExpense = e;
@@ -211,22 +222,25 @@ public class form_depense extends Fragment {
         }
 
         int pos = titre.getSelectedItemPosition();
-        if (pos < 0 || pos >= categories.size()) return;
+        if (pos < 0 || pos >= categories.size()) {
+            Toast.makeText(getContext(), "Veuillez choisir une catégorie", Toast.LENGTH_SHORT).show();
+            return;
+        }
         DataCategory selectedCategory = categories.get(pos);
 
         new Thread(() -> {
             if (!isAdded() || getContext() == null) return;
             database db = database.getDatabase(requireContext());
             
-            double totalExpense = db.expenseDao().getTotalExpense();
-            if (existingExpense != null) totalExpense -= existingExpense.montant;
+            double currentTotalExpense = db.expenseDao().getTotalExpense(currentUserId);
+            if (existingExpense != null) currentTotalExpense -= existingExpense.montant;
             
-            double totalIncome = db.incomeDao().getTotalIncome();
-            double totalSaving = db.savingDao().getTotalAllSaving();
-            double availableBalance = totalIncome - totalExpense - totalSaving;
+            double totalIncome = db.incomeDao().getTotalIncome(currentUserId);
+            double totalSaving = db.savingDao().getTotalAllSaving(currentUserId);
+            double availableBalance = totalIncome - currentTotalExpense - totalSaving;
 
             if (totalIncome <= 0) {
-                requireActivity().runOnUiThread(() -> montant.setError("Votre revenu total est de 0 Ar"));
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Veuillez d'abord enregistrer un revenu.", Toast.LENGTH_LONG).show());
                 return;
             }
 
@@ -244,13 +258,21 @@ public class form_depense extends Fragment {
             depense.categoryId = selectedCategory.uid;
             depense.titre_depense = typeTxt;
             depense.message = noteTxt;
+            depense.userId = currentUserId;
             
             if (existingExpense != null) db.expenseDao().updateExpense(depense);
-            else db.expenseDao().insertExpense(depense);
+            else {
+                // IMPORTANT : On récupère l'ID généré pour la synchro Firestore
+                long id = db.expenseDao().insertExpense(depense);
+                depense.uid = (int) id;
+            }
+
+            // SYNCHRO CLOUD
+            syncExpenseToFirestore(depense, selectedCategory.nom);
 
             NotificationItem item = new NotificationItem();
             item.title = (existingExpense != null) ? "Dépense modifiée" : "Dépense enregistrée";
-            item.message = typeTxt + " - Ar " + String.format(Locale.FRENCH, "%,.0f", depense.montant) + " (" + selectedCategory.nom + ")";
+            item.message = typeTxt + " - Ar " + String.format(Locale.FRENCH, "%,.0f", depense.montant);
             item.timestamp = System.currentTimeMillis();
             item.type = "expense";
             item.isRead = false;
@@ -259,10 +281,38 @@ public class form_depense extends Fragment {
 
             requireActivity().runOnUiThread(() -> {
                 if (!isAdded()) return;
-                Toast.makeText(requireContext(), "Enregistré", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Enregistré et synchronisé !", Toast.LENGTH_SHORT).show();
                 getParentFragmentManager().popBackStack();
             });
         }).start();
+    }
+
+    private void syncExpenseToFirestore(DataExpenses expense, String categoryName) {
+        if (currentUserId == null) {
+            Log.e("FirestoreDebug", "L'UID utilisateur est NULL. Synchro impossible.");
+            return;
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("titre", expense.titre_depense);
+        data.put("montant", expense.montant);
+        data.put("date", expense.date);
+        data.put("note", expense.message);
+        data.put("categoryId", expense.categoryId);
+        data.put("categoryName", categoryName);
+        data.put("userId", currentUserId);
+        data.put("updatedAt", System.currentTimeMillis());
+
+        // On utilise l'ID Room comme ID Firestore pour éviter les doublons
+        String docId = "exp_" + expense.uid;
+
+        firestore.collection("users")
+                .document(currentUserId)
+                .collection("expenses")
+                .document(docId)
+                .set(data)
+                .addOnSuccessListener(aVoid -> Log.d("FirestoreDebug", "Synchro réussie pour " + docId))
+                .addOnFailureListener(e -> Log.e("FirestoreDebug", "Erreur Firestore: " + e.getMessage()));
     }
 
     private void openNotifications() {

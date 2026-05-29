@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,15 @@ import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataCategorySaving;
 import com.ansimue.kajimbatsiko.data.rooms.DataSaving;
 import com.ansimue.kajimbatsiko.data.rooms.NotificationItem;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class saving_form extends Fragment {
 
@@ -39,6 +44,8 @@ public class saving_form extends Fragment {
     private int preselectedCategoryId = -1;
     private int savingUid = -1;
     private DataSaving existingSaving;
+    private String currentUserId;
+    private FirebaseFirestore firestore;
 
     public saving_form() {}
 
@@ -62,9 +69,13 @@ public class saving_form extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firestore = FirebaseFirestore.getInstance();
         if (getArguments() != null) {
             preselectedCategoryId = getArguments().getInt("categorySaving_id", -1);
             savingUid = getArguments().getInt("saving_uid", -1);
+        }
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
     }
 
@@ -116,7 +127,7 @@ public class saving_form extends Fragment {
             categories = db.category_savingDao().getAllCategorySaving();
 
             if (savingUid != -1) {
-                List<DataSaving> allSavings = db.savingDao().getAllSaving();
+                List<DataSaving> allSavings = db.savingDao().getAllSaving(currentUserId);
                 for (DataSaving s : allSavings) {
                     if (s.id == savingUid) {
                         existingSaving = s;
@@ -213,14 +224,14 @@ public class saving_form extends Fragment {
             if (!isAdded() || getContext() == null) return;
             database db = database.getDatabase(requireContext());
             
-            double totalExp = db.expenseDao().getTotalExpense();
-            double totalInc = db.incomeDao().getTotalIncome();
-            double totalSav = db.savingDao().getTotalAllSaving();
+            double totalExp = db.expenseDao().getTotalExpense(currentUserId);
+            double totalInc = db.incomeDao().getTotalIncome(currentUserId);
+            double totalSav = db.savingDao().getTotalAllSaving(currentUserId);
             if (existingSaving != null) totalSav -= existingSaving.montant;
             
             double availableBalance = totalInc - totalExp - totalSav;
 
-            double currentCategorySaving = db.savingDao().getTotalSaving(selectedCategory.id);
+            double currentCategorySaving = db.savingDao().getTotalSaving(selectedCategory.id, currentUserId);
             if (existingSaving != null && existingSaving.categoryId == selectedCategory.id) {
                 currentCategorySaving -= existingSaving.montant;
             }
@@ -253,9 +264,16 @@ public class saving_form extends Fragment {
             saving.titre = typeTxt;
             saving.message = noteTxt;
             saving.categoryId = selectedCategory.id;
+            saving.userId = currentUserId;
 
             if (existingSaving != null) db.savingDao().updateSaving(saving);
-            else db.savingDao().insertSaving(saving);
+            else {
+                long id = db.savingDao().insertSaving(saving);
+                saving.id = (int) id;
+            }
+
+            // SYNCHRO CLOUD
+            syncSavingToFirestore(saving, selectedCategory.nom);
 
             NotificationItem item = new NotificationItem();
             item.title = (existingSaving != null) ? "Épargne modifiée" : "Épargne enregistrée";
@@ -268,10 +286,34 @@ public class saving_form extends Fragment {
 
             requireActivity().runOnUiThread(() -> {
                 if (!isAdded()) return;
-                Toast.makeText(requireContext(), "Enregistré", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Enregistré et synchronisé", Toast.LENGTH_SHORT).show();
                 getParentFragmentManager().popBackStack();
             });
         }).start();
+    }
+
+    private void syncSavingToFirestore(DataSaving saving, String categoryName) {
+        if (currentUserId == null) return;
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("titre", saving.titre);
+        data.put("montant", saving.montant);
+        data.put("date", saving.date);
+        data.put("note", saving.message);
+        data.put("categoryId", saving.categoryId);
+        data.put("categoryName", categoryName);
+        data.put("userId", currentUserId);
+        data.put("updatedAt", System.currentTimeMillis());
+
+        String docId = "sav_" + saving.id;
+
+        firestore.collection("users")
+                .document(currentUserId)
+                .collection("savings")
+                .document(docId)
+                .set(data)
+                .addOnSuccessListener(aVoid -> Log.d("FirestoreDebug", "Épargne synchronisée : " + docId))
+                .addOnFailureListener(e -> Log.e("FirestoreDebug", "Erreur synchro épargne : " + e.getMessage()));
     }
 
     private void openNotifications() {

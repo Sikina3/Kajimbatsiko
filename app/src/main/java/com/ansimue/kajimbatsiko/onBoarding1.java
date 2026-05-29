@@ -30,7 +30,7 @@ public class onBoarding1 extends AppCompatActivity {
     };
     private String[] texts = {
             "Kajimbatsiko vous aide à gérer facilement vos finances personnelles",
-            "Enregistrez vos revenus et vos dépenses en quelques clics",
+            "Enregistrez vos revenus et vos d\u00e9penses en quelques clics",
     };
     private int currentPage = 0;
 
@@ -78,7 +78,7 @@ public class onBoarding1 extends AppCompatActivity {
         image.setImageResource(images[page]);
         updateDots(page);
 
-        // Cacher le bouton Skip sur la dernière page
+        // Cacher le bouton Skip sur la derni\u00e8re page
         if (page == images.length - 1) {
             next.setText("Commencer");
             skip.setVisibility(android.view.View.GONE);
@@ -93,7 +93,7 @@ public class onBoarding1 extends AppCompatActivity {
 
         for (int i = 0; i < images.length; i++) {
             TextView dot = new TextView(this);
-            dot.setText("●");
+            dot.setText("\u25cf");
             dot.setTextSize(18);
             dot.setTextColor(i == page ? Color.GREEN : Color.WHITE);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -106,14 +106,14 @@ public class onBoarding1 extends AppCompatActivity {
     }
 
     private void finishOnboarding() {
-        // Marquer que l'onboarding a été vu
+        // Marquer que l'onboarding a \u00e9t\u00e9 vu
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(KEY_FIRST_LAUNCH, false);
         editor.apply();
 
-        // Aller à l'écran d'accueil
-        startActivity(new Intent(this, home.class));
+        // Aller \u00e0 l'\u00e9cran de connexion
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 }

@@ -34,4 +34,7 @@ public class DataExpenses {
 
     @ColumnInfo(name = "category_id")
     public int categoryId;
+
+    @ColumnInfo(name = "user_id")
+    public String userId; // Pour l'ID Firebase
 }

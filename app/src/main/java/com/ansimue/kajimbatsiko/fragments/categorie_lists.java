@@ -23,6 +23,7 @@ import com.ansimue.kajimbatsiko.data.dao.IncomeDao;
 import com.ansimue.kajimbatsiko.data.dao.SavingDao;
 import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataExpenses;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -51,7 +52,7 @@ public class categorie_lists extends Fragment {
     }
 
     private TextView total_balance, totale_depense, cat_name;
-    private ImageView but_retour, notif;
+    private ImageView but_retour, notif, but_profile;
     private RecyclerView affiche_revenue;
     private Button but_new_depense;
 
@@ -66,10 +67,12 @@ public class categorie_lists extends Fragment {
         cat_name = view.findViewById(R.id.cat_name);
         but_retour = view.findViewById(R.id.but_retour);
         notif = view.findViewById(R.id.but_notif);
+        but_profile = view.findViewById(R.id.but_profile);
         but_new_depense = view.findViewById(R.id.button);
         affiche_revenue = view.findViewById(R.id.affiche_revenue);
 
         notif.setOnClickListener(v -> openNotifications());
+        but_profile.setOnClickListener(v -> openProfile());
 
         but_new_depense.setOnClickListener(v -> {
             form_depense formulaire = form_depense.newInstance(categoryId);
@@ -111,11 +114,16 @@ public class categorie_lists extends Fragment {
             IncomeDao incomeDao = db.incomeDao();
             SavingDao savingDao = db.savingDao();
 
-            double totalExpense = expenseDao.getTotalExpense();
-            double totalEconomie = savingDao.getTotalAllSaving();
-            double totalIncome = incomeDao.getTotalIncome() - totalExpense - totalEconomie;
+            String userId = "";
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            }
 
-            List<DataExpenses> expense = expenseDao.getExpenseByCategoryId(categoryId);
+            double totalExpense = expenseDao.getTotalExpense(userId);
+            double totalEconomie = savingDao.getTotalAllSaving(userId);
+            double totalIncome = incomeDao.getTotalIncome(userId) - totalExpense - totalEconomie;
+
+            List<DataExpenses> expense = expenseDao.getExpenseByCategoryId(categoryId, userId);
 
             if (isAdded() && getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
@@ -165,6 +173,15 @@ public class categorie_lists extends Fragment {
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void openProfile() {
+        if (!isAdded()) return;
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new ProfileFragment())
                 .addToBackStack(null)
                 .commit();
     }

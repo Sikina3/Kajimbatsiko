@@ -3,6 +3,7 @@
     <style name="Base.Theme.Kajimbatsiko" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/caribeean_green</item>
+        <item name="android:statusBarColor">@color/caribeean_green</item>
         <item name="colorButtonNormal">@color/caribeean_green</item>
         <item name="colorAccent">@color/light_green</item>
         <item name="colorOnPrimary">@color/caribeean_green</item>
@@ -18,4 +19,8 @@
     </style>
 
     <style name="Theme.Kajimbatsiko" parent="Base.Theme.Kajimbatsiko" />
+
+    <style name="CircleImageView" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

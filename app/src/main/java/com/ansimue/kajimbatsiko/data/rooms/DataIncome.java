@@ -23,4 +23,7 @@ public class DataIncome {
 
     @ColumnInfo(name = "message")
     public String message;
+
+    @ColumnInfo(name = "user_id")
+    public String userId; // Pour l'ID Firebase
 }

@@ -53,14 +53,16 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/menu_menu_border"
-                    android:backgroundTint="@color/white"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/icon_notify" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/profile_g"
+                    android:layout_marginLeft="10dp"/>
             </LinearLayout>
 
             <!-- Balance Cards -->
@@ -173,8 +175,8 @@
 
                         <org.eazegraph.lib.charts.PieChart
                             android:id="@+id/piechart"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp" />
+                            android:layout_width="150dp"
+                            android:layout_height="150dp" />
 
                         <LinearLayout
                             android:layout_width="0dp"

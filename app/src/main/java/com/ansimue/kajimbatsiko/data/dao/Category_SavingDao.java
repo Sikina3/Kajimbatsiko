@@ -3,6 +3,7 @@ package com.ansimue.kajimbatsiko.data.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -15,8 +16,8 @@ public interface Category_SavingDao {
     @Query("SELECT * FROM categorie_economie")
     List<DataCategorySaving> getAllCategorySaving();
 
-    @Insert
-    void insertCategorySaving(DataCategorySaving categories_saving);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insertCategorySaving(DataCategorySaving categories_saving);
 
     @Update
     void updateCategorySaving(DataCategorySaving categories_saving);

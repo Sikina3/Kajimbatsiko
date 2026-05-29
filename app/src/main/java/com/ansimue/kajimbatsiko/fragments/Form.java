@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,21 @@ import android.widget.Toast;
 import com.ansimue.kajimbatsiko.R;
 import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataIncome;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Form extends Fragment {
 
     private int incomeUid = -1;
     private DataIncome existingIncome;
+    private String currentUserId;
+    private FirebaseFirestore firestore;
 
     public Form() {
     }
@@ -48,8 +55,12 @@ public class Form extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firestore = FirebaseFirestore.getInstance();
         if (getArguments() != null) {
             incomeUid = getArguments().getInt("income_uid", -1);
+        }
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
     }
 
@@ -143,6 +154,7 @@ public class Form extends Fragment {
             revenue.titre_revenue = titreTxt;
             revenue.type = typeTxt;
             revenue.message = noteTxt;
+            revenue.userId = currentUserId;
 
             new Thread(() -> {
                 database db = database.getDatabase(requireContext());
@@ -151,9 +163,12 @@ public class Form extends Fragment {
                 } else {
                     db.incomeDao().insertIncome(revenue);
                 }
+
+                // Synchronisation Cloud avec logs
+                syncIncomeToFirestore(revenue);
                 
                 requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(requireContext(), (incomeUid != -1) ? "Revenu modifié" : "Revenu enregistré", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Enregistré !", Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStack();
                 });
             }).start();
@@ -162,10 +177,30 @@ public class Form extends Fragment {
         return view;
     }
 
+    private void syncIncomeToFirestore(DataIncome income) {
+        if (currentUserId == null) return;
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("titre", income.titre_revenue);
+        data.put("type", income.type);
+        data.put("montant", income.montant);
+        data.put("date", income.date);
+        data.put("note", income.message);
+        data.put("userId", currentUserId);
+        data.put("updatedAt", System.currentTimeMillis());
+
+        firestore.collection("users")
+                .document(currentUserId)
+                .collection("incomes")
+                .add(data)
+                .addOnSuccessListener(doc -> Log.d("FirestoreDebug", "Revenu synchronisé : " + doc.getId()))
+                .addOnFailureListener(e -> Log.e("FirestoreDebug", "Erreur synchro revenu : " + e.getMessage()));
+    }
+
     private void loadExistingIncome() {
         new Thread(() -> {
             database db = database.getDatabase(requireContext());
-            List<DataIncome> all = db.incomeDao().getAllIncome();
+            List<DataIncome> all = db.incomeDao().getAllIncome(currentUserId);
             for (DataIncome i : all) {
                 if (i.uid == incomeUid) {
                     existingIncome = i;

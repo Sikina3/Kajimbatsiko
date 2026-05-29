@@ -17,6 +17,7 @@ import com.ansimue.kajimbatsiko.data.dao.IncomeDao;
 import com.ansimue.kajimbatsiko.data.dao.SavingDao;
 import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataCategorySaving;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -41,9 +42,10 @@ public class HomeFragment extends Fragment {
     private TextView total_income, total_expense, salutation;
     private TextView monthlyIncome, weeklyExpense;
     private TextView savingTitle, savingProgress, savingGoal;
-    private ImageView notifIcon;
+    private ImageView notifIcon, profileIcon;
     private LinearLayout savingCard;
     private DecimalFormat format;
+    private String currentUserId;
 
     public HomeFragment() {
     }
@@ -61,18 +63,24 @@ public class HomeFragment extends Fragment {
         monthlyIncome = rootview.findViewById(R.id.textView11);
         weeklyExpense = rootview.findViewById(R.id.textView13);
         notifIcon = rootview.findViewById(R.id.imageView2);
+        profileIcon = rootview.findViewById(R.id.imageView3);
         savingCard = rootview.findViewById(R.id.savingCard);
         savingTitle = rootview.findViewById(R.id.savingTitle);
         savingProgress = rootview.findViewById(R.id.savingProgress);
         savingGoal = rootview.findViewById(R.id.savingGoal);
 
         notifIcon.setOnClickListener(v -> openNotifications());
+        profileIcon.setOnClickListener(v -> openProfile());
 
         db = database.getDatabase(requireContext());
         incomeDao = db.incomeDao();
         expenseDao = db.expenseDao();
         savingDao = db.savingDao();
         categorySavingDao = db.category_savingDao();
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
 
         DecimalFormatSymbols symbole = new DecimalFormatSymbols();
         symbole.setGroupingSeparator(' ');
@@ -92,9 +100,9 @@ public class HomeFragment extends Fragment {
     private void loadData() {
         new Thread(() -> {
             // Totaux
-            double totalExp = expenseDao.getTotalExpense();
-            double totalSav = savingDao.getTotalAllSaving();
-            double totalInc = incomeDao.getTotalIncome();
+            double totalExp = expenseDao.getTotalExpense(currentUserId);
+            double totalSav = savingDao.getTotalAllSaving(currentUserId);
+            double totalInc = incomeDao.getTotalIncome(currentUserId);
             
             // Solde réel (ce qui reste après dépenses et épargne)
             double balance = totalInc - totalExp - totalSav;
@@ -126,7 +134,7 @@ public class HomeFragment extends Fragment {
         int month = now.get(Calendar.MONTH);
         int year = now.get(Calendar.YEAR);
 
-        List<com.ansimue.kajimbatsiko.data.rooms.DataIncome> all = incomeDao.getAllIncome();
+        List<com.ansimue.kajimbatsiko.data.rooms.DataIncome> all = incomeDao.getAllIncome(currentUserId);
         double sum = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH);
 
@@ -148,7 +156,7 @@ public class HomeFragment extends Fragment {
         cal.add(Calendar.DAY_OF_YEAR, -7);
         long sevenDaysAgo = cal.getTimeInMillis();
 
-        List<com.ansimue.kajimbatsiko.data.rooms.DataExpenses> all = expenseDao.getAllExpense();
+        List<com.ansimue.kajimbatsiko.data.rooms.DataExpenses> all = expenseDao.getAllExpense(currentUserId);
         double sum = 0;
         
         // Chercher ID catégorie nourriture
@@ -195,7 +203,7 @@ public class HomeFragment extends Fragment {
         double minGap = Double.MAX_VALUE;
 
         for (DataCategorySaving cat : categories) {
-            double saved = savingDao.getTotalSaving(cat.id);
+            double saved = savingDao.getTotalSaving(cat.id, currentUserId);
             double goal = cat.devis;
             double gap = goal - saved;
 
@@ -216,6 +224,12 @@ public class HomeFragment extends Fragment {
     private void openNotifications() {
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new NotificationFragment())
+                .addToBackStack(null).commit();
+    }
+
+    private void openProfile() {
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new ProfileFragment())
                 .addToBackStack(null).commit();
     }
 

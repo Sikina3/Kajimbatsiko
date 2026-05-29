@@ -21,6 +21,7 @@ import com.ansimue.kajimbatsiko.data.dao.Category_SavingDao;
 import com.ansimue.kajimbatsiko.data.dao.SavingDao;
 import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataSaving;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -32,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Saving_List extends Fragment {
+
+    private String currentUserId;
 
     public Saving_List() {}
 
@@ -50,6 +53,9 @@ public class Saving_List extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             categoryId = getArguments().getInt("categorySaving_id", -1);
+        }
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
     }
 
@@ -110,8 +116,8 @@ public class Saving_List extends Fragment {
             String category_name = cateDao.getCategorySavingName(categoryId);
             int categoryIcon = cateDao.getIconCategorySaving(categoryId);
             Double devise = cateDao.getDevis(categoryId);
-            Double atteint = savingDao.getTotalSaving(categoryId);
-            List<DataSaving> dataSavingList = savingDao.getSavingByCategoryId(categoryId);
+            Double atteint = savingDao.getTotalSaving(categoryId, currentUserId);
+            List<DataSaving> dataSavingList = savingDao.getSavingByCategoryId(categoryId, currentUserId);
             double reste = devise - atteint;
 
             Map<Integer, Integer> iconMap = new HashMap<>();

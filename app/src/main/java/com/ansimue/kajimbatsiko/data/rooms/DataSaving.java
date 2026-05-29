@@ -33,4 +33,7 @@ public class DataSaving {
 
     @ColumnInfo(name = "message")
     public String message;
+
+    @ColumnInfo(name = "user_id")
+    public String userId;
 }

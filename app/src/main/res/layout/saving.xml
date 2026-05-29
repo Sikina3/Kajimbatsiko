@@ -41,9 +41,18 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/icon_notify" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/bg_icon"
+                    android:padding="8dp"
+                    android:src="@drawable/profile_g" />
             </LinearLayout>
 
             <LinearLayout
@@ -71,7 +80,7 @@
                         android:id="@+id/total_balance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Ar 2 500 000"
+                        android:text="Ar 0"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:textSize="18sp"/>
@@ -103,7 +112,7 @@
                         android:id="@+id/total_expense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="- Ar 500 000"
+                        android:text="- Ar 0"
                         android:textSize="18sp"
                         android:textColor="#0068FF"
                         android:textStyle="bold"/>

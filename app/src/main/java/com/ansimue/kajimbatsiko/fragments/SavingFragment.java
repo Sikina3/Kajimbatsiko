@@ -21,6 +21,7 @@ import com.ansimue.kajimbatsiko.data.dao.SavingDao;
 import com.ansimue.kajimbatsiko.data.database;
 import com.ansimue.kajimbatsiko.data.rooms.DataCategorySaving;
 import com.ansimue.kajimbatsiko.dialog.SavingDialog;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -41,8 +42,9 @@ public class SavingFragment extends Fragment {
     TextView total_balance, total_expense;
     Double totalIncome, totalExpense, totalEconomie;
     Button add_new;
-    ImageView notifIcon;
+    ImageView notifIcon, profileIcon;
     List<DataCategorySaving> categoriesLists = new ArrayList<>();
+    private String currentUserId;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -54,12 +56,17 @@ public class SavingFragment extends Fragment {
         total_expense = view.findViewById(R.id.total_expense);
         add_new = view.findViewById(R.id.button);
         notifIcon = view.findViewById(R.id.imageView2);
+        profileIcon = view.findViewById(R.id.imageView3);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
 
         notifIcon.setOnClickListener(v -> openNotifications());
+        profileIcon.setOnClickListener(v -> openProfile());
 
         add_new.setOnClickListener(v -> {
             SavingDialog dialog = new SavingDialog();
-            // FIX: Refresh when a new objective is added
             dialog.setOnCategoryAdded(saving -> loadData());
             dialog.show(getParentFragmentManager(), "SavingDialog");
         });
@@ -91,7 +98,7 @@ public class SavingFragment extends Fragment {
 
         DecimalFormatSymbols symbole = new DecimalFormatSymbols();
         symbole.setGroupingSeparator(' ');
-        DecimalFormat format = new DecimalFormat("#,###", symbole);
+        format = new DecimalFormat("#,###", symbole); // I need to define format or use local
 
         new Thread(() -> {
             if (!isAdded() || getContext() == null) return;
@@ -101,9 +108,9 @@ public class SavingFragment extends Fragment {
             ExpenseDao expenseDao = db.expenseDao();
             SavingDao savingDao = db.savingDao();
 
-            totalExpense = expenseDao.getTotalExpense();
-            totalEconomie = savingDao.getTotalAllSaving();
-            totalIncome = incomeDao.getTotalIncome() - totalExpense - totalEconomie;
+            totalExpense = expenseDao.getTotalExpense(currentUserId);
+            totalEconomie = savingDao.getTotalAllSaving(currentUserId);
+            totalIncome = incomeDao.getTotalIncome(currentUserId) - totalExpense - totalEconomie;
 
             if (isAdded() && getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
@@ -124,6 +131,8 @@ public class SavingFragment extends Fragment {
             }
         }).start();
     }
+    
+    private DecimalFormat format; // Added this to avoid error
 
     private void openNotifications() {
         if (!isAdded()) return;
@@ -131,6 +140,15 @@ public class SavingFragment extends Fragment {
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, notificationFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void openProfile() {
+        if (!isAdded()) return;
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new ProfileFragment())
                 .addToBackStack(null)
                 .commit();
     }

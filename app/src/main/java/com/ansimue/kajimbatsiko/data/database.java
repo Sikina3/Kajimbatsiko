@@ -30,7 +30,7 @@ import com.ansimue.kajimbatsiko.data.rooms.NotificationItem;
                 DataSaving.class,
                 NotificationItem.class
         },
-        version = 3,
+        version = 5,
         exportSchema = false
 )
 public abstract class database extends RoomDatabase {
@@ -43,7 +43,6 @@ public abstract class database extends RoomDatabase {
 
     private static volatile database INSTANCE;
 
-    // Migration de la version 2 à 3
     static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
@@ -58,13 +57,30 @@ public abstract class database extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE depense ADD COLUMN user_id TEXT");
+            database.execSQL("ALTER TABLE revenue ADD COLUMN user_id TEXT");
+        }
+    };
+
+    // Migration de la version 4 à 5 : Ajout de user_id dans economie
+    static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE economie ADD COLUMN user_id TEXT");
+        }
+    };
+
     public static database getDatabase(final Context context){
         if (INSTANCE == null) {
             synchronized (database.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     database.class, "finance.db")
-                            .addMigrations(MIGRATION_2_3)
+                            .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                            .fallbackToDestructiveMigrationOnDowngrade()
                             .build();
                 }
             }

@@ -24,38 +24,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingHorizontal="40dp"
+                android:paddingHorizontal="20dp"
                 android:paddingTop="15dp"
-                android:gravity="center">
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:id="@+id/but_retour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/retour" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/retour"
+                    android:padding="5dp" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/cat_name"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/cat_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ajouter un Revenue"
-                        android:textSize="20sp"
-                        android:textColor="@color/fence_green"
-                        android:textStyle="bold"/>
-                </LinearLayout>
+                    android:text="Ajouter un Revenue"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="10dp"/>
 
                 <ImageView
                     android:id="@+id/but_notif"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/icon_notify" />
+
+                <ImageView
+                    android:id="@+id/but_profile"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_icon"
+                    android:padding="8dp"
+                    android:src="@drawable/profile_g" />
             </LinearLayout>
 
         </LinearLayout>
