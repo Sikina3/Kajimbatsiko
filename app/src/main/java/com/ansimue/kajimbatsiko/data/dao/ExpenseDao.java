@@ -23,6 +23,9 @@ public interface ExpenseDao {
     @Delete
     void deleteExpense(DataExpenses depense);
 
+    @Query("DELETE FROM depense")
+    void deleteAllExpenses();
+
     @Query("UPDATE depense SET user_id = :userId WHERE user_id IS NULL")
     void linkOrphanExpensesToUser(String userId);
 
@@ -55,7 +58,7 @@ public interface ExpenseDao {
             "substr('00' || substr(date, 1, 2), -2, 2) DESC")
     List<DataExpenses> getExpenseByCategoryId(int categoryId, String userId);
 
-    @Query("SELECT c.name FROM depense d INNER JOIN categorie c ON d.category_id = c.uid WHERE d.category_id = :categoryId")
+    @Query("SELECT c.nom FROM depense d INNER JOIN categorie c ON d.category_id = c.uid WHERE d.category_id = :categoryId")
     List<String> getCategoryNamesByExpense(int categoryId);
 
     @Query("SELECT date AS date, SUM(montant) AS total FROM depense WHERE user_id = :userId GROUP BY date ORDER BY date ASC")

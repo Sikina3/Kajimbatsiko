@@ -25,9 +25,12 @@ public interface CategoryDao {
     @Delete
     void deleteCategory(DataCategory categorie);
 
+    @Query("DELETE FROM categorie")
+    void deleteAllCategories();
+
     @Query("SELECT icon FROM categorie where uid = :category")
     int getIconCategory(int category);
 
-    @Query("SELECT name FROM categorie where uid = :category")
+    @Query("SELECT nom FROM categorie where uid = :category")
     String getCategoryName(int category);
 }

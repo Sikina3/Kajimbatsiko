@@ -202,7 +202,7 @@ if (tenteCréerDépense && aucuneCategorie()) {
 
 ## 💻 Fichiers Modifiés
 
-### Java (3 fichiers)
+### Java (4 fichiers)
 ```
 ✅ MainActivity.java
    - Vérification premier lancement
@@ -214,11 +214,19 @@ if (tenteCréerDépense && aucuneCategorie()) {
    - Sauvegarde préférence
    - Méthode finishOnboarding()
 
+✅ HelpActivity.java
+   - Ajout du gestionnaire de clic pour le bouton de contact
+   - Lancement de WhatsApp pré-rempli avec des données de diagnostic technique (modèle, OS, version de l'app) pour le numéro +261342943802
+
+✅ HomeFragment.java
+   - Récupération du DisplayName du FirebaseUser connecté
+   - Affichage dynamique du prénom sur l'accueil (offline compatible)
+
 ✅ home.java
    - (Aucune modification, déjà compatible)
 ```
 
-### XML (3 fichiers)
+### XML & Drawables (10 fichiers)
 ```
 ✅ activity_on_boarding1.xml
    - Bouton Skip en haut
@@ -235,6 +243,28 @@ if (tenteCréerDépense && aucuneCategorie()) {
    - height = "wrap_content"
    - itemIconSize = "22dp"
    - Padding ajusté
+
+✅ activity_help.xml
+   - Ajout de la section "Contacter le développeur" via WhatsApp avec bouton cliquable
+   - Remplacement du terme "Économies" par "Épargne" pour Item 3
+
+✅ activity_forgot_password.xml
+   - Correction des contraintes de `btn_register_nav` pour le positionner à 24dp sous `btn_next`
+
+✅ home.xml
+   - Ajout de l'ID `welcome_text` au TextView de bienvenue de l'accueil
+
+✅ ic_whatsapp.xml [NEW]
+   - Icône WhatsApp vectorielle native
+
+✅ ic_chevron_right.xml [NEW]
+   - Flèche de navigation vectorielle native
+
+✅ contact_card_bg.xml [NEW]
+   - Design de fond avec angles arrondis (15dp) et fine bordure vert clair
+
+✅ bg_circle_light_green.xml [NEW]
+   - Fond circulaire vert clair sous l'icône de WhatsApp
 ```
 
 ### Documentation (2 fichiers)

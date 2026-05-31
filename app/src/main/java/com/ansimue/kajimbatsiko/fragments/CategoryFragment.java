@@ -76,7 +76,66 @@ public class CategoryFragment extends Fragment {
                 }
             }
         });
+        
+        grid.setOnItemLongClickListener((parent, view1, position, id) -> {
+            String item = (String) parent.getItemAtPosition(position);
+            if (!"Plus".equals(item)) {
+                if (position - 1 >= 0 && position - 1 < categoriesList.size()) {
+                    DataCategory selectedCategory = categoriesList.get(position - 1);
+                    showEditDeleteCategoryDialog(selectedCategory);
+                }
+            }
+            return true;
+        });
+
         return view;
+    }
+
+    private void showEditDeleteCategoryDialog(DataCategory category) {
+        String[] options = {"Modifier", "Supprimer"};
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(category.nom)
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        NewCategoryDialog editDialog = NewCategoryDialog.newInstance(category.uid, category.nom, category.icon);
+                        editDialog.setOnCategoryAdded(cat -> loadData());
+                        editDialog.show(getParentFragmentManager(), "EditCategoryDialog");
+                    } else if (which == 1) {
+                        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                                .setTitle("Confirmation")
+                                .setMessage("Voulez-vous vraiment supprimer cette catégorie ?")
+                                .setPositiveButton("Oui", (d, w) -> deleteCategory(category))
+                                .setNegativeButton("Non", null)
+                                .show();
+                    }
+                })
+                .show();
+    }
+
+    private void deleteCategory(DataCategory category) {
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
+        new Thread(() -> {
+            database db = database.getDatabase(requireContext());
+            db.categoryDao().deleteCategory(category);
+            
+            if (currentUserId != null) {
+                com.google.firebase.firestore.FirebaseFirestore firestore = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+                firestore.collection("users").document(currentUserId).collection("categories")
+                        .whereEqualTo("nom", category.nom)
+                        .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                            for (com.google.firebase.firestore.QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                                doc.getReference().delete();
+                            }
+                        });
+            }
+            
+            if (isAdded()) {
+                requireActivity().runOnUiThread(() -> {
+                    android.widget.Toast.makeText(getContext(), "Catégorie supprimée", android.widget.Toast.LENGTH_SHORT).show();
+                    loadData();
+                });
+            }
+        }).start();
     }
 
     @Override

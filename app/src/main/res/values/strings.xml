@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">Kajimbatsiko</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">
-        Hello
-        blank
-        fragment
-    </string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="accept_terms">J\'accepte les termes d\'utilisation et la politique de confidentialité.</string>
+    <string name="error_terms">Vous devez accepter les termes et conditions pour continuer</string>
+    <string name="google_client_id">717586304923-5gc7nefd4s2olfqf5j1lv7fhiau74pg4.apps.googleusercontent.com</string>
 </resources>

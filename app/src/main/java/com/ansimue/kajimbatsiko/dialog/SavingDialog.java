@@ -27,6 +27,20 @@ import java.util.Map;
 public class SavingDialog extends DialogFragment {
     private int selectedIcon = R.drawable.food;
     private ImageView selectedImageView = null;
+    private int editId = -1;
+    private String editNom = null;
+    private double editDevis = 0.0;
+
+    public static SavingDialog newInstance(int id, String nom, double devis, int icon) {
+        SavingDialog dialog = new SavingDialog();
+        Bundle args = new Bundle();
+        args.putInt("edit_id", id);
+        args.putString("edit_nom", nom);
+        args.putDouble("edit_devis", devis);
+        args.putInt("edit_icon", icon);
+        dialog.setArguments(args);
+        return dialog;
+    }
 
     public interface OnCategoryAdded {
         void onCategoryAdded(DataCategorySaving saving);
@@ -53,9 +67,25 @@ public class SavingDialog extends DialogFragment {
         input_devise.setVisibility(View.VISIBLE);
         input_devise.setHint("Objectif (Ar)");
 
+        if (getArguments() != null) {
+            editId = getArguments().getInt("edit_id", -1);
+            editNom = getArguments().getString("edit_nom");
+            editDevis = getArguments().getDouble("edit_devis", 0.0);
+            selectedIcon = getArguments().getInt("edit_icon", R.drawable.food);
+        }
+
+        if (editNom != null) {
+            input_name.setText(editNom);
+            input_devise.setText(String.valueOf(editDevis));
+        }
+
         int[] icons = {
+                R.drawable.lucide_baby,
+                R.drawable.lucide_party,
+                R.drawable.mingcute_love,
                 R.drawable.food,
                 R.drawable.money,
+                R.drawable.lucide_biceps,
                 R.drawable.avion,
                 R.drawable.cadeau,
                 R.drawable.economie,
@@ -66,7 +96,25 @@ public class SavingDialog extends DialogFragment {
                 R.drawable.medoc,
                 R.drawable.patisseri,
                 R.drawable.transport,
-                R.drawable.voiture
+                R.drawable.voiture,
+                R.drawable.lucide_beer,
+                R.drawable.lucide_wifi,
+                R.drawable.lucide_wallet,
+                R.drawable.lucide_popcorn,
+                R.drawable.lucide_laptop,
+                R.drawable.lucide_charger,
+                R.drawable.lucide_dumbbell,
+                R.drawable.lucide_coffee,
+                R.drawable.lucide_clapperboard,
+                R.drawable.lucide_cigarette,
+                R.drawable.lucide_church,
+                R.drawable.lucide_cctv,
+                R.drawable.lucide_cat,
+                R.drawable.lucide_cake,
+                R.drawable.lucide_business,
+                R.drawable.lucide_book,
+                R.drawable.lucide_bed,
+                R.drawable.lucide_ambulance
         };
 
         for (int icon : icons) {
@@ -89,6 +137,10 @@ public class SavingDialog extends DialogFragment {
                 image.setBackgroundResource(R.drawable.icon_selected);
                 selectedImageView = image;
             });
+            if (icon == selectedIcon) {
+                image.setBackgroundResource(R.drawable.icon_selected);
+                selectedImageView = image;
+            }
             iconContainer.addView(image);
         }
 
@@ -105,8 +157,13 @@ public class SavingDialog extends DialogFragment {
 
                     new Thread(() -> {
                         database db = database.getDatabase(requireContext());
-                        long id = db.category_savingDao().insertCategorySaving(data);
-                        data.id = (int) id;
+                        if (editId != -1) {
+                            data.id = editId;
+                            db.category_savingDao().updateCategorySaving(data);
+                        } else {
+                            long id = db.category_savingDao().insertCategorySaving(data);
+                            data.id = (int) id;
+                        }
 
                         syncSavingCategoryToFirestore(data);
 

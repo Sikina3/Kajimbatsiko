@@ -23,6 +23,9 @@ public interface IncomeDao {
     @Delete
     void deleteIncome(DataIncome revenue);
 
+    @Query("DELETE FROM revenue")
+    void deleteAllIncomes();
+
     @Query("UPDATE revenue SET user_id = :userId WHERE user_id IS NULL")
     void linkOrphanIncomeToUser(String userId);
 

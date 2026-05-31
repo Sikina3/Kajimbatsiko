@@ -9,7 +9,7 @@ public class DataCategory {
     @PrimaryKey (autoGenerate = true)
     public int uid;
 
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = "nom")
     public String nom;
 
     @ColumnInfo(name = "icon")

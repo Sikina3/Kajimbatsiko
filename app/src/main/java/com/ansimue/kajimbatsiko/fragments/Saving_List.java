@@ -158,6 +158,10 @@ public class Saving_List extends Fragment {
                                 .setPositiveButton("Oui", (dialog, which) -> {
                                     new Thread(() -> {
                                         database.getDatabase(requireContext()).savingDao().deleteSaving(saving);
+                                        
+                                        // Synchro Firebase
+                                        deleteFromFirebase(saving);
+                                        
                                         if (isAdded()) {
                                             requireActivity().runOnUiThread(() -> {
                                                 Toast.makeText(getContext(), "Supprimé", Toast.LENGTH_SHORT).show();
@@ -175,5 +179,19 @@ public class Saving_List extends Fragment {
                 });
             }
         }).start();
+    }
+
+    private void deleteFromFirebase(DataSaving saving) {
+        if (currentUserId == null) return;
+        com.google.firebase.firestore.FirebaseFirestore firestore = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+        firestore.collection("users").document(currentUserId).collection("savings")
+                .whereEqualTo("titre", saving.titre)
+                .whereEqualTo("date", saving.date)
+                .whereEqualTo("categoryId", saving.categoryId)
+                .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (com.google.firebase.firestore.QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        doc.getReference().delete();
+                    }
+                });
     }
 }

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suppression de compte — Kajimbatsiko</title>
+  <meta name="description" content="Demandez la suppression de votre compte Kajimbatsiko et de vos données personnelles associées." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --caribbean-green: #00D09E;
+      --caribbean-green-dark: #00a87e;
+      --cyprus: #0E3E3E;
+      --fence-green: #052224;
+      --void: #031314;
+      --honeydew: #F1FFF3;
+      --light-green: #DFF7E2;
+      --danger: #ff4d4d;
+      --danger-dark: #cc0000;
+      --warning: #ffb347;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--void);
+      color: #e0f2f1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--fence-green) 0%, var(--cyprus) 100%);
+      border-bottom: 1px solid rgba(0, 208, 158, 0.2);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--caribbean-green), #00a8cc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 12px rgba(0, 208, 158, 0.35);
+      flex-shrink: 0;
+    }
+
+    .header-text h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+    .header-text span {
+      font-size: 0.75rem;
+      color: var(--caribbean-green);
+      font-weight: 500;
+    }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      max-width: 760px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* ── INFO BANNER ── */
+    .info-banner {
+      background: rgba(0, 208, 158, 0.08);
+      border: 1px solid rgba(0, 208, 158, 0.25);
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .info-banner .icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .info-banner p { font-size: 0.9rem; color: #a7d8d0; line-height: 1.6; }
+    .info-banner strong { color: var(--caribbean-green); }
+
+    /* ── SECTION CARD ── */
+    .card {
+      background: linear-gradient(145deg, #0a2e2e, #061a1a);
+      border: 1px solid rgba(0, 208, 158, 0.12);
+      border-radius: 18px;
+      padding: 2rem;
+      transition: border-color 0.3s;
+    }
+    .card:hover { border-color: rgba(0, 208, 158, 0.3); }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .card-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .card-icon.danger  { background: rgba(255, 77, 77, 0.12); }
+    .card-icon.warning { background: rgba(255, 179, 71, 0.12); }
+
+    .card-header h2 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .card-header p {
+      font-size: 0.8rem;
+      color: #6b9e9e;
+      margin-top: 2px;
+    }
+
+    /* ── WHAT GETS DELETED ── */
+    .data-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-bottom: 1.5rem;
+    }
+    .data-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.875rem;
+      color: #b0cccb;
+    }
+    .data-list li .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot.red    { background: var(--danger); }
+    .dot.orange { background: var(--warning); }
+    .dot.green  { background: var(--caribbean-green); }
+
+    /* ── IN-APP NOTE ── */
+    .inapp-note {
+      background: rgba(0, 208, 158, 0.06);
+      border-left: 3px solid var(--caribbean-green);
+      border-radius: 0 10px 10px 0;
+      padding: 1rem 1.2rem;
+      font-size: 0.85rem;
+      color: #8ecec6;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .inapp-note strong { color: var(--caribbean-green); }
+
+    /* ── FORM ── */
+    .form-group { margin-bottom: 1.2rem; }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #7eb8b4;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    input[type="email"], input[type="text"], textarea, select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0, 208, 158, 0.15);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      color: #e0f2f1;
+      outline: none;
+      transition: border-color 0.25s, background 0.25s;
+      resize: vertical;
+    }
+    input[type="email"]:focus,
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--caribbean-green);
+      background: rgba(0, 208, 158, 0.05);
+    }
+    input::placeholder, textarea::placeholder { color: #3d6e6b; }
+    select option { background: #0a2e2e; color: #e0f2f1; }
+
+    /* ── RADIO TYPE ── */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      cursor: pointer;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(0, 208, 158, 0.12);
+      border-radius: 10px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .radio-option:hover { border-color: rgba(0, 208, 158, 0.3); background: rgba(0,208,158,0.04); }
+    .radio-option input[type="radio"] { display: none; }
+    .radio-custom {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(0, 208, 158, 0.4);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s;
+    }
+    .radio-option input[type="radio"]:checked ~ .radio-text .radio-custom,
+    .radio-option:has(input:checked) .radio-custom {
+      border-color: var(--caribbean-green);
+      background: var(--caribbean-green);
+    }
+    .radio-option:has(input:checked) .radio-custom::after {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--void);
+      border-radius: 50%;
+    }
+    .radio-option:has(input:checked) { border-color: rgba(0,208,158,0.4); background: rgba(0,208,158,0.07); }
+    .radio-label { font-size: 0.875rem; color: #c0dcda; font-weight: 500; }
+    .radio-sub { font-size: 0.75rem; color: #5a8a87; margin-top: 1px; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.9rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      text-decoration: none;
+    }
+    .btn:hover  { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); opacity: 0.9; }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #e63946, #c1121f);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(230, 57, 70, 0.3);
+    }
+    .btn-danger:hover { box-shadow: 0 6px 24px rgba(230, 57, 70, 0.45); }
+
+    .btn-warning {
+      background: linear-gradient(135deg, #f4a261, #e76f51);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(244, 162, 97, 0.3);
+    }
+    .btn-warning:hover { box-shadow: 0 6px 24px rgba(244, 162, 97, 0.45); }
+
+    /* ── SUCCESS MESSAGE ── */
+    .success-msg {
+      display: none;
+      background: rgba(0, 208, 158, 0.1);
+      border: 1px solid rgba(0, 208, 158, 0.35);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      text-align: center;
+      color: var(--caribbean-green);
+      font-weight: 500;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex; align-items: center; gap: 1rem;
+      color: #2e5c5a; font-size: 0.75rem; letter-spacing: 0.05em;
+      text-transform: uppercase; margin: 0.5rem 0;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1;
+      height: 1px; background: rgba(0,208,158,0.1);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: 0.78rem;
+      color: #2e5c5a;
+      border-top: 1px solid rgba(0, 208, 158, 0.08);
+    }
+    footer a { color: var(--caribbean-green); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      main { padding: 1.5rem 1rem; }
+      .card { padding: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-circle">💰</div>
+    <div class="header-text">
+      <h1>Kajimbatsiko</h1>
+      <span>Suppression de compte &amp; données</span>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- INFO BANNER -->
+    <div class="info-banner">
+      <div class="icon">ℹ️</div>
+      <p>
+        Vous pouvez demander la suppression de votre compte et/ou de vos données personnelles à tout moment.
+        <strong>La suppression est définitive et irréversible.</strong>
+        Votre demande sera traitée dans un délai de <strong>30 jours</strong>.
+      </p>
+    </div>
+
+    <!-- CARD 1 : SUPPRESSION COMPTE -->
+    <div class="card" id="account-section">
+      <div class="card-header">
+        <div>
+          <h2>Supprimer mon compte</h2>
+          <p>Suppression totale du compte et de toutes les données associées</p>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem; color:#8ecec6; margin-bottom:1rem; line-height:1.6;">
+        La suppression de votre compte entraîne la suppression <strong style="color:#ff9e9e;">définitive et irréversible</strong> des éléments suivants :
+      </p>
+
+      <ul class="data-list">
+        <li><span class="dot red"></span> Votre compte d'authentification (email, mot de passe)</li>
+        <li><span class="dot red"></span> Votre profil utilisateur (nom, photo)</li>
+        <li><span class="dot red"></span> Toutes vos transactions et données financières</li>
+        <li><span class="dot red"></span> Votre historique et statistiques</li>
+        <li><span class="dot red"></span> Vos fichiers et images stockés</li>
+        <li><span class="dot orange"></span> Les données locales (application sur votre appareil)</li>
+        <li><span class="dot green"></span> Les données anonymisées à des fins statistiques peuvent être conservées</li>
+      </ul>
+
+      <div class="inapp-note">
+        💡 <strong>Option rapide depuis l'application :</strong> Vous pouvez aussi supprimer votre compte directement depuis <strong>Paramètres → Supprimer le compte</strong> dans l'application Kajimbatsiko.
+      </div>
+
+      <form id="form-account" onsubmit="handleSubmit(event, 'account')">
+        <div class="form-group">
+          <label for="email-account">Adresse email du compte</label>
+          <input
+            type="email"
+            id="email-account"
+            name="email"
+            placeholder="votre@email.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="reason-account">Raison (optionnel)</label>
+          <textarea
+            id="reason-account"
+            name="reason"
+            rows="3"
+            placeholder="Dites-nous pourquoi vous souhaitez supprimer votre compte..."
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-danger" id="btn-account">
+          Demander la suppression du compte
+        </button>
+      </form>
+      <div class="success-msg" id="success-account">
+        Votre demande de suppression de compte a bien été envoyée.<br/>
+        Nous la traiterons dans un délai de <strong>30 jours</strong>.
+      </div>
+    </div>
+
+    <div class="divider">ou</div>
+
+    <!-- CARD 2 : SUPPRESSION DONNÉES UNIQUEMENT -->
+    <div class="card" id="data-section">
+      <div class="card-header">
+        <div>
+          <h2>Supprimer uniquement mes données</h2>
+          <p>Conserver le compte, effacer les données personnelles</p>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem; color:#8ecec6; margin-bottom:1.2rem; line-height:1.6;">
+        Choisissez les types de données à supprimer (votre compte restera actif) :
+      </p>
+
+      <div class="form-group">
+        <div class="radio-group" id="data-type-group">
+
+          <label class="radio-option">
+            <input type="radio" name="data_type" value="all" checked />
+            <div class="radio-custom"></div>
+            <div>
+              <div class="radio-label">Toutes mes données</div>
+              <div class="radio-sub">Transactions, historique, statistiques, fichiers</div>
+            </div>
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="data_type" value="transactions" />
+            <div class="radio-custom"></div>
+            <div>
+              <div class="radio-label">Transactions &amp; historique financier</div>
+              <div class="radio-sub">Toutes les entrées et sorties d'argent enregistrées</div>
+            </div>
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="data_type" value="files" />
+            <div class="radio-custom"></div>
+            <div>
+              <div class="radio-label">Fichiers &amp; images</div>
+              <div class="radio-sub">Documents et photos stockés sur le serveur</div>
+            </div>
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="data_type" value="profile" />
+            <div class="radio-custom"></div>
+            <div>
+              <div class="radio-label">Informations de profil</div>
+              <div class="radio-sub">Nom, photo de profil</div>
+            </div>
+          </label>
+
+        </div>
+      </div>
+
+      <form id="form-data" onsubmit="handleSubmit(event, 'data')">
+        <div class="form-group">
+          <label for="email-data">Adresse email du compte</label>
+          <input
+            type="email"
+            id="email-data"
+            name="email"
+            placeholder="votre@email.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="reason-data">Précisions (optionnel)</label>
+          <textarea
+            id="reason-data"
+            name="reason"
+            rows="3"
+            placeholder="Décrivez les données que vous souhaitez supprimer..."
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-warning" id="btn-data">
+          Demander la suppression des données
+        </button>
+      </form>
+      <div class="success-msg" id="success-data">
+        Votre demande de suppression de données a bien été envoyée.<br/>
+        Nous la traiterons dans un délai de <strong>30 jours</strong>.
+      </div>
+    </div>
+
+    <!-- CONTACT NOTE -->
+    <div class="info-banner" style="border-color: rgba(255,179,71,0.2); background: rgba(255,179,71,0.05);">
+      <p style="color:#c8a870;">
+        Pour toute question concernant vos données, contactez-nous à :
+        <strong style="color:#ffb347;">kajimbatsiko.support@gmail.com</strong><br/>
+        Consultez également notre
+        <a href="https://sites.google.com/view/kajimbatsiko-confidentialite/accueil"
+           target="_blank" rel="noopener"
+           style="color:#ffb347;">politique de confidentialité</a>.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Kajimbatsiko — Tous droits réservés</p>
+    <p style="margin-top:0.4rem;">
+      <a href="https://sites.google.com/view/kajimbatsiko-confidentialite/accueil" target="_blank" rel="noopener">
+        Politique de confidentialité
+      </a>
+    </p>
+  </footer>
+
+  <script>
+    function handleSubmit(event, type) {
+      event.preventDefault();
+      const form = event.target;
+      const email = form.querySelector('input[type="email"]').value.trim();
+      if (!email) return;
+
+      const btn = document.getElementById('btn-' + type);
+      const successMsg = document.getElementById('success-' + type);
+
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      btn.textContent = '⏳ Envoi en cours...';
+
+      // Construire le mailto
+      let subject, body;
+      if (type === 'account') {
+        const reason = document.getElementById('reason-account').value.trim();
+        subject = encodeURIComponent('[SUPPRESSION COMPTE] ' + email);
+        body = encodeURIComponent(
+          'Bonjour,\n\nJe souhaite supprimer définitivement mon compte Kajimbatsiko.\n\n' +
+          'Email du compte : ' + email + '\n' +
+          (reason ? 'Raison : ' + reason + '\n' : '') +
+          '\nMerci de traiter ma demande dans les 30 jours.\n\nCordialement.'
+        );
+      } else {
+        const reason = document.getElementById('reason-data').value.trim();
+        const dataType = document.querySelector('input[name="data_type"]:checked')?.value || 'all';
+        const dataTypeLabel = {
+          all: 'Toutes mes données',
+          transactions: 'Transactions & historique financier',
+          files: 'Fichiers & images',
+          profile: 'Informations de profil'
+        }[dataType] || dataType;
+
+        subject = encodeURIComponent('[SUPPRESSION DONNÉES] ' + email);
+        body = encodeURIComponent(
+          'Bonjour,\n\nJe souhaite supprimer mes données Kajimbatsiko (sans supprimer le compte).\n\n' +
+          'Email du compte : ' + email + '\n' +
+          'Type de données : ' + dataTypeLabel + '\n' +
+          (reason ? 'Précisions : ' + reason + '\n' : '') +
+          '\nMerci de traiter ma demande dans les 30 jours.\n\nCordialement.'
+        );
+      }
+
+      // Ouvre le client mail natif de l'utilisateur
+      const mailtoLink = 'mailto:kajimbatsiko.support@gmail.com?subject=' + subject + '&body=' + body;
+      window.location.href = mailtoLink;
+
+      // Affiche le message de confirmation après un court délai
+      setTimeout(() => {
+        successMsg.style.display = 'block';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.textContent = type === 'account'
+          ? '🗑️ Demander la suppression du compte'
+          : '🗂️ Demander la suppression des données';
+        form.reset();
+      }, 1500);
+    }
+  </script>
+
+</body>
+</html>

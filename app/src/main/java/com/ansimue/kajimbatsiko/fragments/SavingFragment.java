@@ -84,7 +84,62 @@ public class SavingFragment extends Fragment {
             }
         });
 
+        grid.setOnItemLongClickListener((parent, view1, position, id) -> {
+            if (position < categoriesLists.size()) {
+                DataCategorySaving selectedCategory = categoriesLists.get(position);
+                showEditDeleteSavingCategoryDialog(selectedCategory);
+            }
+            return true;
+        });
+
         return view;
+    }
+
+    private void showEditDeleteSavingCategoryDialog(DataCategorySaving category) {
+        String[] options = {"Modifier", "Supprimer"};
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(category.nom)
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        SavingDialog editDialog = SavingDialog.newInstance(category.id, category.nom, category.devis, category.icon);
+                        editDialog.setOnCategoryAdded(cat -> loadData());
+                        editDialog.show(getParentFragmentManager(), "EditSavingDialog");
+                    } else if (which == 1) {
+                        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                                .setTitle("Confirmation")
+                                .setMessage("Voulez-vous vraiment supprimer cet objectif ?")
+                                .setPositiveButton("Oui", (d, w) -> deleteSavingCategory(category))
+                                .setNegativeButton("Non", null)
+                                .show();
+                    }
+                })
+                .show();
+    }
+
+    private void deleteSavingCategory(DataCategorySaving category) {
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
+        new Thread(() -> {
+            database db = database.getDatabase(requireContext());
+            db.category_savingDao().deleteCategorySaving(category);
+            
+            if (currentUserId != null) {
+                com.google.firebase.firestore.FirebaseFirestore firestore = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+                firestore.collection("users").document(currentUserId).collection("saving_categories")
+                        .whereEqualTo("nom", category.nom)
+                        .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                            for (com.google.firebase.firestore.QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                                doc.getReference().delete();
+                            }
+                        });
+            }
+            
+            if (isAdded()) {
+                requireActivity().runOnUiThread(() -> {
+                    android.widget.Toast.makeText(getContext(), "Objectif supprimé", android.widget.Toast.LENGTH_SHORT).show();
+                    loadData();
+                });
+            }
+        }).start();
     }
 
     @Override

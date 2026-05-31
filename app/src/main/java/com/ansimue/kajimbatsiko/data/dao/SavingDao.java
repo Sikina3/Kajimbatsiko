@@ -22,6 +22,9 @@ public interface SavingDao {
     @Delete
     void deleteSaving(DataSaving economie);
 
+    @Query("DELETE FROM economie")
+    void deleteAllSavings();
+
     @Query("SELECT * FROM economie WHERE user_id = :userId ORDER BY " +
             "substr(date, 7, 4) || '-' || " +
             "CASE substr(date, 4, 2) " +

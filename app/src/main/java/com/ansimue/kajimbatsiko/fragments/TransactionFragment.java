@@ -37,7 +37,7 @@ import java.util.Map;
 public class TransactionFragment extends Fragment {
 
     private LinearLayout but_income, but_expense;
-    private ImageView but_ajout, notifIcon, profileIcon;
+    private ImageView but_ajout, but_ajout_depense, notifIcon, profileIcon;
     private RecyclerView affiche_revenue;
     private ImageView image_revenue, image_expense;
     private TextView text_revenue, text_depense, total_balance;
@@ -73,6 +73,7 @@ public class TransactionFragment extends Fragment {
         but_income = view.findViewById(R.id.but_income);
         but_expense = view.findViewById(R.id.but_expense);
         but_ajout = view.findViewById(R.id.but_ajout);
+        but_ajout_depense = view.findViewById(R.id.but_ajout_depense);
         affiche_revenue = view.findViewById(R.id.affiche_revenue);
         text_depense = view.findViewById(R.id.text_depense);
         text_revenue = view.findViewById(R.id.text_revenue);
@@ -91,6 +92,14 @@ public class TransactionFragment extends Fragment {
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Form())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        but_ajout_depense.setOnClickListener(v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, form_depense.newInstance())
                     .addToBackStack(null)
                     .commit();
         });
@@ -145,6 +154,7 @@ public class TransactionFragment extends Fragment {
             image_revenue.setImageTintList(ContextCompat.getColorStateList(requireContext(), R.color.white));
             image_expense.setImageTintList(ContextCompat.getColorStateList(requireContext(), R.color.ocean_blue));
             but_ajout.setVisibility(View.VISIBLE);
+            but_ajout_depense.setVisibility(View.GONE);
         } else {
             but_income.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.honeydew));
             but_expense.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.ocean_blue));
@@ -153,6 +163,7 @@ public class TransactionFragment extends Fragment {
             image_revenue.setImageTintList(ContextCompat.getColorStateList(requireContext(), R.color.caribeean_green));
             image_expense.setImageTintList(ContextCompat.getColorStateList(requireContext(), R.color.white));
             but_ajout.setVisibility(View.GONE);
+            but_ajout_depense.setVisibility(View.VISIBLE);
         }
     }
 
@@ -217,6 +228,10 @@ public class TransactionFragment extends Fragment {
                                     new Thread(() -> {
                                         if (item instanceof DataIncome) dbLocal.incomeDao().deleteIncome((DataIncome) item);
                                         else if (item instanceof DataExpenses) dbLocal.expenseDao().deleteExpense((DataExpenses) item);
+                                        
+                                        // Synchro avec Firebase
+                                        deleteFromFirebase(item);
+                                        
                                         if (isAdded()) {
                                             requireActivity().runOnUiThread(() -> {
                                                 Toast.makeText(getContext(), "Supprimé", Toast.LENGTH_SHORT).show();
@@ -234,5 +249,34 @@ public class TransactionFragment extends Fragment {
                 });
             }
         }).start();
+    }
+
+    private void deleteFromFirebase(Object item) {
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
+        if (currentUserId == null) return;
+
+        com.google.firebase.firestore.FirebaseFirestore firestore = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+
+        if (item instanceof DataIncome) {
+            DataIncome income = (DataIncome) item;
+            firestore.collection("users").document(currentUserId).collection("incomes")
+                    .whereEqualTo("titre", income.titre_revenue)
+                    .whereEqualTo("date", income.date)
+                    .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (com.google.firebase.firestore.QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                            doc.getReference().delete();
+                        }
+                    });
+        } else if (item instanceof DataExpenses) {
+            DataExpenses expense = (DataExpenses) item;
+            firestore.collection("users").document(currentUserId).collection("expenses")
+                    .whereEqualTo("titre", expense.titre_depense)
+                    .whereEqualTo("date", expense.date)
+                    .get().addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (com.google.firebase.firestore.QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                            doc.getReference().delete();
+                        }
+                    });
+        }
     }
 }

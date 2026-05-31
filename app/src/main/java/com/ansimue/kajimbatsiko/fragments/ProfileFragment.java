@@ -1,5 +1,6 @@
 package com.ansimue.kajimbatsiko.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,60 +8,112 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.ansimue.kajimbatsiko.EditProfileActivity;
+import com.ansimue.kajimbatsiko.HelpActivity;
+import com.ansimue.kajimbatsiko.LoginActivity;
 import com.ansimue.kajimbatsiko.R;
+import com.ansimue.kajimbatsiko.SettingsActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private TextView tvName, tvId, tvInitials;
+    private View btnLogout, btnBack;
+    private FirebaseAuth mAuth;
 
     public ProfileFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
+        tvName = view.findViewById(R.id.tvName);
+        tvId = view.findViewById(R.id.tvId);
+        tvInitials = view.findViewById(R.id.tvInitials);
+        btnLogout = view.findViewById(R.id.btnLogout);
+        btnBack = view.findViewById(R.id.btnBack);
+
+        // Action de retour
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                if (getActivity() != null) getActivity().getOnBackPressedDispatcher().onBackPressed();
+            });
+        }
+
+        // Action Menu
+        view.findViewById(R.id.menuEditProfile).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), EditProfileActivity.class));
+        });
+
+        view.findViewById(R.id.menuSecurity).setOnClickListener(v -> {
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Sécurité")
+                    .setMessage("Fonctionnalité bientôt disponible")
+                    .setPositiveButton("OK", null)
+                    .show();
+        });
+
+        view.findViewById(R.id.menuSetting).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
+        });
+
+        view.findViewById(R.id.menuHelp).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), HelpActivity.class));
+        });
+
+        // Action de déconnexion
+        btnLogout.setOnClickListener(v -> {
+            mAuth.signOut();
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            if (getActivity() != null) {
+                getActivity().finish();
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            // Afficher le nom de l'utilisateur
+            String name = user.getDisplayName();
+            if (name == null || name.isEmpty()) {
+                name = user.getEmail();
+            }
+            tvName.setText(name);
+
+            // Générer et afficher les initiales
+            tvInitials.setText(getInitials(name));
+
+            // Afficher l'ID formaté (kj + UID)
+            String uid = user.getUid();
+            String shortId = uid.substring(0, Math.min(uid.length(), 8)).toUpperCase();
+            tvId.setText("id: kj" + shortId);
+        }
+    }
+
+    private String getInitials(String name) {
+        if (name == null || name.isEmpty()) return "?";
+        String[] parts = name.trim().split("\\s+");
+        StringBuilder initials = new StringBuilder();
+        for (int i = 0; i < Math.min(parts.length, 2); i++) {
+            if (!parts[i].isEmpty()) {
+                initials.append(parts[i].charAt(0));
+            }
+        }
+        return initials.toString().toUpperCase();
     }
 }

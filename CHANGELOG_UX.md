@@ -108,6 +108,45 @@ Accueil  Analyse  Transactions  Catégories  Épargne
 
 ---
 
+### 4. 📞 Option "Contacter le développeur" via WhatsApp (Page d'aide)
+
+**Fichiers créés/modifiés :**
+- `HelpActivity.java` - Gestionnaire de clic, lancement de WhatsApp avec le numéro de téléphone et message pré-rempli (avec diagnostic technique)
+- `activity_help.xml` - Intégration d'une carte de contact WhatsApp modernisée et harmonisation des termes (utilisation de "épargne" au lieu d' "économies")
+- `ic_whatsapp.xml` [NEW] - Icône WhatsApp vectorielle native
+- `ic_chevron_right.xml` [NEW] - Icône flèche vectorielle native
+- `contact_card_bg.xml` [NEW] - Arrière-plan de la carte (bords arrondis 15dp et bordure légère)
+- `bg_circle_light_green.xml` [NEW] - Arrière-plan circulaire de l'icône WhatsApp
+
+**Fonctionnalités :**
+- ✅ **Accès direct WhatsApp** : Ajout d'une carte de contact à la fin du tutoriel d'aide redirigeant directement vers une discussion WhatsApp avec le développeur (`+261342943802`).
+- ✅ **Message pré-rempli & diagnostic automatique** : Insertion automatique dans le message WhatsApp des informations techniques (version de l'application, version Android, modèle de l'appareil) pour faciliter le support technique.
+- ✅ **Cohérence visuelle** : Utilisation des ressources de couleurs du projet (`@color/cyprus`, `@color/light_green`, `@color/caribeean_green`) et effet d'élévation avec effet de feedback tactile (`?attr/selectableItemBackground`).
+
+---
+
+### 5. 🩹 Alignement du bouton d'inscription (Page mot de passe oublié)
+
+**Fichiers modifiés :**
+- `activity_forgot_password.xml` - Correction des contraintes de positionnement du lien d'inscription
+
+**Fonctionnalités :**
+- ✅ **Positionnement robuste** : Correction de la contrainte chevauchant le bouton "Envoyer le lien". Le bouton d'inscription est désormais placé de manière harmonieuse à 24dp directement sous le bouton d'envoi et centré horizontalement.
+
+---
+
+### 6. 👤 Accueil personnalisé avec le prénom de l'utilisateur
+
+**Fichiers modifiés :**
+- `home.xml` - Ajout d'un ID pour identifier dynamiquement le TextView de bienvenue
+- `HomeFragment.java` - Chargement du profil utilisateur Firebase pour afficher son prénom localement
+
+**Fonctionnalités :**
+- ✅ **Abonnement au prénom** : L'accueil affiche maintenant *"Hey, [Prénom]"* au lieu du message statique *"Hey, Bon retour"*.
+- ✅ **Fonctionnement 100% offline** : Le prénom de l'utilisateur est extrait du profil `FirebaseUser` déjà mis en cache localement sur l'appareil par FirebaseAuth. **Aucune connexion internet n'est requise** pour charger le nom à l'ouverture de l'application !
+
+---
+
 ## 📊 Impact des Améliorations
 
 ### Problèmes Résolus :

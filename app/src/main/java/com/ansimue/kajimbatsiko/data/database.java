@@ -30,7 +30,7 @@ import com.ansimue.kajimbatsiko.data.rooms.NotificationItem;
                 DataSaving.class,
                 NotificationItem.class
         },
-        version = 5,
+        version = 7,
         exportSchema = false
 )
 public abstract class database extends RoomDatabase {
@@ -73,13 +73,44 @@ public abstract class database extends RoomDatabase {
         }
     };
 
+    // Migration de la version 5 à 6 : Renommage de la colonne 'name' en 'nom' dans 'categorie'
+    static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("PRAGMA foreign_keys=OFF");
+            database.execSQL("CREATE TABLE IF NOT EXISTS `categorie_new` (" +
+                    "`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`nom` TEXT, " +
+                    "`icon` INTEGER NOT NULL)");
+            database.execSQL("INSERT INTO `categorie_new` (`uid`, `nom`, `icon`) " +
+                    "SELECT `uid`, `name`, `icon` FROM `categorie` ");
+            database.execSQL("DROP TABLE `categorie`");
+            database.execSQL("ALTER TABLE `categorie_new` RENAME TO `categorie`");
+            database.execSQL("PRAGMA foreign_keys=ON");
+        }
+    };
+
+    // Migration de la version 6 à 7 : Ajout de la colonne 'devise' dans 'categorie_economie'
+    static final Migration MIGRATION_6_7 = new Migration(6, 7) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Ajout de la colonne devise dans categorie_economie si elle n'existe pas
+            try {
+                database.execSQL("ALTER TABLE categorie_economie ADD COLUMN devise REAL NOT NULL DEFAULT 0");
+            } catch (Exception e) {
+                // La colonne existe peut-être déjà
+            }
+        }
+    };
+
     public static database getDatabase(final Context context){
         if (INSTANCE == null) {
             synchronized (database.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     database.class, "finance.db")
-                            .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                            .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                            .fallbackToDestructiveMigration()
                             .fallbackToDestructiveMigrationOnDowngrade()
                             .build();
                 }

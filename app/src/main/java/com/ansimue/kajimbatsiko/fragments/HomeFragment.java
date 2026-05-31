@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
     private SavingDao savingDao;
     private Category_SavingDao categorySavingDao;
 
-    private TextView total_income, total_expense, salutation;
+    private TextView total_income, total_expense, salutation, welcomeText;
     private TextView monthlyIncome, weeklyExpense;
     private TextView savingTitle, savingProgress, savingGoal;
     private ImageView notifIcon, profileIcon;
@@ -60,6 +60,7 @@ public class HomeFragment extends Fragment {
         total_income = rootview.findViewById(R.id.total_income);
         total_expense = rootview.findViewById(R.id.total_expense);
         salutation = rootview.findViewById(R.id.salutation);
+        welcomeText = rootview.findViewById(R.id.welcome_text);
         monthlyIncome = rootview.findViewById(R.id.textView11);
         weeklyExpense = rootview.findViewById(R.id.textView13);
         notifIcon = rootview.findViewById(R.id.imageView2);
@@ -80,6 +81,15 @@ public class HomeFragment extends Fragment {
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            String name = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            if (name != null && !name.trim().isEmpty()) {
+                String firstName = name.split(" ")[0];
+                welcomeText.setText("Hey, " + firstName);
+            } else {
+                welcomeText.setText("Hey, Bon retour");
+            }
+        } else {
+            welcomeText.setText("Hey, Bon retour");
         }
 
         DecimalFormatSymbols symbole = new DecimalFormatSymbols();

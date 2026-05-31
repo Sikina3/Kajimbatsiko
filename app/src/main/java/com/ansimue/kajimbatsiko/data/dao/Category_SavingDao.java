@@ -25,6 +25,9 @@ public interface Category_SavingDao {
     @Delete
     void deleteCategorySaving(DataCategorySaving categories_saving);
 
+    @Query("DELETE FROM categorie_economie")
+    void deleteAllCategorySaving();
+
     @Query("SELECT icon FROM categorie_economie WHERE id = :category")
     int getIconCategorySaving(int category);
 

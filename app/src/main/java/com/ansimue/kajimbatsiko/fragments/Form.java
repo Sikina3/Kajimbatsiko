@@ -68,7 +68,18 @@ public class Form extends Fragment {
     private Button but_send;
     private EditText note, montant, types, date;
     private Spinner titre;
-    String[] titres = {"Salaire", "Autres"};
+    String[] titres = {
+            "Salaire",
+            "Bourse d'études",
+            "Aide familiale",
+            "Freelance",
+            "Commerce / Vente",
+            "Location",
+            "Investissement",
+            "Cadeau / Don",
+            "Remboursement",
+            "Autres"
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
