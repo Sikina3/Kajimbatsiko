@@ -89,7 +89,7 @@
                 android:layout_marginTop="70dp"
                 android:text="John Smith"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:text="ID: 25030024"
                 android:textColor="#757575"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvName" />
@@ -115,6 +115,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvId"
                 app:layout_constraintVertical_bias="0.325"
+                android:paddingHorizontal="15dp"
                 tools:layout_editor_absoluteX="115dp">
 
                 <!-- Edit Profile -->
@@ -141,8 +142,7 @@
                         android:layout_marginStart="15dp"
                         android:text="Modifier le profile"
                         android:textColor="?attr/colorOnSurface"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="14sp"/>
                 </LinearLayout>
 
                 <!-- Security -->
@@ -169,8 +169,7 @@
                         android:layout_marginStart="15dp"
                         android:text="Sécurité"
                         android:textColor="?attr/colorOnSurface"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <!-- Setting -->
@@ -197,8 +196,7 @@
                         android:layout_marginStart="15dp"
                         android:text="Paramètre"
                         android:textColor="?attr/colorOnSurface"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <!-- Help -->
@@ -225,8 +223,7 @@
                         android:layout_marginStart="15dp"
                         android:text="Aide"
                         android:textColor="?attr/colorOnSurface"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp"/>
                 </LinearLayout>
 
                 <!-- Logout -->
@@ -253,8 +250,7 @@
                         android:layout_marginStart="15dp"
                         android:text="Déconnexion"
                         android:textColor="?attr/colorOnSurface"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="14sp"/>
                 </LinearLayout>
 
             </LinearLayout>

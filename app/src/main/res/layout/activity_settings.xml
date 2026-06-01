@@ -192,8 +192,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nouveau mot de passe"
-                android:textColor="?attr/colorOnSurface"
-                android:textStyle="bold" />
+                android:textColor="?attr/colorOnSurface" />
 
             <EditText
                 android:id="@+id/etNewPassword"
@@ -203,7 +202,8 @@
                 android:background="@drawable/edittext_bg"
                 android:hint="Nouveau mot de passe (min. 8 caractères)"
                 android:inputType="textPassword"
-                android:paddingHorizontal="16dp"
+                android:paddingHorizontal="1dp"
+                android:textSize="14sp"
                 android:textColor="?attr/colorOnSurface" />
 
             <TextView
@@ -211,8 +211,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="Confirmer le nouveau mot de passe"
-                android:textColor="?attr/colorOnSurface"
-                android:textStyle="bold" />
+                android:textColor="?attr/colorOnSurface" />
 
             <EditText
                 android:id="@+id/etConfirmPassword"
@@ -221,6 +220,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Confirmer le mot de passe"
+                android:textSize="14sp"
                 android:inputType="textPassword"
                 android:paddingHorizontal="16dp"
                 android:textColor="?attr/colorOnSurface" />
