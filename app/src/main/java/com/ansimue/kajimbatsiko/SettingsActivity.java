@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ansimue.kajimbatsiko.utils.ThemeManager;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -21,6 +24,10 @@ public class SettingsActivity extends AppCompatActivity {
     private Button btnChangePassword, btnDeleteAccount;
     private FirebaseAuth mAuth;
 
+    // Theme UI
+    private MaterialCardView cardThemeLight, cardThemeDark, cardThemeSystem;
+    private ImageView checkThemeLight, checkThemeDark, checkThemeSystem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,17 +35,68 @@ public class SettingsActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        // Password views
         etNewPassword = findViewById(R.id.etNewPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         tvPasswordError = findViewById(R.id.tvPasswordError);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
 
+        // Theme views
+        cardThemeLight = findViewById(R.id.cardThemeLight);
+        cardThemeDark = findViewById(R.id.cardThemeDark);
+        cardThemeSystem = findViewById(R.id.cardThemeSystem);
+        checkThemeLight = findViewById(R.id.checkThemeLight);
+        checkThemeDark = findViewById(R.id.checkThemeDark);
+        checkThemeSystem = findViewById(R.id.checkThemeSystem);
+
+        // Navigation
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
+        // Password listeners
         btnChangePassword.setOnClickListener(v -> changePassword());
         btnDeleteAccount.setOnClickListener(v -> showDeleteConfirmationDialog());
+
+        // Theme listeners
+        setupThemeSelection();
     }
+
+    // =========================================================================
+    // Gestion du thème
+    // =========================================================================
+
+    private void setupThemeSelection() {
+        // Afficher le thème actuel
+        updateThemeCheckmarks(ThemeManager.getSavedThemeMode(this));
+
+        cardThemeLight.setOnClickListener(v -> selectTheme(ThemeManager.THEME_LIGHT));
+        cardThemeDark.setOnClickListener(v -> selectTheme(ThemeManager.THEME_DARK));
+        cardThemeSystem.setOnClickListener(v -> selectTheme(ThemeManager.THEME_SYSTEM));
+    }
+
+    private void selectTheme(int themeMode) {
+        ThemeManager.saveThemeMode(this, themeMode);
+        updateThemeCheckmarks(themeMode);
+        // La récréation de l'activité est gérée automatiquement par DayNight
+        recreate();
+    }
+
+    private void updateThemeCheckmarks(int themeMode) {
+        checkThemeLight.setVisibility(themeMode == ThemeManager.THEME_LIGHT ? View.VISIBLE : View.GONE);
+        checkThemeDark.setVisibility(themeMode == ThemeManager.THEME_DARK ? View.VISIBLE : View.GONE);
+        checkThemeSystem.setVisibility(themeMode == ThemeManager.THEME_SYSTEM ? View.VISIBLE : View.GONE);
+
+        // Mettre en surbrillance la carte sélectionnée
+        int selectedStroke = 3;
+        int defaultStroke = 1;
+        cardThemeLight.setStrokeWidth(themeMode == ThemeManager.THEME_LIGHT ? selectedStroke : defaultStroke);
+        cardThemeDark.setStrokeWidth(themeMode == ThemeManager.THEME_DARK ? selectedStroke : defaultStroke);
+        cardThemeSystem.setStrokeWidth(themeMode == ThemeManager.THEME_SYSTEM ? selectedStroke : defaultStroke);
+    }
+
+    // =========================================================================
+    // Gestion du mot de passe
+    // =========================================================================
 
     private void changePassword() {
         String newPassword = etNewPassword.getText().toString().trim();
@@ -86,6 +144,10 @@ public class SettingsActivity extends AppCompatActivity {
                     });
         }
     }
+
+    // =========================================================================
+    // Suppression du compte
+    // =========================================================================
 
     private void showDeleteConfirmationDialog() {
         new AlertDialog.Builder(this)

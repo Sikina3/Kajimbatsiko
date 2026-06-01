@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bienvenue"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="32sp"
             android:padding="50dp"
             android:textStyle="bold" />
@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"
-                    android:textColor="@color/cyprus"
+                    android:textColor="?attr/colorOnSurface"
                     android:textStyle="bold" />
 
                 <EditText
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Mot de passe"
-                    android:textColor="@color/cyprus"
+                    android:textColor="?attr/colorOnSurface"
                     android:textStyle="bold" />
 
                 <EditText
@@ -102,7 +102,7 @@
                     android:text="Se connecter"
                     android:textAllCaps="false"
                     android:textSize="18sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="?attr/colorOnPrimary"/>
 
                 <TextView
                     android:id="@+id/forgot_password"

@@ -38,7 +38,7 @@
             android:text="Nouvelle dépense"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:textColor="@color/black"/>
+            android:textColor="?attr/colorOnSurface"/>
 
         <TextView
             android:id="@+id/notifMessage"

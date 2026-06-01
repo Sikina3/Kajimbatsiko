@@ -21,7 +21,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnSurface"
             android:layout_marginBottom="15dp"/>
 
         <!-- Carte de statistiques -->
@@ -51,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:text="Total Revenus"
                         android:textSize="12sp"
-                        android:textColor="@color/cyprus"/>
+                        android:textColor="?attr/colorOnSurface"/>
 
                     <TextView
                         android:id="@+id/totalIncome"
@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:text="Total Dépenses"
                         android:textSize="12sp"
-                        android:textColor="@color/cyprus"/>
+                        android:textColor="?attr/colorOnSurface"/>
 
                     <TextView
                         android:id="@+id/totalExpense"
@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:text="Balance"
                     android:textSize="14sp"
-                    android:textColor="@color/cyprus"/>
+                    android:textColor="?attr/colorOnSurface"/>
 
                 <TextView
                     android:id="@+id/balance"

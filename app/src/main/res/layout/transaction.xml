@@ -43,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:text="Transaction"
                         android:textSize="22sp"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ar 1 000 000"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 

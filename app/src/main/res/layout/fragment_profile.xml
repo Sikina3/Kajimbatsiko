@@ -17,14 +17,14 @@
         android:src="@drawable/retour"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
+        app:tint="?attr/colorOnPrimary" />
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Profile"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnBack"
@@ -72,7 +72,7 @@
                 android:layout_height="120dp"
                 android:background="@drawable/avatar_initials_bg"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="40sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/contentBackground"
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="70dp"
                 android:text="John Smith"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +140,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="Modifier le profile"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -168,37 +168,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="Sécurité"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Theme Mode -->
-                <LinearLayout
-                    android:id="@+id/menuTheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:paddingVertical="12dp">
-
-                    <ImageView
-                        android:id="@+id/ivThemeIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/bg_icon"
-                        android:padding="8dp"
-                        android:src="@drawable/setting" />
-
-                    <TextView
-                        android:id="@+id/tvThemeLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="Mode Sombre"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -226,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="Paramètre"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -254,7 +224,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="Aide"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -282,7 +252,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:text="Déconnexion"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>

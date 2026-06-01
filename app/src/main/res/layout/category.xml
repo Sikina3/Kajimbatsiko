@@ -36,7 +36,7 @@
                     android:layout_weight="1"
                     android:text="Catégories"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textStyle="bold"/>
 
                 <ImageView
@@ -69,7 +69,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="13sp"
                         android:alpha="0.8"
                         android:text="Balance totale" />
@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ar 0"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textStyle="bold"
                         android:textSize="18sp"/>
                 </LinearLayout>
@@ -88,7 +88,7 @@
                     android:layout_width="1dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@color/white"
+                    android:background="?attr/colorSurface"
                     android:alpha="0.5"/>
 
                 <LinearLayout
@@ -101,7 +101,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="13sp"
                         android:alpha="0.8"
                         android:text="Dépense totale" />

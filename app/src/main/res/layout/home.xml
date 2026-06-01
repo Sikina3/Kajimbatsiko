@@ -38,7 +38,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Hey, Bon retour"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:alpha="0.9"
                         android:text="Bonjour"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -80,7 +80,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/menu_menu_border"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="?attr/colorSurface"
                     android:orientation="vertical"
                     android:padding="12dp">
 
@@ -108,7 +108,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/menu_menu_border"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="?attr/colorSurface"
                     android:orientation="vertical"
                     android:padding="12dp">
 
@@ -164,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:text="Objectif d'épargne"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -191,7 +191,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Objectifs"
-                                android:textColor="@color/cyprus"
+                                android:textColor="?attr/colorOnSurface"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
 
@@ -223,7 +223,7 @@
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="15dp"
                     android:text="Statistiques rapides"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -355,7 +355,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Conseil du jour"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnPrimary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -365,7 +365,7 @@
                             android:layout_marginTop="4dp"
                             android:alpha="0.9"
                             android:text="Suivez vos dépenses quotidiennes pour mieux contrôler votre budget!"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnPrimary"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>

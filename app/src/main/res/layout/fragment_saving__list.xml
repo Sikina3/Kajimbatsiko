@@ -42,7 +42,7 @@
                     android:layout_weight="1"
                     android:text="Ajouter un Revenue"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:layout_marginHorizontal="10dp"/>
@@ -94,7 +94,7 @@
                             android:id="@+id/textView14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="14sp"
                             android:text="Objectif" />
 
@@ -104,7 +104,7 @@
                             android:layout_height="wrap_content"
                             android:text="Ar 0"
                             android:textSize="18sp"
-                            android:textColor="@color/black"
+                            android:textColor="?attr/colorOnSurface"
                             android:textStyle="bold"/>
 
                         <TextView
@@ -112,7 +112,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Atteint"
-                            android:textColor="@color/black"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="14sp"
                             android:layout_marginTop="10dp"/>
 
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="60sp"
                 android:text="Ajouter un nouvelle budget"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="16sp"
                 android:backgroundTint="@color/caribeean_green"/>
         </LinearLayout>

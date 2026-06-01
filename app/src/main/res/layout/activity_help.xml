@@ -16,13 +16,13 @@
         android:src="@drawable/retour"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
+        app:tint="?attr/colorOnPrimary" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Aide &amp; Tutoriel"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnBack"
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Comment utiliser Kajimbatsiko ?"
-                android:textColor="@color/cyprus"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp" />
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1. Page d'accueil"
-                android:textColor="@color/cyprus"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
                 android:textSize="16sp" />
             <TextView
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2. Ajouter une transaction"
-                android:textColor="@color/cyprus"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
                 android:textSize="16sp" />
             <TextView
@@ -95,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="3. Gérer votre épargne"
-                android:textColor="@color/cyprus"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
                 android:textSize="16sp" />
             <TextView
@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=" 4. Analyser vos finances"
-                android:textColor="@color/cyprus"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
                 android:textSize="16sp" />
             <TextView
@@ -137,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Besoin d'aide supplémentaire ?"
-                android:textColor="@color/cyprus"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
@@ -185,7 +185,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Contacter le développeur"
-                        android:textColor="@color/cyprus"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -202,7 +202,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_chevron_right"
-                    app:tint="@color/cyprus" />
+                    app:tint="?attr/colorOnSurface" />
             </LinearLayout>
 
         </LinearLayout>

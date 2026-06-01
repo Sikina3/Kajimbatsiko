@@ -44,7 +44,7 @@
                     android:layout_weight="1"
                     android:text="Nom Catégorie"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:layout_marginHorizontal="10dp"/>
@@ -81,7 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="13sp"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:alpha="0.8"
                         android:text="Balance totale" />
 
@@ -90,7 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ar 0"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textStyle="bold"
                         android:textSize="18sp"/>
                 </LinearLayout>
@@ -100,7 +100,7 @@
                     android:layout_width="1dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@color/white"
+                    android:background="?attr/colorSurface"
                     android:alpha="0.5" />
 
                 <LinearLayout
@@ -115,7 +115,7 @@
                         android:layout_width="match_parent"
                         android:textSize="13sp"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:alpha="0.8"
                         android:text="Dépense totale" />
 
@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="60sp"
                 android:text="Nouvelle dépense"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:backgroundTint="@color/caribeean_green"
                 android:textSize="16sp" />
         </LinearLayout>
