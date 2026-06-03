@@ -147,8 +147,12 @@ public class NewCategoryDialog extends DialogFragment {
                 datacategory.nom = category;
                 datacategory.icon = selectedIcon;
 
+                android.content.Context context = getContext();
+                androidx.fragment.app.FragmentActivity activity = getActivity();
+
                 new Thread(() -> {
-                    database db = database.getDatabase(requireContext());
+                    if (context == null) return;
+                    database db = database.getDatabase(context);
                     if (editId != -1) {
                         datacategory.uid = editId;
                         db.categoryDao().updateCategory(datacategory);
@@ -159,12 +163,12 @@ public class NewCategoryDialog extends DialogFragment {
 
                     syncCategoryToFirestore(datacategory);
 
-                    if(listener != null){
-                        requireActivity().runOnUiThread(() -> listener.onCategoryAdded(datacategory));
+                    if(listener != null && activity != null){
+                        activity.runOnUiThread(() -> listener.onCategoryAdded(datacategory));
                     }
                 }).start();
 
-                Toast.makeText(getContext(), "Catégorie enregistrée et synchronisée", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Catégorie enregistrée et synchronisée", Toast.LENGTH_SHORT).show();
                 dismiss();
             } else {
                 input_name.setError("Il faut remplir le champ!");

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/caribeean_green">
+    android:background="?attr/colorPrimary">
 
     <TextView
         android:id="@+id/title_pin"
@@ -132,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="8dp"
-            android:backgroundTint="#F1FFF3"
+            android:backgroundTint="@color/btn_secondary_bg"
             android:text="Send Again"
             android:textAllCaps="false"
             android:textColor="@color/caribeean_green"

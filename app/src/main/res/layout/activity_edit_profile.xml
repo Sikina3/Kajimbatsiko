@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/caribeean_green">
+    android:background="?attr/colorPrimary">
 
     <!-- Header -->
     <ImageView
@@ -78,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Nom complet"
+                android:textSize="14sp"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
 
@@ -89,13 +90,15 @@
                 android:background="@drawable/edittext_bg"
                 android:hint="Votre nom complet"
                 android:inputType="textPersonName"
+                android:textSize="14sp"
                 android:paddingHorizontal="16dp"
-                android:textColor="@color/vide" />
+                android:textColor="@color/text_primary" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:textSize="14sp"
                 android:text="Email"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
@@ -106,19 +109,20 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_bg"
+                android:textSize="14sp"
                 android:hint="Email"
                 android:enabled="false"
                 android:alpha="0.6"
                 android:inputType="textEmailAddress"
                 android:paddingHorizontal="16dp"
-                android:textColor="@color/vide" />
+                android:textColor="@color/text_primary" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="L'email ne peut pas être modifié."
-                android:textColor="#757575"
+                android:textColor="@color/text_secondary"
                 android:textSize="11sp" />
 
             <TextView

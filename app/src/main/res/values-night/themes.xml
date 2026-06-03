@@ -4,17 +4,17 @@
     <style name="Base.Theme.Kajimbatsiko" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- Primary -->
-        <item name="colorPrimary">@color/caribeean_green</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/vide</item>
+        <item name="colorOnPrimary">@color/text_primary</item>
         <item name="colorPrimaryContainer">@color/fence_green</item>
-        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorOnPrimaryContainer">@color/text_primary</item>
         
         <!-- Surface & Background -->
-        <item name="colorSurface">@color/vide</item>
-        <item name="colorOnSurface">@color/honeydew</item>
+        <item name="colorSurface">@color/cyprus</item>
+        <item name="colorOnSurface">@color/text_primary</item>
         <item name="android:colorBackground">@color/vide</item>
-        <item name="colorOnBackground">@color/honeydew</item>
-        <item name="colorSurfaceInverse">@color/honeydew</item>
+        <item name="colorOnBackground">@color/text_primary</item>
+        <item name="colorSurfaceInverse">@color/text_primary</item>
         <item name="colorOnSurfaceInverse">@color/vide</item>
         
         <!-- Status Bar -->
@@ -24,9 +24,9 @@
         <item name="colorButtonNormal">@color/caribeean_green</item>
         <item name="colorAccent">@color/caribeean_green</item>
         <item name="colorPrimaryFixed">@color/caribeean_green</item>
-        <item name="colorPrimarySurface">@color/vide</item>
+        <item name="colorPrimarySurface">@color/fence_green</item>
         <item name="colorSecondary">@color/caribeean_green</item>
-        <item name="colorTertiary">@color/caribeean_green</item>
+        <item name="colorTertiary">@color/ocean_blue</item>
 
         <!-- Typography -->
         <item name="android:fontFamily">@font/poppins</item>

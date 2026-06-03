@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/caribeean_green">
+    android:background="?attr/colorPrimary">
 
     <!-- Header -->
     <ImageView
@@ -268,7 +268,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="La suppression de votre compte est irréversible. Toutes vos données seront définitivement effacées."
-                android:textColor="#757575"
+                android:textColor="@color/text_secondary"
                 android:textSize="13sp"
                 android:layout_marginBottom="16dp" />
 

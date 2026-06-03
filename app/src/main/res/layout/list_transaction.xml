@@ -36,14 +36,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="April 30 2025"
-            android:textColor="#3E3E3E"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp" />
     </LinearLayout>
 
     <View
         android:id="@+id/divider4"
         android:layout_width="1dp"
-        android:background="#666666"
+        android:background="@color/text_secondary"
         android:layout_height="match_parent"/>
 
     <TextView
@@ -61,7 +61,7 @@
         android:id="@+id/divider5"
         android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:background="#666666" />
+        android:background="@color/text_secondary" />
 
     <TextView
         android:id="@+id/montants"

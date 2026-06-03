@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AnalyseFragment"
     android:id="@+id/fragment_saving"
-    android:background="@color/caribeean_green">
+    android:background="?attr/colorPrimary">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:text="- Ar 0"
                         android:textSize="18sp"
-                        android:textColor="#0068FF"
+                        android:textColor="@color/ocean_blue"
                         android:textStyle="bold"/>
                 </LinearLayout>
             </LinearLayout>

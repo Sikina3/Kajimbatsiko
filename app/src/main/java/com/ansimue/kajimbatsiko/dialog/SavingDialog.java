@@ -155,8 +155,12 @@ public class SavingDialog extends DialogFragment {
                     data.devis = Double.parseDouble(category_devis);
                     data.icon = selectedIcon;
 
+                    android.content.Context context = getContext();
+                    androidx.fragment.app.FragmentActivity activity = getActivity();
+
                     new Thread(() -> {
-                        database db = database.getDatabase(requireContext());
+                        if (context == null) return;
+                        database db = database.getDatabase(context);
                         if (editId != -1) {
                             data.id = editId;
                             db.category_savingDao().updateCategorySaving(data);
@@ -167,12 +171,12 @@ public class SavingDialog extends DialogFragment {
 
                         syncSavingCategoryToFirestore(data);
 
-                        if (listener != null) {
-                            requireActivity().runOnUiThread(() -> listener.onCategoryAdded(data));
+                        if (listener != null && activity != null) {
+                            activity.runOnUiThread(() -> listener.onCategoryAdded(data));
                         }
                     }).start();
 
-                    Toast.makeText(getContext(), "Objectif enregistré et synchronisé", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Objectif enregistré et synchronisé", Toast.LENGTH_SHORT).show();
                     dismiss();
                 } catch (NumberFormatException e) {
                     input_devise.setError("Montant invalide");

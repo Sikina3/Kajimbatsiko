@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/caribeean_green">
+    android:background="?attr/colorPrimary">
 
     <TextView
         android:id="@+id/title_create"
@@ -49,7 +49,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Votre nom complet"
-                android:textColor="@color/vide"
+                android:textColor="@color/text_primary"
                 android:inputType="textPersonName"
                 android:paddingHorizontal="16dp"
                 app:layout_constraintTop_toBottomOf="@id/label_name" />
@@ -69,7 +69,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="@color/vide"
+                android:textColor="@color/text_primary"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="exemple@gmail.com"
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/vide"
+                android:textColor="@color/text_primary"
                 android:background="@drawable/edittext_bg"
                 android:hint="••••••••"
                 android:inputType="textPassword"
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/vide"
+                android:textColor="@color/text_primary"
                 android:background="@drawable/edittext_bg"
                 android:hint="••••••••"
                 android:inputType="textPassword"
@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="A déja un compte? Se connecter"
-                android:textColor="@color/vide"
+                android:textColor="@color/text_primary"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -4,12 +4,24 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="honeydew">#F1FFF3</color>
-    <color name="light_green">#DFF7E2</color>
+    <color name="light_green">#052224</color> <!-- Redefined to fence_green for dark bar & borders -->
     <color name="caribeean_green">#00D09E</color>
     <color name="cyprus">#0E3E3E</color>
     <color name="fence_green">#052224</color>
     <color name="vide">#031314</color>
     <color name="light_blue">#6DB6FE</color>
     <color name="vivid_blue">#3299FF</color>
-    <color name="ocean_blue">#0068FF</color>
+    <color name="ocean_blue">#5E97F6</color> <!-- Redefined to soft blue for dark mode -->
+
+    <!-- Semantic Colors for Dark Theme -->
+    <color name="text_primary">#D5E8E4</color> <!-- Soft minty/white text -->
+    <color name="text_secondary">#8CA3A0</color> <!-- Soft light gray-teal -->
+    <color name="edittext_bg_color">#031314</color> <!-- vide -->
+    <color name="edittext_stroke_color">#052224</color> <!-- fence_green -->
+    <color name="card_bg_color">#0E3E3E</color> <!-- cyprus -->
+    <color name="bottom_nav_unselected">#8CA3A0</color> <!-- Soft light gray-teal -->
+    <color name="bottom_nav_active_color">#0E3E3E</color> <!-- cyprus active indicator -->
+    <color name="btn_secondary_bg">#0E3E3E</color> <!-- cyprus -->
+    <color name="warning_bg">#332D15</color> <!-- Dark amber/brown -->
+    <color name="warning_text">#FFE082</color> <!-- Light amber -->
 </resources>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/caribeean_green">
+    android:background="?attr/colorPrimary">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                     android:hint="example@example.com"
                     android:inputType="textEmailAddress"
                     android:paddingHorizontal="16dp"
-                    android:textColor="@color/vide"/>
+                    android:textColor="@color/text_primary"/>
 
                 <TextView
                     android:id="@+id/tvErrorEmail"
@@ -81,7 +81,7 @@
                     android:background="@drawable/edittext_bg"
                     android:hint="••••••••"
                     android:inputType="textPassword"
-                    android:textColor="@color/vide"
+                    android:textColor="@color/text_primary"
                     android:paddingHorizontal="16dp" />
 
                 <TextView
@@ -119,7 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginTop="8dp"
-                    android:backgroundTint="#F1FFF3"
+                    android:backgroundTint="@color/btn_secondary_bg"
                     android:text="Créer un compte"
                     android:textAllCaps="false"
                     android:textColor="@color/caribeean_green"
@@ -148,7 +148,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="ou"
-                        android:textColor="@color/light_green"/>
+                        android:textColor="@color/text_secondary"/>
 
                     <View
                         android:id="@+id/divider6"

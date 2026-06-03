@@ -11,4 +11,16 @@
     <color name="light_blue">#6DB6FE</color>
     <color name="vivid_blue">#3299FF</color>
     <color name="ocean_blue">#0068FF</color>
+
+    <!-- Semantic Colors for Light Theme -->
+    <color name="text_primary">@color/vide</color>
+    <color name="text_secondary">#757575</color>
+    <color name="edittext_bg_color">#F1FFF3</color>
+    <color name="edittext_stroke_color">#DFF7E2</color>
+    <color name="card_bg_color">#FFFFFFFF</color>
+    <color name="bottom_nav_unselected">#FF000000</color>
+    <color name="bottom_nav_active_color">@color/caribeean_green</color>
+    <color name="btn_secondary_bg">#F1FFF3</color>
+    <color name="warning_bg">#FFF8E1</color>
+    <color name="warning_text">#7B6000</color>
 </resources>
