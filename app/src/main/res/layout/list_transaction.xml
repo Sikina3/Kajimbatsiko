@@ -19,12 +19,11 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:paddingHorizontal="10dp">
+        android:layout_marginLeft="10dp">
 
         <TextView
             android:id="@+id/titre"
-            android:layout_width="match_parent"
+            android:layout_width="100sp"
             android:layout_height="wrap_content"
             android:text="Salary"
             android:textStyle="bold"

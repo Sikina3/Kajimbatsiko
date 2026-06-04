@@ -124,6 +124,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/base_shape"
+            android:backgroundTint="?attr/colorSurface"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -135,8 +136,8 @@
                     android:id="@+id/grid"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:numColumns="4"
-                    android:columnWidth="100dp"
+                    android:numColumns="3"
+                    android:columnWidth="160dp"
                     android:stretchMode="columnWidth"
                     android:gravity="center"
                     android:layout_above="@+id/button"

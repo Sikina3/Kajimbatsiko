@@ -58,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
         btnDeleteAccount.setOnClickListener(v -> showDeleteConfirmationDialog());
 
         // Theme listeners
-        setupThemeSelection();
+//        setupThemeSelection();
     }
 
     // =========================================================================
@@ -67,16 +67,16 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setupThemeSelection() {
         // Afficher le thème actuel
-        updateThemeCheckmarks(ThemeManager.getSavedThemeMode(this));
-
-        cardThemeLight.setOnClickListener(v -> selectTheme(ThemeManager.THEME_LIGHT));
-        cardThemeDark.setOnClickListener(v -> selectTheme(ThemeManager.THEME_DARK));
-        cardThemeSystem.setOnClickListener(v -> selectTheme(ThemeManager.THEME_SYSTEM));
+//        updateThemeCheckmarks(ThemeManager.getSavedThemeMode(this));
+//
+//        cardThemeLight.setOnClickListener(v -> selectTheme(ThemeManager.THEME_LIGHT));
+//        cardThemeDark.setOnClickListener(v -> selectTheme(ThemeManager.THEME_DARK));
+//        cardThemeSystem.setOnClickListener(v -> selectTheme(ThemeManager.THEME_SYSTEM));
     }
 
     private void selectTheme(int themeMode) {
         ThemeManager.saveThemeMode(this, themeMode);
-        updateThemeCheckmarks(themeMode);
+//        updateThemeCheckmarks(themeMode);
         // La récréation de l'activité est gérée automatiquement par DayNight
         recreate();
     }

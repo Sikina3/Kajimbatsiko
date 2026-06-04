@@ -15,7 +15,7 @@
         <item name="android:colorBackground">@color/vide</item>
         <item name="colorOnBackground">@color/text_primary</item>
         <item name="colorSurfaceInverse">@color/text_primary</item>
-        <item name="colorOnSurfaceInverse">@color/vide</item>
+        <item name="colorOnSurfaceInverse">@color/honeydew</item>
         
         <!-- Status Bar -->
         <item name="android:statusBarColor">@color/vide</item>

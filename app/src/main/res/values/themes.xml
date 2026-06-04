@@ -14,7 +14,7 @@
         <item name="android:colorBackground">@color/honeydew</item>
         <item name="colorOnBackground">@color/cyprus</item>
         <item name="colorSurfaceInverse">@color/cyprus</item>
-        <item name="colorOnSurfaceInverse">@color/honeydew</item>
+        <item name="colorOnSurfaceInverse">@color/fence_green</item>
         
         <!-- Status Bar -->
         <item name="android:statusBarColor">@color/caribeean_green</item>
