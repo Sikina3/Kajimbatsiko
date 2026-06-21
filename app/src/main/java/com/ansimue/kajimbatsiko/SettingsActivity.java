@@ -24,7 +24,6 @@ public class SettingsActivity extends AppCompatActivity {
     private Button btnChangePassword, btnDeleteAccount;
     private FirebaseAuth mAuth;
 
-    // Theme UI
     private MaterialCardView cardThemeLight, cardThemeDark, cardThemeSystem;
     private ImageView checkThemeLight, checkThemeDark, checkThemeSystem;
 
@@ -35,14 +34,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Password views
         etNewPassword = findViewById(R.id.etNewPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         tvPasswordError = findViewById(R.id.tvPasswordError);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
 
-        // Theme views
         cardThemeLight = findViewById(R.id.cardThemeLight);
         cardThemeDark = findViewById(R.id.cardThemeDark);
         cardThemeSystem = findViewById(R.id.cardThemeSystem);
@@ -50,34 +47,25 @@ public class SettingsActivity extends AppCompatActivity {
         checkThemeDark = findViewById(R.id.checkThemeDark);
         checkThemeSystem = findViewById(R.id.checkThemeSystem);
 
-        // Navigation
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
-        // Password listeners
         btnChangePassword.setOnClickListener(v -> changePassword());
         btnDeleteAccount.setOnClickListener(v -> showDeleteConfirmationDialog());
 
-        // Theme listeners
-//        setupThemeSelection();
+        setupThemeSelection();
     }
 
-    // =========================================================================
-    // Gestion du thème
-    // =========================================================================
-
     private void setupThemeSelection() {
-        // Afficher le thème actuel
-//        updateThemeCheckmarks(ThemeManager.getSavedThemeMode(this));
-//
-//        cardThemeLight.setOnClickListener(v -> selectTheme(ThemeManager.THEME_LIGHT));
-//        cardThemeDark.setOnClickListener(v -> selectTheme(ThemeManager.THEME_DARK));
-//        cardThemeSystem.setOnClickListener(v -> selectTheme(ThemeManager.THEME_SYSTEM));
+        updateThemeCheckmarks(ThemeManager.getSavedThemeMode(this));
+
+        cardThemeLight.setOnClickListener(v -> selectTheme(ThemeManager.THEME_LIGHT));
+        cardThemeDark.setOnClickListener(v -> selectTheme(ThemeManager.THEME_DARK));
+        cardThemeSystem.setOnClickListener(v -> selectTheme(ThemeManager.THEME_SYSTEM));
     }
 
     private void selectTheme(int themeMode) {
         ThemeManager.saveThemeMode(this, themeMode);
-//        updateThemeCheckmarks(themeMode);
-        // La récréation de l'activité est gérée automatiquement par DayNight
+        updateThemeCheckmarks(themeMode);
         recreate();
     }
 
@@ -86,17 +74,12 @@ public class SettingsActivity extends AppCompatActivity {
         checkThemeDark.setVisibility(themeMode == ThemeManager.THEME_DARK ? View.VISIBLE : View.GONE);
         checkThemeSystem.setVisibility(themeMode == ThemeManager.THEME_SYSTEM ? View.VISIBLE : View.GONE);
 
-        // Mettre en surbrillance la carte sélectionnée
         int selectedStroke = 3;
         int defaultStroke = 1;
         cardThemeLight.setStrokeWidth(themeMode == ThemeManager.THEME_LIGHT ? selectedStroke : defaultStroke);
         cardThemeDark.setStrokeWidth(themeMode == ThemeManager.THEME_DARK ? selectedStroke : defaultStroke);
         cardThemeSystem.setStrokeWidth(themeMode == ThemeManager.THEME_SYSTEM ? selectedStroke : defaultStroke);
     }
-
-    // =========================================================================
-    // Gestion du mot de passe
-    // =========================================================================
 
     private void changePassword() {
         String newPassword = etNewPassword.getText().toString().trim();
@@ -117,7 +100,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            tvPasswordError.setText("❌ Les mots de passe ne correspondent pas.");
+            tvPasswordError.setText("Les mots de passe ne correspondent pas.");
             tvPasswordError.setVisibility(View.VISIBLE);
             return;
         }
@@ -135,19 +118,15 @@ public class SettingsActivity extends AppCompatActivity {
                         } else {
                             String error = task.getException() != null ? task.getException().getMessage() : "";
                             if (error != null && error.contains("recent authentication")) {
-                                tvPasswordError.setText("❌ Opération sensible. Veuillez vous déconnecter et vous reconnecter avant de réessayer.");
+                                tvPasswordError.setText("Opération sensible. Veuillez vous déconnecter et vous reconnecter avant de réessayer.");
                             } else {
-                                tvPasswordError.setText("❌ Erreur : " + error);
+                                tvPasswordError.setText("Erreur : " + error);
                             }
                             tvPasswordError.setVisibility(View.VISIBLE);
                         }
                     });
         }
     }
-
-    // =========================================================================
-    // Suppression du compte
-    // =========================================================================
 
     private void showDeleteConfirmationDialog() {
         new AlertDialog.Builder(this)

@@ -25,7 +25,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     public ProfileFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -88,7 +88,6 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            // Afficher le nom de l'utilisateur
             String name = user.getDisplayName();
             if (name == null || name.isEmpty()) {
                 name = user.getEmail();
@@ -98,7 +97,6 @@ public class ProfileFragment extends Fragment {
             // Générer et afficher les initiales
             tvInitials.setText(getInitials(name));
 
-            // Afficher l'ID formaté (kj + UID)
             String uid = user.getUid();
             String shortId = uid.substring(0, Math.min(uid.length(), 8)).toUpperCase();
             tvId.setText("id: kj" + shortId);

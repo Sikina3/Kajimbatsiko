@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (!password.equals(confirmPassword)) {
-            tvErrorPassword.setText("❌ Les mots de passe ne correspondent pas.");
+            tvErrorPassword.setText("Les mots de passe ne correspondent pas.");
             tvErrorPassword.setVisibility(View.VISIBLE);
             confirmPasswordField.requestFocus();
             return;

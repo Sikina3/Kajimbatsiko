@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AnalyseFragment"
     android:id="@+id/fragment"
-    android:background="@color/caribeean_green">
+    android:background="?attr/colorPrimary">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout

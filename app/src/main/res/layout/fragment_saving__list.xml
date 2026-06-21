@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.Saving_List"
     android:id="@+id/fragment"
-    android:background="@color/caribeean_green">
+    android:background="?attr/colorPrimary">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -32,26 +32,20 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialiser la base de données Room en arrière-plan
         new Thread(() -> database.getDatabase(this)).start();
 
-        // Vérifier si c'est le premier lancement
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean isFirstLaunch = prefs.getBoolean(KEY_FIRST_LAUNCH, true);
 
-        // Vérifier l'état de connexion Firebase
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         new Handler().postDelayed(() -> {
             Intent intent;
             if (isFirstLaunch) {
-                // 1. Premier lancement : Onboarding
                 intent = new Intent(MainActivity.this, onBoarding1.class);
             } else if (currentUser == null || !currentUser.isEmailVerified()) {
-                // 2. Pas connecté ou Email non vérifié : Login
                 intent = new Intent(MainActivity.this, LoginActivity.class);
             } else {
-                // 3. Tout est OK : Accueil
                 intent = new Intent(MainActivity.this, home.class);
             }
             startActivity(intent);

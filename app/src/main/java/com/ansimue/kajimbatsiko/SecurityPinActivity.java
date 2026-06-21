@@ -23,9 +23,6 @@ public class SecurityPinActivity extends AppCompatActivity {
         btnSignUpNav = findViewById(R.id.btn_sign_up_nav);
 
         btnAccept.setOnClickListener(v -> {
-            // Dans un cas réel, on vérifierait le PIN ici.
-            // Pour Firebase standard, le reset se fait via un lien email.
-            // On redirige vers NewPasswordActivity pour simuler le flux du design.
             startActivity(new Intent(SecurityPinActivity.this, NewPasswordActivity.class));
         });
 

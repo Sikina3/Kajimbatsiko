@@ -46,9 +46,6 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- ============================================================ -->
-            <!-- Section : Apparence (Thème) -->
-            <!-- ============================================================ -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -202,7 +199,7 @@
                 android:background="@drawable/edittext_bg"
                 android:hint="Nouveau mot de passe (min. 8 caractères)"
                 android:inputType="textPassword"
-                android:paddingHorizontal="1dp"
+                android:paddingHorizontal="16dp"
                 android:textSize="14sp"
                 android:textColor="?attr/colorOnSurface" />
 
